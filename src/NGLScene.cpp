@@ -30,6 +30,7 @@ NGLScene::NGLScene(QWindow *_parent) : OpenGLWindow(_parent)
   setTitle("Sponza Demo");
   m_whichMap=0;
 
+
 }
 
 
@@ -40,7 +41,8 @@ NGLScene::~NGLScene()
  // delete m_mtl;
  // delete m_model;
   Init->NGLQuit();
-  OculusInterface::instance()->releaseOculus();
+  //OculusInterface::instance()->releaseOculus();
+  m_ovr->releaseOculus();
 }
 
 void NGLScene::resizeEvent(QResizeEvent *_event )
@@ -50,9 +52,9 @@ void NGLScene::resizeEvent(QResizeEvent *_event )
   int w=_event->size().width();
   int h=_event->size().height();
   // set the viewport for openGL
-  glViewport(0,0,w,h);
+  //glViewport(0,0,w,h);
   // now set the camera size values as the screen size has changed
-  m_cam->setShape(45,(float)w/h,0.05,350);
+  //m_cam->setShape(45,(float)w/h,0.05,350);
   renderLater();
   }
 }
@@ -60,10 +62,11 @@ void NGLScene::resizeEvent(QResizeEvent *_event )
 
 void NGLScene::initialize()
 {
-  OculusInterface::instance();
   // we must call this first before any other GL commands to load and link the
   // gl commands from the lib, if this is not done program will crash
   ngl::NGLInit::instance();
+  //OculusInterface::instance();
+  m_ovr = new OculusInterface(devicePixelRatio());
 
   glClearColor(0.4f, 0.4f, 0.4f, 1.0f);			   // Grey Background
   // enable depth testing for drawing
@@ -128,10 +131,10 @@ void NGLScene::initialize()
     exit(EXIT_FAILURE);
   }
 
-
   // as re-size is not explicitly called we need to do this.
-  glViewport(0,0,width(),height());
+ // glViewport(0,0,width(),height());
   startTimer(0);
+ // m_ovr->disableWarningMessage();
 }
 
 
@@ -146,7 +149,8 @@ void NGLScene::loadMatricesToShader()
 
 void NGLScene::render()
 {
-
+  //OculusInterface *OVR = OculusInterface::instance();
+  m_ovr->beginFrame();
   // Rotation based on the mouse position for our global transform
   ngl::Mat4 rotX;
   ngl::Mat4 rotY;
@@ -159,41 +163,47 @@ void NGLScene::render()
   m_mouseGlobalTX.m_m[3][0] = m_modelPos.m_x;
   m_mouseGlobalTX.m_m[3][1] = m_modelPos.m_y;
   m_mouseGlobalTX.m_m[3][2] = m_modelPos.m_z;
-
-  // clear the screen and depth buffer
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-  loadMatricesToShader();
-  unsigned int end=m_model->numMeshes();
-  std::string matName;
-  for(unsigned int i=0; i<end; ++i)
-  {
-    //m_mtl->use(m_model->getMaterial(i));
-    mtlItem *currMaterial=m_mtl->find(m_model->getMaterial(i));
-    if(currMaterial == 0) continue;
-    // see if we need to switch the material or not this saves on OpenGL calls and
-    // should speed things up
-    if(matName !=m_model->getMaterial(i))
-    {
-      matName=m_model->getMaterial(i);
-      switch(m_whichMap)
-      {
-        case 0 : glBindTexture (GL_TEXTURE_2D,currMaterial->map_KaId); break;
-        case 1 : glBindTexture (GL_TEXTURE_2D,currMaterial->map_KdId); break;
-        case 2 : glBindTexture (GL_TEXTURE_2D,currMaterial->map_bumpId); break;
-        case 3 : glBindTexture (GL_TEXTURE_2D,currMaterial->bumpId); break;
-        case 4 : glBindTexture (GL_TEXTURE_2D,currMaterial->map_dId); break;
-      }
-      glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_NEAREST_MIPMAP_LINEAR);
-      glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_NEAREST_MIPMAP_LINEAR);
-      glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_WRAP_S,GL_REPEAT);
-      glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_WRAP_S,GL_REPEAT);
-      ngl::ShaderLib *shader=ngl::ShaderLib::instance();
-      shader->setShaderParam3f("ka",currMaterial->Ka.m_x,currMaterial->Ka.m_y,currMaterial->Ka.m_z);
-      shader->setShaderParam1f("transp",currMaterial->d);
-    }
-    m_model->draw(i);
 
-  }
+  for(int eye=0; eye<2; ++eye)
+  {
+    if(eye==0) m_ovr->setLeftEye();
+    else m_ovr->setRightEye();
+    // clear the screen and depth buffer
+    loadMatricesToShader();
+    unsigned int end=m_model->numMeshes();
+    std::string matName;
+    for(unsigned int i=0; i<end; ++i)
+    {
+      //m_mtl->use(m_model->getMaterial(i));
+      mtlItem *currMaterial=m_mtl->find(m_model->getMaterial(i));
+      if(currMaterial == 0) continue;
+      // see if we need to switch the material or not this saves on OpenGL calls and
+      // should speed things up
+      if(matName !=m_model->getMaterial(i))
+      {
+        matName=m_model->getMaterial(i);
+        switch(m_whichMap)
+        {
+          case 0 : glBindTexture (GL_TEXTURE_2D,currMaterial->map_KaId); break;
+          case 1 : glBindTexture (GL_TEXTURE_2D,currMaterial->map_KdId); break;
+          case 2 : glBindTexture (GL_TEXTURE_2D,currMaterial->map_bumpId); break;
+          case 3 : glBindTexture (GL_TEXTURE_2D,currMaterial->bumpId); break;
+          case 4 : glBindTexture (GL_TEXTURE_2D,currMaterial->map_dId); break;
+        }
+        glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_NEAREST_MIPMAP_LINEAR);
+        glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_NEAREST_MIPMAP_LINEAR);
+        glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_WRAP_S,GL_REPEAT);
+        glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_WRAP_S,GL_REPEAT);
+        ngl::ShaderLib *shader=ngl::ShaderLib::instance();
+        shader->setShaderParam3f("ka",currMaterial->Ka.m_x,currMaterial->Ka.m_y,currMaterial->Ka.m_z);
+        shader->setShaderParam1f("transp",currMaterial->d);
+      }
+      m_model->draw(i);
+
+    }
+  }// for each eye
+  m_ovr->endFrame();
 }
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -304,7 +314,7 @@ void NGLScene::keyPressEvent(QKeyEvent *_event)
   case Qt::Key_3 : m_whichMap=2; break;
   case Qt::Key_4 : m_whichMap=3; break;
   case Qt::Key_5 : m_whichMap=4; break;
-
+  case Qt::Key_Space : m_ovr->disableWarningMessage(); break;
   }
   // finally update the GLWindow and re-draw
   //if (isExposed())
@@ -317,7 +327,8 @@ void NGLScene::keyPressEvent(QKeyEvent *_event)
 
 void NGLScene::timerEvent(QTimerEvent *)
 {
-  OculusInterface *interface = OculusInterface::instance();
-  interface->oculusPoseState();
+ // OculusInterface *interface = OculusInterface::instance();
+ // m_ovr->oculusPoseState();
+  renderLater();
 }
 

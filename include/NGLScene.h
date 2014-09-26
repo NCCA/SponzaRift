@@ -8,7 +8,7 @@
 #include <ngl/Text.h>
 #include "Mtl.h"
 #include "GroupedObj.h"
-#include <OVR.h>
+#include "OculusInterface.h"
 //----------------------------------------------------------------------------------------------------------------------
 /// @file NGLScene.h
 /// @brief this class inherits from the Qt OpenGLWindow and allows us to use NGL to draw OpenGL
@@ -144,6 +144,7 @@ private:
     //----------------------------------------------------------------------------------------------------------------------
     void wheelEvent( QWheelEvent *_event);
 void timerEvent(QTimerEvent *);
+    OculusInterface *m_ovr;
 
 
 
