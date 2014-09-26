@@ -1,14 +1,19 @@
 #include "OculusInterface.h"
 #include <iostream>
 #include <ngl/Util.h>
-//OculusInterface* OculusInterface::m_pinstance = 0;// initialize pointer
+#include <ngl/Transformation.h>
+#include <ngl/Quaternion.h>
+#include <OVR_CAPI.h>
+#include <OVR_CAPI_GL.h>
+
+OculusInterface* OculusInterface::m_pinstance = 0;// initialize pointer
 //ovrHmd OculusInterface::m_hmd;
 //ovrSizei OculusInterface::m_eyeres[2];
 //ovrEyeRenderDesc OculusInterface::m_eyeRdesc[2];
 //ovrGLTexture OculusInterface::m_fbTextureIDOVR[2];
 //union ovrGLConfig OculusInterface::m_glcfg;
 
-/*OculusInterface* OculusInterface::instance()
+OculusInterface* OculusInterface::instance()
 {
   if (m_pinstance == 0)  // is it the first call?
   {
@@ -16,15 +21,18 @@
   }
   return m_pinstance; // address of sole instance
 }
-*/
 
-OculusInterface::OculusInterface(float _devicePixelAspect)
+
+OculusInterface::OculusInterface()
 {
   m_debug=true;
   m_warningOff=false;
   ovr_Initialize();
+}
+void OculusInterface::initOculus(float _devicePixelAspect)
+{
   m_devicePixelAspect=_devicePixelAspect;
-
+  std::cout<<"setting device aspect "<<m_devicePixelAspect<<"\n";
   m_hmd = ovrHmd_Create(0);
   if (!m_hmd)
   {
@@ -222,30 +230,38 @@ void OculusInterface::createRenderTarget()
 
 void OculusInterface::createOVRTextureBuffers()
 {
-	std::cout<<"Create OVR Texture\n";
+	// left eye
+	m_fbTextureIDOVR[0].OGL.Header.API = ovrRenderAPI_OpenGL;
+	m_fbTextureIDOVR[0].OGL.Header.TextureSize.w = m_fboTexWidth;
+	m_fbTextureIDOVR[0].OGL.Header.TextureSize.h = m_fboTexHeight;
+	m_fbTextureIDOVR[0].OGL.Header.RenderViewport.Pos.x = 0;
+	m_fbTextureIDOVR[0].OGL.Header.RenderViewport.Pos.y = m_fboTexHeight-m_fbHeight;
+	m_fbTextureIDOVR[0].OGL.Header.RenderViewport.Size.w = m_fbWidth / 2.0;
+	m_fbTextureIDOVR[0].OGL.Header.RenderViewport.Size.h = m_fbHeight;
+	m_fbTextureIDOVR[0].OGL.TexId = m_fboTex;	/* both eyes will use the same texture id */
+	// Right Eye
+	m_fbTextureIDOVR[1].OGL.Header.API = ovrRenderAPI_OpenGL;
+	m_fbTextureIDOVR[1].OGL.Header.TextureSize.w = m_fboTexWidth;
+	m_fbTextureIDOVR[1].OGL.Header.TextureSize.h = m_fboTexHeight;
+	m_fbTextureIDOVR[1].OGL.Header.RenderViewport.Pos.x = m_fbWidth / 2.0;
+	m_fbTextureIDOVR[1].OGL.Header.RenderViewport.Pos.y = m_fboTexHeight-m_fbHeight;
+	m_fbTextureIDOVR[1].OGL.Header.RenderViewport.Size.w = m_fbWidth / 2.0;
+	m_fbTextureIDOVR[1].OGL.Header.RenderViewport.Size.h = m_fbHeight;
+	m_fbTextureIDOVR[1].OGL.TexId = m_fboTex;	/* both eyes will use the same texture id */
 
-	for(int i=0; i<2; ++i)
-	{
-		m_fbTextureIDOVR[i].OGL.Header.API = ovrRenderAPI_OpenGL;
-		m_fbTextureIDOVR[i].OGL.Header.TextureSize.w = m_fboTexWidth;
-		m_fbTextureIDOVR[i].OGL.Header.TextureSize.h = m_fboTexHeight;
-		/* this next field is the only one that differs between the two eyes */
-		m_fbTextureIDOVR[i].OGL.Header.RenderViewport.Pos.x = i == 0 ? 0 : m_fbWidth / 2.0;
-		m_fbTextureIDOVR[i].OGL.Header.RenderViewport.Pos.y = m_fboTexHeight - m_fbHeight;
-		m_fbTextureIDOVR[i].OGL.Header.RenderViewport.Size.w = m_fbWidth / 2.0;
-		m_fbTextureIDOVR[i].OGL.Header.RenderViewport.Size.h = m_fbHeight;
-		m_fbTextureIDOVR[i].OGL.TexId = m_fboTex;	/* both eyes will use the same texture id */
-	}
+
 
 }
 
 void OculusInterface::createOVRGLConfig()
 {
 	std::cout<<"Create GL Config\n";
-
 	memset(&m_glcfg, 0, sizeof m_glcfg);
 	m_glcfg.OGL.Header.API = ovrRenderAPI_OpenGL;
 	m_glcfg.OGL.Header.RTSize = m_hmd->Resolution;
+	m_glcfg.OGL.Header.RTSize.w*=m_devicePixelAspect;
+	m_glcfg.OGL.Header.RTSize.h*=m_devicePixelAspect;
+
 	m_glcfg.OGL.Header.Multisample = 1;
 
 }
@@ -272,7 +288,7 @@ void OculusInterface::endFrame()
 	glViewport(0, 0, m_windowWidth, m_windowHeight);
 
 	ovrHmd_EndFrame(m_hmd, m_pose, &m_fbTextureIDOVR[0].Texture);
-	assert(glGetError() == GL_NO_ERROR);
+	//assert(glGetError() == GL_NO_ERROR);
 
 }
 
@@ -295,7 +311,49 @@ void OculusInterface::setRightEye()
 
 void OculusInterface::disableWarningMessage()
 {
+	// Health and Safety Warning display state.
+	ovrHSWDisplayState hswDisplayState;
+	ovrHmd_GetHSWDisplayState(m_hmd, &hswDisplayState);
+	if (hswDisplayState.Displayed)
+	{
 	ovrHmd_DismissHSWDisplay(m_hmd);
+	}
+}
+ngl::Mat4 OculusInterface::getPerspectiveMatrix(int _eye)
+{
+	ovrMatrix4f proj;
+	proj = ovrMatrix4f_Projection(m_hmd->DefaultEyeFov[_eye], 0.5, 2500.0, 1);
+	ngl::Mat4 mat;
+	memcpy(&mat.m_openGL[0],&proj.M,sizeof(float)*16 );
+	mat.transpose();
+	return mat;
+}
+
+ngl::Vec3 OculusInterface::getLeftEyeOffset() const
+{
+return ngl::Vec3(m_eyeRdesc[0].ViewAdjust.x, m_eyeRdesc[0].ViewAdjust.y, m_eyeRdesc[0].ViewAdjust.z);
+}
+ngl::Vec3 OculusInterface::getRightEyeOffset() const
+{
+	return ngl::Vec3(m_eyeRdesc[1].ViewAdjust.x, m_eyeRdesc[1].ViewAdjust.y, m_eyeRdesc[1].ViewAdjust.z);
 
 }
 
+ngl::Mat4 OculusInterface::getViewMatrix(int _eye)
+{
+	m_pose[_eye] = ovrHmd_GetEyePose(m_hmd,(ovrEyeType) _eye);
+	ngl::Mat4 pos;
+	pos.translate(m_eyeRdesc[_eye].ViewAdjust.x, m_eyeRdesc[_eye].ViewAdjust.y, m_eyeRdesc[_eye].ViewAdjust.z);
+	ngl::Mat4 rotation ;
+	ngl::Quaternion orientation(m_pose[_eye].Orientation.w,m_pose[_eye].Orientation.x,m_pose[_eye].Orientation.y,m_pose[_eye].Orientation.z);
+	//	quat_to_matrix(&m_pose[_eye].Orientation.x, &rotation.m_m[0]);
+	rotation=orientation.toMat4();
+	rotation.transpose();
+	ngl::Mat4  eyePos;
+	eyePos.translate(-m_pose[_eye].Position.x, -m_pose[_eye].Position.y, -m_pose[_eye].Position.z);
+	ngl::Mat4 eyeLevel;
+	eyeLevel.translate(0, -ovrHmd_GetFloat(m_hmd, OVR_KEY_EYE_HEIGHT, 1.65), 0);
+	// could optimize this
+	return pos*rotation*eyePos*eyeLevel;
+
+}

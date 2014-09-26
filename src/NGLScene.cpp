@@ -10,6 +10,7 @@
 #include <ngl/VAOPrimitives.h>
 #include <ngl/ShaderLib.h>
 #include "OculusInterface.h"
+#include <ngl/NGLStream.h>
 
 //----------------------------------------------------------------------------------------------------------------------
 /// @brief the increment for x/y translation with mouse movement
@@ -18,7 +19,7 @@ const static float INCREMENT=2.0f;
 //----------------------------------------------------------------------------------------------------------------------
 /// @brief the increment for the wheel zoom
 //----------------------------------------------------------------------------------------------------------------------
-const static float ZOOM=2.0f;
+const static float ZOOM=20.0f;
 
 NGLScene::NGLScene(QWindow *_parent) : OpenGLWindow(_parent)
 {
@@ -49,9 +50,10 @@ void NGLScene::resizeEvent(QResizeEvent *_event )
 {
   if(isExposed())
   {
-  int w=_event->size().width();
-  int h=_event->size().height();
-  // set the viewport for openGL
+    setWidth(m_ovr->getWidth());
+    setHeight(m_ovr->getHeight());
+
+    // set the viewport for openGL
   //glViewport(0,0,w,h);
   // now set the camera size values as the screen size has changed
   //m_cam->setShape(45,(float)w/h,0.05,350);
@@ -66,24 +68,24 @@ void NGLScene::initialize()
   // gl commands from the lib, if this is not done program will crash
   ngl::NGLInit::instance();
   //OculusInterface::instance();
-  m_ovr = new OculusInterface(devicePixelRatio());
-
+  m_ovr = OculusInterface::instance();
+  m_ovr->initOculus(devicePixelRatio());
   glClearColor(0.4f, 0.4f, 0.4f, 1.0f);			   // Grey Background
   // enable depth testing for drawing
   glEnable(GL_DEPTH_TEST);
   // enable multisampling for smoother drawing
   glEnable(GL_MULTISAMPLE);
 
-  glEnable(GL_BLEND);
-  glBlendFunc(GL_ONE,GL_ONE_MINUS_SRC_ALPHA);
+ // glEnable(GL_BLEND);
+ // glBlendFunc(GL_ONE,GL_ONE_MINUS_SRC_ALPHA);
 
-  ngl::Vec3 from(0,40,-140);
+ /* ngl::Vec3 from(0,40,-140);
   ngl::Vec3 to(0,40,0);
   ngl::Vec3 up(0,1,0);
   m_cam= new ngl::Camera(from,to,up);
   // set the shape using FOV 45 Aspect Ratio based on Width and Height
   // The final two are near and far clipping planes of 0.5 and 10
-  m_cam->setShape(50,(float)1024/720,10,8000);
+  m_cam->setShape(50,(float)1024/720,10,8000);*/
   // now to load the shader and set the values
   // grab an instance of shader manager
   // grab an instance of shader manager
@@ -142,13 +144,14 @@ void NGLScene::loadMatricesToShader()
 {
   ngl::ShaderLib *shader=ngl::ShaderLib::instance();
 
-  ngl::Mat4 MVP=m_transform.getMatrix()*m_mouseGlobalTX*m_cam->getVPMatrix();
+  ngl::Mat4 MVP=m_transform.getMatrix()*m_mouseGlobalTX*m_view*m_projection;
 
   shader->setShaderParamFromMat4("MVP",MVP);
  }
 
 void NGLScene::render()
 {
+
   //OculusInterface *OVR = OculusInterface::instance();
   m_ovr->beginFrame();
   // Rotation based on the mouse position for our global transform
@@ -167,9 +170,21 @@ void NGLScene::render()
 
   for(int eye=0; eye<2; ++eye)
   {
-    if(eye==0) m_ovr->setLeftEye();
-    else m_ovr->setRightEye();
+    if(eye==0)
+    {
+      m_ovr->setLeftEye();
+
+    }
+    else
+    {
+      m_ovr->setRightEye();
+
+    }
+    //float fov=m_ovr->getDefaultEyeFOV(eye);
+    //m_cam->setShape(fov,1.0, 0.5, 500.0);
     // clear the screen and depth buffer
+    m_projection=m_ovr->getPerspectiveMatrix(eye);
+    m_view=m_ovr->getViewMatrix(eye);
     loadMatricesToShader();
     unsigned int end=m_model->numMeshes();
     std::string matName;
@@ -243,14 +258,14 @@ void NGLScene::mousePressEvent ( QMouseEvent * _event)
 {
   // this method is called when the mouse button is pressed in this case we
   // store the value where the maouse was clicked (x,y) and set the Rotate flag to true
-  if(_event->button() == Qt::LeftButton)
-  {
-    m_origX = _event->x();
-    m_origY = _event->y();
-    m_rotate =true;
-  }
+//  if(_event->button() == Qt::LeftButton)
+//  {
+//    m_origX = _event->x();
+//    m_origY = _event->y();
+//    m_rotate =true;
+//  }
   // right mouse translate mode
-  else if(_event->button() == Qt::RightButton)
+   if(_event->button() == Qt::RightButton)
   {
     m_origXPos = _event->x();
     m_origYPos = _event->y();
@@ -282,11 +297,11 @@ void NGLScene::wheelEvent(QWheelEvent *_event)
 	// check the diff of the wheel position (0 means no change)
 	if(_event->delta() > 0)
 	{
-		m_modelPos.m_z+=ZOOM;
+		m_modelPos.m_x+=ZOOM;
 	}
 	else if(_event->delta() <0 )
 	{
-		m_modelPos.m_z-=ZOOM;
+		m_modelPos.m_x-=ZOOM;
 	}
 	renderLater();
 }
