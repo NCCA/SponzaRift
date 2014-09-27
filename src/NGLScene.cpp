@@ -30,7 +30,7 @@ NGLScene::NGLScene(QWindow *_parent) : OpenGLWindow(_parent)
   m_spinYFace=0;
   setTitle("Sponza Demo");
   m_whichMap=0;
-
+  m_single=false;
 
 }
 
@@ -76,17 +76,7 @@ void NGLScene::initialize()
   // enable multisampling for smoother drawing
   glEnable(GL_MULTISAMPLE);
 
- // glEnable(GL_BLEND);
- // glBlendFunc(GL_ONE,GL_ONE_MINUS_SRC_ALPHA);
-
- /* ngl::Vec3 from(0,40,-140);
-  ngl::Vec3 to(0,40,0);
-  ngl::Vec3 up(0,1,0);
-  m_cam= new ngl::Camera(from,to,up);
-  // set the shape using FOV 45 Aspect Ratio based on Width and Height
-  // The final two are near and far clipping planes of 0.5 and 10
-  m_cam->setShape(50,(float)1024/720,10,8000);*/
-  // now to load the shader and set the values
+   // now to load the shader and set the values
   // grab an instance of shader manager
   // grab an instance of shader manager
   ngl::ShaderLib *shader=ngl::ShaderLib::instance();
@@ -152,8 +142,6 @@ void NGLScene::loadMatricesToShader()
 void NGLScene::render()
 {
 
-  //OculusInterface *OVR = OculusInterface::instance();
-  m_ovr->beginFrame();
   // Rotation based on the mouse position for our global transform
   ngl::Mat4 rotX;
   ngl::Mat4 rotY;
@@ -168,58 +156,97 @@ void NGLScene::render()
   m_mouseGlobalTX.m_m[3][2] = m_modelPos.m_z;
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-  for(int eye=0; eye<2; ++eye)
+  if(m_single)
   {
-    if(eye==0)
-    {
-      m_ovr->setLeftEye();
+    glViewport(0,0,width()*devicePixelRatio() ,height()*devicePixelRatio());
+    m_projection=ngl::perspective(55,float(width()/height()),0.1,500);
+    m_view = ngl::lookAt(ngl::Vec3(0,40,-240),ngl::Vec3(0,0,0),ngl::Vec3(0,1,0));
+    drawScene(0);
+  }
 
-    }
-    else
-    {
-      m_ovr->setRightEye();
+  else
+  {
+    m_ovr->beginFrame();
 
-    }
-    //float fov=m_ovr->getDefaultEyeFOV(eye);
-    //m_cam->setShape(fov,1.0, 0.5, 500.0);
-    // clear the screen and depth buffer
-    m_projection=m_ovr->getPerspectiveMatrix(eye);
-    m_view=m_ovr->getViewMatrix(eye);
-    loadMatricesToShader();
-    unsigned int end=m_model->numMeshes();
-    std::string matName;
-    for(unsigned int i=0; i<end; ++i)
+    for(int eye=0; eye<2; ++eye)
     {
-      //m_mtl->use(m_model->getMaterial(i));
-      mtlItem *currMaterial=m_mtl->find(m_model->getMaterial(i));
-      if(currMaterial == 0) continue;
-      // see if we need to switch the material or not this saves on OpenGL calls and
-      // should speed things up
-      if(matName !=m_model->getMaterial(i))
+      if(eye==0)
       {
-        matName=m_model->getMaterial(i);
-        switch(m_whichMap)
-        {
-          case 0 : glBindTexture (GL_TEXTURE_2D,currMaterial->map_KaId); break;
-          case 1 : glBindTexture (GL_TEXTURE_2D,currMaterial->map_KdId); break;
-          case 2 : glBindTexture (GL_TEXTURE_2D,currMaterial->map_bumpId); break;
-          case 3 : glBindTexture (GL_TEXTURE_2D,currMaterial->bumpId); break;
-          case 4 : glBindTexture (GL_TEXTURE_2D,currMaterial->map_dId); break;
-        }
-        glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_NEAREST_MIPMAP_LINEAR);
-        glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_NEAREST_MIPMAP_LINEAR);
-        glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_WRAP_S,GL_REPEAT);
-        glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_WRAP_S,GL_REPEAT);
-        ngl::ShaderLib *shader=ngl::ShaderLib::instance();
-        shader->setShaderParam3f("ka",currMaterial->Ka.m_x,currMaterial->Ka.m_y,currMaterial->Ka.m_z);
-        shader->setShaderParam1f("transp",currMaterial->d);
-      }
-      m_model->draw(i);
+        m_ovr->setLeftEye();
 
-    }
-  }// for each eye
-  m_ovr->endFrame();
+      }
+      else
+      {
+        m_ovr->setRightEye();
+
+      }
+      m_projection=m_ovr->getPerspectiveMatrix(eye);
+      m_view=m_ovr->getViewMatrix(eye);
+
+      drawScene(eye);
+    }// for each eye
+    m_ovr->endFrame();
+
+  }
+
 }
+
+
+void NGLScene::drawScene(int _eye)
+{
+//  m_projection=m_ovr->getPerspectiveMatrix(_eye);
+//  m_view=m_ovr->getViewMatrix(_eye);
+  loadMatricesToShader();
+  unsigned int end=m_model->numMeshes();
+  std::string matName;
+  for(unsigned int i=0; i<end; ++i)
+  {
+    //m_mtl->use(m_model->getMaterial(i));
+    mtlItem *currMaterial=m_mtl->find(m_model->getMaterial(i));
+    if(currMaterial == 0) continue;
+    // see if we need to switch the material or not this saves on OpenGL calls and
+    // should speed things up
+    if(matName !=m_model->getMaterial(i))
+    {
+      matName=m_model->getMaterial(i);
+//      switch(m_whichMap)
+//      {
+//        case 0 : glBindTexture (GL_TEXTURE_2D,currMaterial->map_KaId); break;
+//        case 1 : glBindTexture (GL_TEXTURE_2D,currMaterial->map_KdId); break;
+//        case 2 : glBindTexture (GL_TEXTURE_2D,currMaterial->map_bumpId); break;
+//        case 3 : glBindTexture (GL_TEXTURE_2D,currMaterial->bumpId); break;
+//        case 4 : glBindTexture (GL_TEXTURE_2D,currMaterial->map_dId); break;
+//      }
+      ngl::ShaderLib *shader = ngl::ShaderLib::instance();
+      shader->setShaderParam1i("tex",0);
+      shader->setShaderParam1i("mask",1);
+      glActiveTexture(GL_TEXTURE0);
+      glBindTexture (GL_TEXTURE_2D,currMaterial->map_KaId);
+      if(currMaterial->map_dId !=0)
+      {
+      glActiveTexture(GL_TEXTURE1);
+      glBindTexture (GL_TEXTURE_2D,currMaterial->map_dId);
+      }
+      else
+      {
+        glActiveTexture(GL_TEXTURE1);
+        glBindTexture (GL_TEXTURE_2D,currMaterial->map_KaId);
+
+      }
+      glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_NEAREST_MIPMAP_LINEAR);
+      glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_NEAREST_MIPMAP_LINEAR);
+      glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_WRAP_S,GL_REPEAT);
+      glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_WRAP_S,GL_REPEAT);
+      shader->setShaderParam3f("ka",currMaterial->Ka.m_x,currMaterial->Ka.m_y,currMaterial->Ka.m_z);
+      shader->setShaderParam1f("transp",currMaterial->d);
+    }
+    m_model->draw(i);
+
+  }
+
+  //ngl::VAOPrimitives::instance()->draw("bunny");
+}
+
 
 //----------------------------------------------------------------------------------------------------------------------
 void NGLScene::mouseMoveEvent (QMouseEvent * _event)
@@ -258,12 +285,12 @@ void NGLScene::mousePressEvent ( QMouseEvent * _event)
 {
   // this method is called when the mouse button is pressed in this case we
   // store the value where the maouse was clicked (x,y) and set the Rotate flag to true
-//  if(_event->button() == Qt::LeftButton)
-//  {
-//    m_origX = _event->x();
-//    m_origY = _event->y();
-//    m_rotate =true;
-//  }
+  if(_event->button() == Qt::LeftButton)
+  {
+    m_origX = _event->x();
+    m_origY = _event->y();
+    m_rotate =true;
+  }
   // right mouse translate mode
    if(_event->button() == Qt::RightButton)
   {
@@ -330,6 +357,7 @@ void NGLScene::keyPressEvent(QKeyEvent *_event)
   case Qt::Key_4 : m_whichMap=3; break;
   case Qt::Key_5 : m_whichMap=4; break;
   case Qt::Key_Space : m_ovr->disableWarningMessage(); break;
+  case Qt::Key_A : m_single^=true; break;
   }
   // finally update the GLWindow and re-draw
   //if (isExposed())

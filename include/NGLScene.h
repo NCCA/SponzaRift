@@ -145,8 +145,10 @@ private:
     /// @param _event the Qt Event structure
     //----------------------------------------------------------------------------------------------------------------------
     void wheelEvent( QWheelEvent *_event);
-void timerEvent(QTimerEvent *);
+    void timerEvent(QTimerEvent *);
+    void drawScene(int _eye);
     OculusInterface *m_ovr;
+    bool m_single;
 
 
 

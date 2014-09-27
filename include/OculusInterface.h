@@ -21,6 +21,7 @@ class OculusInterface
     ngl::Vec3 getRightEyeOffset() const ;
 
 
+
     void oculusDebug() const;
     void releaseOculus();
     void oculusDisplayWarning();
@@ -29,6 +30,7 @@ class OculusInterface
     void endFrame();
     void setLeftEye();
     void setRightEye();
+    void setFull();
     void setDevicePixelAspect(float _f){m_devicePixelAspect=_f;}
     void disableWarningMessage();
     int getWidth() { return m_hmd->Resolution.w;}
@@ -68,9 +70,9 @@ class OculusInterface
     GLuint m_fboTexWidth;
     // height of actual texture (next pow 2)
     GLuint m_fboTexHeight;
-     ovrSizei m_eyeres[2];
-     ovrEyeRenderDesc m_eyeRdesc[2];
-     ovrGLTexture m_fbTextureIDOVR[2];
+   ovrSizei m_eyeres[2];
+   ovrEyeRenderDesc m_eyeRdesc[2];
+   ovrGLTexture m_fbTextureIDOVR[2];
     // config structure
     union ovrGLConfig m_glcfg;
     ovrPosef m_pose[2];

@@ -7,11 +7,6 @@
 #include <OVR_CAPI_GL.h>
 
 OculusInterface* OculusInterface::m_pinstance = 0;// initialize pointer
-//ovrHmd OculusInterface::m_hmd;
-//ovrSizei OculusInterface::m_eyeres[2];
-//ovrEyeRenderDesc OculusInterface::m_eyeRdesc[2];
-//ovrGLTexture OculusInterface::m_fbTextureIDOVR[2];
-//union ovrGLConfig OculusInterface::m_glcfg;
 
 OculusInterface* OculusInterface::instance()
 {
@@ -31,6 +26,7 @@ OculusInterface::OculusInterface()
 }
 void OculusInterface::initOculus(float _devicePixelAspect)
 {
+
   m_devicePixelAspect=_devicePixelAspect;
   std::cout<<"setting device aspect "<<m_devicePixelAspect<<"\n";
   m_hmd = ovrHmd_Create(0);
@@ -53,11 +49,21 @@ void OculusInterface::initOculus(float _devicePixelAspect)
   ovrHmd_ConfigureTracking(m_hmd, ovrTrackingCap_Orientation | ovrTrackingCap_MagYawCorrection | ovrTrackingCap_Position, 0);
   // let's fill in some info about oculus
   m_eyeres[0] = ovrHmd_GetFovTextureSize(m_hmd, ovrEye_Left, m_hmd->DefaultEyeFov[0], 1.0);
-  m_eyeres[1] = ovrHmd_GetFovTextureSize(m_hmd, ovrEye_Right, m_hmd->DefaultEyeFov[1], 1.0);
+  m_eyeres[1] = ovrHmd_GetFovTextureSize(m_hmd, ovrEye_Right, m_hmd->DefaultEyeFov[1],1.0);
 
 	/* and create a single render target texture to encompass both eyes */
-	m_fbWidth = m_eyeres[0].w + m_eyeres[1].w;
-	m_fbHeight = m_eyeres[0].h > m_eyeres[1].h ? m_eyeres[0].h : m_eyeres[1].h;
+	//m_fbWidth = m_eyeres[0].w + m_eyeres[1].w;
+	//m_fbHeight = m_eyeres[0].h > m_eyeres[1].h ? m_eyeres[0].h : m_eyeres[1].h;
+
+	ovrSizei recommenedTex0Size = ovrHmd_GetFovTextureSize(m_hmd, ovrEye_Left,m_hmd->DefaultEyeFov[0], m_devicePixelAspect);
+	ovrSizei recommenedTex1Size = ovrHmd_GetFovTextureSize(m_hmd, ovrEye_Right,m_hmd->DefaultEyeFov[1], m_devicePixelAspect);
+
+	// Determine dimensions to fit into a single render target.
+	ovrSizei renderTargetSize;
+	m_fbWidth = recommenedTex0Size.w + recommenedTex1Size.w;
+	m_fbHeight = std::max ( recommenedTex0Size.h, recommenedTex1Size.h );
+
+
 	createRenderTarget();
 	createOVRGLConfig();
 	createOVRTextureBuffers();
@@ -188,43 +194,46 @@ void OculusInterface::oculusPoseState()
 void OculusInterface::createRenderTarget()
 {
 
-		if(!m_fbo)
-		{
-			std::cout<< "Creating FBO \n";
-			/* if fbo does not exist, then nothing does... create every opengl object */
-			glGenFramebuffers(1, &m_fbo);
-			glGenTextures(1, &m_fboTex);
-			glGenRenderbuffers(1, &m_fboDepth);
+	if(!m_fbo)
+	{
+		std::cout<< "Creating FBO \n";
+		/* if fbo does not exist, then nothing does... create every opengl object */
+		glGenFramebuffers(1, &m_fbo);
+		glGenTextures(1, &m_fboTex);
+		glGenRenderbuffers(1, &m_fboDepth);
 
-			glBindTexture(GL_TEXTURE_2D, m_fboTex);
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-		}
-		std::cout<<"Creating Texture objects\n";
-		glBindFramebuffer(GL_FRAMEBUFFER, m_fbo);
-
-		/* calculate the next power of two in both dimensions and use that as a texture size */
-		m_fboTexWidth = ngl::nextPow2(m_fbWidth);
-		m_fboTexHeight = ngl::nextPow2(m_fbHeight);
-
-		/* create and attach the texture that will be used as a color buffer */
 		glBindTexture(GL_TEXTURE_2D, m_fboTex);
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, m_fboTexWidth, m_fboTexHeight, 0,	GL_RGBA, GL_UNSIGNED_BYTE, 0);
-		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, m_fboTex, 0);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+		glGenerateMipmap(GL_TEXTURE_2D);
+	}
+	std::cout<<"Creating Texture objects\n";
+	glBindFramebuffer(GL_FRAMEBUFFER, m_fbo);
 
-		/* create and attach the renderbuffer that will serve as our z-buffer */
-		glBindRenderbuffer(GL_RENDERBUFFER, m_fboDepth);
-		glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT, m_fboTexWidth, m_fboTexHeight);
-		glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, m_fboDepth);
+	/* calculate the next power of two in both dimensions and use that as a texture size */
+	m_fboTexWidth = m_fbWidth;//ngl::nextPow2(m_fbWidth);
+	m_fboTexHeight = m_fbHeight;//ngl::nextPow2(m_fbHeight);
 
-		if(glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
-		{
-			std::cerr<<"incomplete framebuffer!\n";
-		}
-		std::cout<<"Render target created "<< m_fbWidth << " " << m_fbHeight <<
-							 " Texture Size "<< m_fboTexWidth << " "<<m_fboTexHeight<<"\n";
+	/* create and attach the texture that will be used as a color buffer */
+	glBindTexture(GL_TEXTURE_2D, m_fboTex);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, m_fboTexWidth, m_fboTexHeight, 0,	GL_RGBA, GL_UNSIGNED_BYTE, 0);
+	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, m_fboTex, 0);
 
-		glBindFramebuffer(GL_FRAMEBUFFER, 0);
+	/* create and attach the renderbuffer that will serve as our z-buffer */
+	glBindRenderbuffer(GL_RENDERBUFFER, m_fboDepth);
+	glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT, m_fboTexWidth, m_fboTexHeight);
+	glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, m_fboDepth);
+
+	if(glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
+	{
+		std::cerr<<"incomplete framebuffer!\n";
+	}
+	std::cout<<"Render target created "<< m_fbWidth << " " << m_fbHeight <<
+						 " Texture Size "<< m_fboTexWidth << " "<<m_fboTexHeight<<"\n";
+
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
 }
 
@@ -247,6 +256,7 @@ void OculusInterface::createOVRTextureBuffers()
 	m_fbTextureIDOVR[1].OGL.Header.RenderViewport.Pos.y = m_fboTexHeight-m_fbHeight;
 	m_fbTextureIDOVR[1].OGL.Header.RenderViewport.Size.w = m_fbWidth / 2.0;
 	m_fbTextureIDOVR[1].OGL.Header.RenderViewport.Size.h = m_fbHeight;
+
 	m_fbTextureIDOVR[1].OGL.TexId = m_fboTex;	/* both eyes will use the same texture id */
 
 
@@ -297,6 +307,14 @@ void OculusInterface::setLeftEye()
 {
 	ovrEyeType eye = m_hmd->EyeRenderOrder[0];
 	glViewport(0, 0, (m_fbWidth / 2), m_fbHeight);
+	m_pose[0] = ovrHmd_GetEyePose(m_hmd, eye);
+
+}
+
+void OculusInterface::setFull()
+{
+	ovrEyeType eye = m_hmd->EyeRenderOrder[0];
+	glViewport(0, 0, m_fbWidth , m_fbHeight);
 	m_pose[0] = ovrHmd_GetEyePose(m_hmd, eye);
 
 }
