@@ -5,6 +5,13 @@ layout (location =0) out vec4 fragColour;
 uniform sampler2D ambientMap;
 uniform sampler2D diffuseMap;
 uniform sampler2D normalMap;
+// varying params passed through from vertex shader
+in vec3 ps_L; // light direction
+in vec3 ps_E; // eye direction (same as light direction in this simple case!)
+in vec3 ps_N; // normal vector
+in vec3 ps_T; // tangent vector
+in vec2 ps_uv; // the UV texture coordinate
+in vec3 ps_bn;
 
 // the vertex UV
 in vec2 vertUV;
@@ -37,6 +44,35 @@ void main()
  if (diffuse.a == 0)
    discard;
 
+
+ vec3 L = normalize(ps_L);
+
+ vec3 E = normalize(ps_E);
+ vec3 N = normalize(ps_N);
+   vec3 T = normalize(ps_T);
+   // compute bi-normal
+   //vec3 B = cross(N, T);
+ vec3 B = normalize(ps_bn);
+   vec3 C = texture(normalMap,vertUV).xyz;
+  // grab the actual normal from the texture (which will be in texture space)
+   vec3 AN = C;//* 2.0 - 1.0;//normalize(2.0 * C - vec3(1.0, 1.0, 1.0));
+//   vec3 AN=normalize( texture(normalMap, vertUV.st).xyz * 2.0 - 1.0);
+
+
+   // rotate normal into viewspace
+   AN = T * AN.x + B * AN.y + N * AN.z;
+
+   // compute reflected vector
+   //vec3 R = -reflect(E, AN);
+
+   // compute N.L
+   float N_dot_L = max(dot(AN, L), 0.0);
+   // compute ambient lighting term
+   vec3 d = light.Ld * diffuse.rgb * N_dot_L;
+   fragColour.rgb = ka*d + kd*d;
+   fragColour.a=transp;
+
+ /*
  //vec3 n = normalize(normal);
  vec3 n=normalize(normalmap.rgb * 2.0 - 1.0);
  vec3 s = normalize(light.position - position);
@@ -50,6 +86,6 @@ void main()
 
  // set the fragment colour to the current texture
  fragColour.rgb = ka*d + kd*d;
- fragColour.a=transp;
+ fragColour.a=transp;*/
 
 }

@@ -20,13 +20,42 @@ uniform mat4 MV;
 out vec2 vertUV;
 out vec3 position;
 out vec3 normal;
+out vec3 ps_bn;
+// params that will be passed onto the fragment shader
+out vec3 ps_L; // light direction
+out vec3 ps_E; // eye direction (same as light direction in this simple case!)
+out vec3 ps_N; // normal vector
+out vec3 ps_T; // tangent vector
+out vec2 ps_uv; // texture coordinate
+
+
 
 void main()
 {
 	// Convert normal and position to eye coords
 	 normal = normalize( normalMatrix * inNormal);
 	 position = vec3(MV * vec4(inVert,1.0));
-	// Convert position to clip coordinates and pass along
+
+
+	 // transform normal into viewspace
+		ps_N = (MV * vec4(inNormal, 0.0)).xyz;
+
+		// transform normal into viewspace
+		ps_T = (MV * vec4(inTangent, 0.0)).xyz;
+		ps_bn = (MV * vec4(inBinormal, 0.0)).xyz;
+		// compute vertex position in viewspace
+		vec4 V = MV * vec4(inVert,1);
+
+		// compute vector from light to position (done a bit wastefully here!)
+		vec4 L = vec4(0, 0, 0, 0) - MV * normalize(vec4(inVert,1));
+
+		// pass light and eye vector into fragment shader
+		ps_L = L.xyz;
+		ps_E = L.xyz;
+
+
+
+	 // Convert position to clip coordinates and pass along
 	gl_Position = MVP*vec4(inVert,1.0);
 // pass the UV values to the frag shader
 vertUV=inUV.st;

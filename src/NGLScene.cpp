@@ -88,6 +88,8 @@ void NGLScene::initialize()
   shader->attachShader("TextureFragment",ngl::FRAGMENT);
   shader->loadShaderSource("TextureVertex","shaders/TextureVert.glsl");
   shader->loadShaderSource("TextureFragment","shaders/TextureFrag.glsl");
+  //shader->loadShaderSource("TextureVertex","shaders/NormalMapVert.glsl");
+  //shader->loadShaderSource("TextureFragment","shaders/NormalMapFrag.glsl");
 
   shader->compileShader("TextureVertex");
   shader->compileShader("TextureFragment");
@@ -98,10 +100,30 @@ void NGLScene::initialize()
   // link the shader no attributes are bound
   shader->linkProgramObject("TextureShader");
   (*shader)["TextureShader"]->use();
+//  shader->setShaderParam1i("tex",0);
+//  shader->setShaderParam1i("spec",1);
+//  shader->setShaderParam1i("normalMap",2);
 
-  shader->setShaderParam1i("ambientMap",0);
-  shader->setShaderParam1i("diffuseMap",1);
+  shader->setShaderParam1i("ambientMap",1);
+  shader->setShaderParam1i("diffuseMap",0);
   shader->setShaderParam1i("normalMap",2);
+  ngl::Mat4 iv;
+  iv.transpose();
+
+  /// now setup a basic 3 point lighting system
+  m_key= new ngl::Light(ngl::Vec3(3,2,2),ngl::Colour(1,1,1,1),ngl::POINTLIGHT);
+  m_key->setTransform(iv);
+  m_key->enable();
+  m_key->loadToShader("light[0]");
+  m_fill = new ngl::Light(ngl::Vec3(-3,1.5,2),ngl::Colour(1,1,1,1),ngl::POINTLIGHT);
+  m_fill->setTransform(iv);
+  m_fill->enable();
+  m_fill->loadToShader("light[1]");
+
+  m_back= new ngl::Light(ngl::Vec3(0,1,-2),ngl::Colour(1,1,1,1),ngl::POINTLIGHT);
+  m_back->setTransform(iv);
+  m_back->enable();
+  m_back->loadToShader("light[2]");
 
   shader->setUniform("light.position",0,40,0);
   shader->setShaderParam3f("light.La",0.1,0.1,0.1);
@@ -341,11 +363,11 @@ void NGLScene::wheelEvent(QWheelEvent *_event)
 	// check the diff of the wheel position (0 means no change)
 	if(_event->delta() > 0)
 	{
-		m_modelPos.m_x+=ZOOM;
+		m_modelPos.m_z+=ZOOM;
 	}
 	else if(_event->delta() <0 )
 	{
-		m_modelPos.m_x-=ZOOM;
+		m_modelPos.m_z-=ZOOM;
 	}
 	renderLater();
 }
