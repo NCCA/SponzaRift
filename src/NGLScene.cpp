@@ -95,10 +95,20 @@ void NGLScene::initialize()
   shader->attachShaderToProgram("TextureShader","TextureFragment");
   // bind our attributes for the vertex shader
 
-
   // link the shader no attributes are bound
   shader->linkProgramObject("TextureShader");
   (*shader)["TextureShader"]->use();
+
+  shader->setShaderParam1i("ambientMap",0);
+  shader->setShaderParam1i("diffuseMap",1);
+  shader->setShaderParam1i("normalMap",2);
+
+  shader->setUniform("light.position",0,40,0);
+  shader->setShaderParam3f("light.La",0.1,0.1,0.1);
+  shader->setShaderParam3f("light.Ld",1.0,1.0,1.0);
+  shader->setShaderParam3f("light.Ls",0.9,0.9,0.9);
+  //shader->setShaderParam3f("Falloff",1.0f, 1.0f, 1.0f);
+  //shader->setShaderParam2f("Resolution",float(width()),float(height()));
 
 
   glEnable(GL_DEPTH_TEST);
@@ -134,9 +144,19 @@ void NGLScene::loadMatricesToShader()
 {
   ngl::ShaderLib *shader=ngl::ShaderLib::instance();
 
-  ngl::Mat4 MVP=m_transform.getMatrix()*m_mouseGlobalTX*m_view*m_projection;
+  ngl::Mat4 MV;
+  ngl::Mat4 MVP;
+  ngl::Mat3 normalMatrix;
+  MV= m_transform.getMatrix()*m_mouseGlobalTX*m_view;
+  MVP=MV*m_projection ;
+  normalMatrix=MV;
+  normalMatrix.inverse();
+  shader->setUniform("MVP",MVP);
+  shader->setUniform("MV",MV);
+  shader->setUniform("normalMatrix",normalMatrix);
 
-  shader->setShaderParamFromMat4("MVP",MVP);
+
+
  }
 
 void NGLScene::render()
@@ -218,31 +238,23 @@ void NGLScene::drawScene(int _eye)
 //        case 4 : glBindTexture (GL_TEXTURE_2D,currMaterial->map_dId); break;
 //      }
       ngl::ShaderLib *shader = ngl::ShaderLib::instance();
-      shader->setShaderParam1i("ambientMap",0);
-      shader->setShaderParam1i("diffuseMap",1);
-      shader->setShaderParam1i("mask",2);
       glActiveTexture(GL_TEXTURE0);
       glBindTexture (GL_TEXTURE_2D,currMaterial->map_KaId);
       glActiveTexture(GL_TEXTURE1);
       glBindTexture (GL_TEXTURE_2D,currMaterial->map_KdId);
-
-
-      if(currMaterial->map_dId !=0)
-      {
-      glActiveTexture(GL_TEXTURE2);
-      glBindTexture (GL_TEXTURE_2D,currMaterial->map_dId);
-      }
-      else
+      if(currMaterial->bumpId !=0)
       {
         glActiveTexture(GL_TEXTURE2);
-        glBindTexture (GL_TEXTURE_2D,currMaterial->map_KaId);
-
+        glBindTexture (GL_TEXTURE_2D,currMaterial->bumpId);
       }
+
+
       glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_NEAREST_MIPMAP_LINEAR);
       glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_NEAREST_MIPMAP_LINEAR);
       glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_WRAP_S,GL_REPEAT);
       glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_WRAP_S,GL_REPEAT);
       shader->setShaderParam3f("ka",currMaterial->Ka.m_x,currMaterial->Ka.m_y,currMaterial->Ka.m_z);
+      shader->setShaderParam3f("kd",currMaterial->Kd.m_x,currMaterial->Kd.m_y,currMaterial->Kd.m_z);
       shader->setShaderParam1f("transp",currMaterial->d);
     }
     m_model->draw(i);

@@ -1,20 +1,33 @@
 #version 400 core
-/// @brief the vertex passed in
-layout (location = 0) in vec3 inVert;
-/// @brief the normal passed in
-layout (location = 2) in vec3 inNormal;
-/// @brief the in uv
-layout (location = 1) in vec2 inUV;
+#pragma optionNV(unroll all)
+// first attribute the vertex values from our VAO
+layout (location =0) in vec3 inVert;
+// second attribute the UV values from our VAO
+layout (location =1) in vec2 inUV;
+// third attribute the  normals values from our VAO
+layout (location =2) in vec3 inNormal;
+// forth attribute the Tangents values from our VAO
+layout (location =3) in vec3 inTangent;
+// fith attribute the binormal values from our VAO
+layout (location =4) in vec3 inBinormal;
+
+// transform matrix values
 uniform mat4 MVP;
+uniform mat3 normalMatrix;
+uniform mat4 MV;
+
 // we use this to pass the UV values to the frag shader
 out vec2 vertUV;
+out vec3 position;
+out vec3 normal;
 
-void main(void)
+void main()
 {
-// pre-calculate for speed we will use this a lot
-
-// calculate the vertex position
-gl_Position = MVP*vec4(inVert, 1.0);
+	// Convert normal and position to eye coords
+	 normal = normalize( normalMatrix * inNormal);
+	 position = vec3(MV * vec4(inVert,1.0));
+	// Convert position to clip coordinates and pass along
+	gl_Position = MVP*vec4(inVert,1.0);
 // pass the UV values to the frag shader
 vertUV=inUV.st;
 }
