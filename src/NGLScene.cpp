@@ -218,18 +218,23 @@ void NGLScene::drawScene(int _eye)
 //        case 4 : glBindTexture (GL_TEXTURE_2D,currMaterial->map_dId); break;
 //      }
       ngl::ShaderLib *shader = ngl::ShaderLib::instance();
-      shader->setShaderParam1i("tex",0);
-      shader->setShaderParam1i("mask",1);
+      shader->setShaderParam1i("ambientMap",0);
+      shader->setShaderParam1i("diffuseMap",1);
+      shader->setShaderParam1i("mask",2);
       glActiveTexture(GL_TEXTURE0);
       glBindTexture (GL_TEXTURE_2D,currMaterial->map_KaId);
+      glActiveTexture(GL_TEXTURE1);
+      glBindTexture (GL_TEXTURE_2D,currMaterial->map_KdId);
+
+
       if(currMaterial->map_dId !=0)
       {
-      glActiveTexture(GL_TEXTURE1);
+      glActiveTexture(GL_TEXTURE2);
       glBindTexture (GL_TEXTURE_2D,currMaterial->map_dId);
       }
       else
       {
-        glActiveTexture(GL_TEXTURE1);
+        glActiveTexture(GL_TEXTURE2);
         glBindTexture (GL_TEXTURE_2D,currMaterial->map_KaId);
 
       }

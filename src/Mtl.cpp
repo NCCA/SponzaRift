@@ -224,7 +224,7 @@ void Mtl::loadTextures()
     ngl::Texture t(name);
     GLuint textureID=t.setTextureGL();
     m_textureID.push_back(textureID);
-    //std::cout<<"processing "<<name<<"\n";
+    std::cout<<"processing "<<name<<"\n";
     i=m_materials.begin();
     for( ; i != end; ++i )
     {

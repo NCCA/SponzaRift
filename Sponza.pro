@@ -25,7 +25,9 @@ INCLUDEPATH +=./include
 DESTDIR=./
 # add the glsl shader files
 OTHER_FILES+= shaders/*.glsl \
-							README.md
+							README.md \
+							models/sponza.mtl \
+							models/sponza.obj
 # were are going to default to a console app
 CONFIG += console
 # Oculus SDK
