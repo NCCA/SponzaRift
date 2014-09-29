@@ -10,6 +10,8 @@ layout (location =2) in vec3 inNormal;
 layout (location =3) in vec3 inTangent;
 // fith attribute the binormal values from our VAO
 layout (location =4) in vec3 inBinormal;
+out vec4  Colour;
+//out vec4  ShadowCoord;
 
 // transform matrix values
 uniform mat4 MVP;
@@ -39,6 +41,7 @@ out vec3 ps_N; // normal vector
 out vec3 ps_T; // tangent vector
 out vec2 ps_uv; // texture coordinate
 
+uniform mat4 textureMatrix;
 
 
 void main()
@@ -63,6 +66,9 @@ void main()
 		// pass light and eye vector into fragment shader
 		ps_L = L.xyz;
 
+		//vec4 texCoord = vec4(inVert,1);
+
+		//ShadowCoord   = textureMatrix*texCoord;
 
 
 	 // Convert position to clip coordinates and pass along

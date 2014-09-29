@@ -71,7 +71,7 @@ void NGLScene::initialize()
   //OculusInterface::instance();
   m_ovr = OculusInterface::instance();
   m_ovr->initOculus(devicePixelRatio());
-  glClearColor(0.4f, 0.4f, 0.4f, 1.0f);			   // Grey Background
+  glClearColor(0.0f, 0.0f, 0.0f, 1.0f);			   // Grey Background
   // enable depth testing for drawing
   glEnable(GL_DEPTH_TEST);
   // enable multisampling for smoother drawing
@@ -106,6 +106,7 @@ void NGLScene::initialize()
   shader->setShaderParam1i("ambientMap",0);
   shader->setShaderParam1i("diffuseMap",1);
   shader->setShaderParam1i("normalMap",2);
+  //shader->setShaderParam1i("shadowMap",3);
 
   shader->setShaderParam4f("light.position",0.0f,40.0f,0.0f,0.0f);
   shader->setShaderParam3f("light.La",0.2,0.2,0.2);
@@ -141,6 +142,9 @@ void NGLScene::initialize()
   m_text->setScreenSize(this->size().width(),this->size().height());
 
  // m_ovr->disableWarningMessage();
+  // now create our FBO and texture
+ // createFramebufferObject();
+
 }
 
 
@@ -161,7 +165,27 @@ void NGLScene::loadMatricesToShader()
   shader->setRegisteredUniform("normalMatrix",normalMatrix);
   shader->setShaderParamFromVec4("light.position",m_lightPosition);
 
+  // x = x* 0.5 + 0.5
+  // y = y* 0.5 + 0.5
+  // z = z* 0.5 + 0.5
+  // Moving from unit cube [-1,1] to [0,1]
+//  ngl::Mat4 bias;
+//  bias.scale(0.5,0.5,0.5);
+//  bias.translate(0.5,0.5,0.5);
 
+//  ngl::Mat4 model=m_transform.getMatrix();//*m_mouseGlobalTX;
+//  // calculate MVP then multiply by the bias
+//  ngl::Camera lightCamera(m_lightPosition.toVec3(),ngl::Vec3(0,0,0),ngl::Vec3(0,1,0));
+//  // here we set the light POV camera shape, the aspect is 1 as our
+//  // texture is square.
+//  // use the same clip plane as before but set the FOV a bit larger
+//  // to get slightly better shadows and the clip planes will help
+//  // to get rid of some of the artefacts
+//  lightCamera.setShape(45,1.0,0.5,400);
+//  std::cout<<model<<"\n";
+//  ngl::Mat4 textureMatrix= model;// * lightCamera.getVPMatrix() * bias;
+//  shader->setRegisteredUniformFromMat4("textureMatrix",textureMatrix);
+//  std::cout<<textureMatrix<<"\n";
  }
 
 void NGLScene::render()
@@ -179,6 +203,9 @@ void NGLScene::render()
   m_mouseGlobalTX.m_m[3][0] = m_modelPos.m_x;
   m_mouseGlobalTX.m_m[3][1] = m_modelPos.m_y;
   m_mouseGlobalTX.m_m[3][2] = m_modelPos.m_z;
+
+ // renderShadowPass();
+
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
   if(m_single)
@@ -239,25 +266,55 @@ void NGLScene::drawScene(int _eye)
 
       glActiveTexture(GL_TEXTURE0);
       glBindTexture (GL_TEXTURE_2D,currMaterial->map_KaId);
+      glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_NEAREST_MIPMAP_LINEAR);
+      glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_NEAREST_MIPMAP_LINEAR);
+      glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_WRAP_S,GL_REPEAT);
+      glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_WRAP_S,GL_REPEAT);
+
       glActiveTexture(GL_TEXTURE1);
       glBindTexture (GL_TEXTURE_2D,currMaterial->map_KdId);
+      glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_NEAREST_MIPMAP_LINEAR);
+      glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_NEAREST_MIPMAP_LINEAR);
+      glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_WRAP_S,GL_REPEAT);
+      glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_WRAP_S,GL_REPEAT);
+
       if(currMaterial->bumpId !=0)
       {
         glActiveTexture(GL_TEXTURE2);
         glBindTexture (GL_TEXTURE_2D,currMaterial->bumpId);
+        glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_NEAREST_MIPMAP_LINEAR);
+        glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_NEAREST_MIPMAP_LINEAR);
+        glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_WRAP_S,GL_REPEAT);
+        glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_WRAP_S,GL_REPEAT);
+
       }
       else
       {
         glActiveTexture(GL_TEXTURE2);
         glBindTexture (GL_TEXTURE_2D,currMaterial->map_KdId);
+        glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_NEAREST_MIPMAP_LINEAR);
+        glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_NEAREST_MIPMAP_LINEAR);
+        glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_WRAP_S,GL_REPEAT);
+        glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_WRAP_S,GL_REPEAT);
 
       }
 
+      // shadow texture
+      // bind the shadow texture
+      glActiveTexture(GL_TEXTURE3);
+      glBindTexture(GL_TEXTURE_2D,m_textureID);
+      glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_COMPARE_MODE, GL_COMPARE_R_TO_TEXTURE );
+      glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_COMPARE_FUNC, GL_LEQUAL);
 
-      glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_NEAREST_MIPMAP_LINEAR);
-      glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_NEAREST_MIPMAP_LINEAR);
-      glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_WRAP_S,GL_REPEAT);
-      glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_WRAP_S,GL_REPEAT);
+      glTexParameteri( GL_TEXTURE_2D, GL_DEPTH_TEXTURE_MODE, GL_LUMINANCE );
+      // we need to generate the mip maps each time we bind
+      glGenerateMipmap(GL_TEXTURE_2D);
+
+
+
+
+      //glBindTexture(GL_TEXTURE_2D,currMaterial->map_);
+
       shader->setRegisteredUniform("ka",currMaterial->Ka);
       shader->setRegisteredUniform("kd",currMaterial->Kd);
       shader->setRegisteredUniform("transp",currMaterial->d);
@@ -409,3 +466,102 @@ void NGLScene::timerEvent(QTimerEvent *)
   renderLater();
 }
 
+
+void NGLScene::createFramebufferObject()
+{
+
+  // Try to use a texture depth component
+  glGenTextures(1, &m_textureID);
+  glBindTexture(GL_TEXTURE_2D, m_textureID);
+  glTexParameteri(GL_TEXTURE_2D, GL_GENERATE_MIPMAP, GL_TRUE);
+
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST );
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST );
+  glTexParameteri(GL_TEXTURE_2D, GL_DEPTH_TEXTURE_MODE, GL_LUMINANCE);
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_COMPARE_MODE, GL_COMPARE_R_TO_TEXTURE);
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_COMPARE_FUNC, GL_LEQUAL);
+
+  glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE );
+  glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE );
+
+  glTexImage2D( GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT, 1024, 1024, 0, GL_DEPTH_COMPONENT, GL_FLOAT, 0);
+
+  glBindTexture(GL_TEXTURE_2D, 0);
+
+  // create our FBO
+  glGenFramebuffers(1, &m_fboID);
+  glBindFramebuffer(GL_FRAMEBUFFER, m_fboID);
+  // disable the colour and read buffers as we only want depth
+  glDrawBuffer(GL_NONE);
+  glReadBuffer(GL_NONE);
+
+  // attach our texture to the FBO
+  glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT,GL_TEXTURE_2D, m_textureID, 0);
+
+  // switch back to window-system-provided framebuffer
+  glBindFramebuffer(GL_FRAMEBUFFER, 0);
+}
+
+
+void NGLScene::loadToLightPOVShader()
+{
+  ngl::ShaderLib *shader=ngl::ShaderLib::instance();
+  shader->use("nglColourShader");
+  // now load to our light POV camera
+
+  ngl::Camera lightCamera(m_lightPosition.toVec3(),ngl::Vec3(0,0,0),ngl::Vec3(0,1,0));
+  // here we set the light POV camera shape, the aspect is 1 as our
+  // texture is square.
+  // use the same clip plane as before but set the FOV a bit larger
+  // to get slightly better shadows and the clip planes will help
+  // to get rid of some of the artefacts
+  lightCamera.setShape(45,1.0,0.5,400);
+
+  ngl::Mat4 MVP=lightCamera.getVPMatrix();
+  shader->setRegisteredUniformFromMat4("MVP",MVP);
+}
+
+
+
+
+
+void NGLScene::renderShadowPass()
+{
+  //----------------------------------------------------------------------------------------------------------------------
+  // Pass 1 render our Depth texture to the FBO
+  //----------------------------------------------------------------------------------------------------------------------
+  // enable culling
+  glEnable(GL_CULL_FACE);
+  glEnable(GL_MULTISAMPLE_ARB);
+
+  // bind the FBO and render offscreen to the texture
+  glBindFramebuffer(GL_FRAMEBUFFER,m_fboID);
+  // bind the texture object to 0 (off )
+  glBindTexture(GL_TEXTURE_2D,0);
+  // we need to render to the same size as the texture to avoid
+  // distortions
+  glViewport(0,0,1024,1024);
+
+  // Clear previous frame values
+  glClear( GL_DEPTH_BUFFER_BIT);
+  // as we are only rendering depth turn off the colour / alpha
+  glColorMask(GL_FALSE, GL_FALSE, GL_FALSE, GL_FALSE);
+
+  // render only the back faces so we don't get too much self shadowing
+  glCullFace(GL_FRONT);
+  glEnable(GL_POLYGON_OFFSET_FILL);
+  glPolygonOffset(0.0,0.0 );
+  unsigned int end=m_model->numMeshes();
+  for(unsigned int i=0; i<end; ++i)
+  {
+
+    m_model->draw(i);
+
+  }
+  // go back to our normal framebuffer
+  glBindFramebuffer(GL_FRAMEBUFFER,0);
+  // enable colour rendering again (as we turned it off earlier)
+  glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
+  glDisable(GL_CULL_FACE);
+
+}
