@@ -2,12 +2,11 @@
 /// @brief our output fragment colour
 layout (location =0) out vec4 fragColour;
 // this is a pointer to the current 2D texture object
-uniform sampler2D ambientMap;
 uniform sampler2D diffuseMap;
+uniform sampler2D ambientMap;
 uniform sampler2D normalMap;
 // varying params passed through from vertex shader
 in vec3 ps_L; // light direction
-in vec3 ps_E; // eye direction (same as light direction in this simple case!)
 in vec3 ps_N; // normal vector
 in vec3 ps_T; // tangent vector
 in vec2 ps_uv; // the UV texture coordinate
@@ -22,7 +21,7 @@ in vec3 normal;
 struct LightInfo
 {
 	// Light position in eye coords.
-	vec3 position;
+	vec4 position;
 	// Ambient light intensity
 	vec3 La;
 	// Diffuse light intensity
@@ -47,29 +46,29 @@ void main()
 
  vec3 L = normalize(ps_L);
 
- vec3 E = normalize(ps_E);
  vec3 N = normalize(ps_N);
    vec3 T = normalize(ps_T);
    // compute bi-normal
    //vec3 B = cross(N, T);
- vec3 B = normalize(ps_bn);
+ vec3 B = (ps_bn);
    vec3 C = texture(normalMap,vertUV).xyz;
   // grab the actual normal from the texture (which will be in texture space)
-   vec3 AN = C;//* 2.0 - 1.0;//normalize(2.0 * C - vec3(1.0, 1.0, 1.0));
-//   vec3 AN=normalize( texture(normalMap, vertUV.st).xyz * 2.0 - 1.0);
+   //vec3 AN = normalize(2.0 * C - vec3(1.0, 1.0, 1.0));
+  vec3 AN=C;//-normalize( texture(normalMap, vertUV.st).xyz * 2.0 - 1.0);
 
 
-   // rotate normal into viewspace
-   AN = T * AN.x + B * AN.y + N * AN.z;
+//   // rotate normal into viewspace
+//   AN = T * AN.x + B * AN.y + N * AN.z;
 
-   // compute reflected vector
-   //vec3 R = -reflect(E, AN);
+//   // compute reflected vector
+//   vec3 R = -reflect(E, AN);
 
    // compute N.L
    float N_dot_L = max(dot(AN, L), 0.0);
    // compute ambient lighting term
    vec3 d = light.Ld * diffuse.rgb * N_dot_L;
-   fragColour.rgb = ka*d + kd*d;
+
+   fragColour.rgb = ka*ambient.rgb*light.La + kd*d;
    fragColour.a=transp;
 
  /*

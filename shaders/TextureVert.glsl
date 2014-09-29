@@ -15,7 +15,18 @@ layout (location =4) in vec3 inBinormal;
 uniform mat4 MVP;
 uniform mat3 normalMatrix;
 uniform mat4 MV;
-
+struct LightInfo
+{
+	// Light position in eye coords.
+	vec4 position;
+	// Ambient light intensity
+	vec3 La;
+	// Diffuse light intensity
+	vec3 Ld;
+	// Specular light intensity
+	vec3 Ls;
+};
+uniform LightInfo light;
 // we use this to pass the UV values to the frag shader
 out vec2 vertUV;
 out vec3 position;
@@ -47,11 +58,10 @@ void main()
 		vec4 V = MV * vec4(inVert,1);
 
 		// compute vector from light to position (done a bit wastefully here!)
-		vec4 L = vec4(0, 0, 0, 0) - MV * normalize(vec4(inVert,1));
+		vec4 L = light.position - MV * normalize(vec4(inVert,1));
 
 		// pass light and eye vector into fragment shader
 		ps_L = L.xyz;
-		ps_E = L.xyz;
 
 
 

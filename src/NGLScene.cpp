@@ -31,6 +31,7 @@ NGLScene::NGLScene(QWindow *_parent) : OpenGLWindow(_parent)
   setTitle("Sponza Demo");
   m_whichMap=0;
   m_single=false;
+  m_lightPosition.set(0.0f,40.0f,0.0f,1.0);
 
 }
 
@@ -100,38 +101,16 @@ void NGLScene::initialize()
   // link the shader no attributes are bound
   shader->linkProgramObject("TextureShader");
   (*shader)["TextureShader"]->use();
-//  shader->setShaderParam1i("tex",0);
-//  shader->setShaderParam1i("spec",1);
-//  shader->setShaderParam1i("normalMap",2);
+  shader->autoRegisterUniforms("TextureShader");
 
-  shader->setShaderParam1i("ambientMap",1);
-  shader->setShaderParam1i("diffuseMap",0);
+  shader->setShaderParam1i("ambientMap",0);
+  shader->setShaderParam1i("diffuseMap",1);
   shader->setShaderParam1i("normalMap",2);
-  ngl::Mat4 iv;
-  iv.transpose();
 
-  /// now setup a basic 3 point lighting system
-  m_key= new ngl::Light(ngl::Vec3(3,2,2),ngl::Colour(1,1,1,1),ngl::POINTLIGHT);
-  m_key->setTransform(iv);
-  m_key->enable();
-  m_key->loadToShader("light[0]");
-  m_fill = new ngl::Light(ngl::Vec3(-3,1.5,2),ngl::Colour(1,1,1,1),ngl::POINTLIGHT);
-  m_fill->setTransform(iv);
-  m_fill->enable();
-  m_fill->loadToShader("light[1]");
-
-  m_back= new ngl::Light(ngl::Vec3(0,1,-2),ngl::Colour(1,1,1,1),ngl::POINTLIGHT);
-  m_back->setTransform(iv);
-  m_back->enable();
-  m_back->loadToShader("light[2]");
-
-  shader->setUniform("light.position",0,40,0);
-  shader->setShaderParam3f("light.La",0.1,0.1,0.1);
+  shader->setShaderParam4f("light.position",0.0f,40.0f,0.0f,0.0f);
+  shader->setShaderParam3f("light.La",0.2,0.2,0.2);
   shader->setShaderParam3f("light.Ld",1.0,1.0,1.0);
   shader->setShaderParam3f("light.Ls",0.9,0.9,0.9);
-  //shader->setShaderParam3f("Falloff",1.0f, 1.0f, 1.0f);
-  //shader->setShaderParam2f("Resolution",float(width()),float(height()));
-
 
   glEnable(GL_DEPTH_TEST);
 
@@ -158,6 +137,9 @@ void NGLScene::initialize()
   // as re-size is not explicitly called we need to do this.
  // glViewport(0,0,width(),height());
   startTimer(0);
+  m_text = new  ngl::Text(QFont("Arial",14));
+  m_text->setScreenSize(this->size().width(),this->size().height());
+
  // m_ovr->disableWarningMessage();
 }
 
@@ -165,6 +147,7 @@ void NGLScene::initialize()
 void NGLScene::loadMatricesToShader()
 {
   ngl::ShaderLib *shader=ngl::ShaderLib::instance();
+  shader->use("TextureShader");
 
   ngl::Mat4 MV;
   ngl::Mat4 MVP;
@@ -173,10 +156,10 @@ void NGLScene::loadMatricesToShader()
   MVP=MV*m_projection ;
   normalMatrix=MV;
   normalMatrix.inverse();
-  shader->setUniform("MVP",MVP);
-  shader->setUniform("MV",MV);
-  shader->setUniform("normalMatrix",normalMatrix);
-
+  shader->setRegisteredUniform("MVP",MVP);
+  shader->setRegisteredUniform("MV",MV);
+  shader->setRegisteredUniform("normalMatrix",normalMatrix);
+  shader->setShaderParamFromVec4("light.position",m_lightPosition);
 
 
  }
@@ -251,15 +234,9 @@ void NGLScene::drawScene(int _eye)
     if(matName !=m_model->getMaterial(i))
     {
       matName=m_model->getMaterial(i);
-//      switch(m_whichMap)
-//      {
-//        case 0 : glBindTexture (GL_TEXTURE_2D,currMaterial->map_KaId); break;
-//        case 1 : glBindTexture (GL_TEXTURE_2D,currMaterial->map_KdId); break;
-//        case 2 : glBindTexture (GL_TEXTURE_2D,currMaterial->map_bumpId); break;
-//        case 3 : glBindTexture (GL_TEXTURE_2D,currMaterial->bumpId); break;
-//        case 4 : glBindTexture (GL_TEXTURE_2D,currMaterial->map_dId); break;
-//      }
       ngl::ShaderLib *shader = ngl::ShaderLib::instance();
+      shader->use("TextureShader");
+
       glActiveTexture(GL_TEXTURE0);
       glBindTexture (GL_TEXTURE_2D,currMaterial->map_KaId);
       glActiveTexture(GL_TEXTURE1);
@@ -269,20 +246,33 @@ void NGLScene::drawScene(int _eye)
         glActiveTexture(GL_TEXTURE2);
         glBindTexture (GL_TEXTURE_2D,currMaterial->bumpId);
       }
+      else
+      {
+        glActiveTexture(GL_TEXTURE2);
+        glBindTexture (GL_TEXTURE_2D,currMaterial->map_KdId);
+
+      }
 
 
       glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_NEAREST_MIPMAP_LINEAR);
       glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_NEAREST_MIPMAP_LINEAR);
       glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_WRAP_S,GL_REPEAT);
       glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_WRAP_S,GL_REPEAT);
-      shader->setShaderParam3f("ka",currMaterial->Ka.m_x,currMaterial->Ka.m_y,currMaterial->Ka.m_z);
-      shader->setShaderParam3f("kd",currMaterial->Kd.m_x,currMaterial->Kd.m_y,currMaterial->Kd.m_z);
-      shader->setShaderParam1f("transp",currMaterial->d);
+      shader->setRegisteredUniform("ka",currMaterial->Ka);
+      shader->setRegisteredUniform("kd",currMaterial->Kd);
+      shader->setRegisteredUniform("transp",currMaterial->d);
     }
     m_model->draw(i);
 
   }
+  m_text->setColour(ngl::Colour(1,1,0));
 
+   QString text=QString("Light Position [%1,%2,%3,%4]")
+                       .arg(m_lightPosition.m_x,4,'f',1,'0')
+                       .arg(m_lightPosition.m_y,4,'f',1,'0')
+                       .arg(m_lightPosition.m_z,4,'f',1,'0')
+                       .arg(m_lightPosition.m_w,4,'f',1,'0');
+   m_text->renderText(10,36,text );
   //ngl::VAOPrimitives::instance()->draw("bunny");
 }
 
@@ -390,17 +380,22 @@ void NGLScene::keyPressEvent(QKeyEvent *_event)
   // show windowed
   case Qt::Key_N : showNormal(); break;
   default : break;
-  case Qt::Key_1 : m_whichMap=0; break;
-  case Qt::Key_2 : m_whichMap=1; break;
-  case Qt::Key_3 : m_whichMap=2; break;
-  case Qt::Key_4 : m_whichMap=3; break;
-  case Qt::Key_5 : m_whichMap=4; break;
+  case Qt::Key_1 : m_lightPosition.m_w=0.0f; break;
+  case Qt::Key_2 : m_lightPosition.m_w=1.0f; break;
+  case Qt::Key_Up : m_lightPosition.m_y += 5.0f; break;
+  case Qt::Key_Down : m_lightPosition.m_y -= 5.0f; break;
+  case Qt::Key_Left : m_lightPosition.m_x -= 5.0f; break;
+  case Qt::Key_Right : m_lightPosition.m_x += 5.0f; break;
+  case Qt::Key_I : m_lightPosition.m_z -= 5.0f; break;
+  case Qt::Key_O : m_lightPosition.m_z += 5.0f; break;
+
+
   case Qt::Key_Space : m_ovr->disableWarningMessage(); break;
   case Qt::Key_A : m_single^=true; break;
   }
   // finally update the GLWindow and re-draw
   //if (isExposed())
-    renderLater();
+    renderNow();
 }
 
 
