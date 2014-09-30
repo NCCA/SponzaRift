@@ -181,7 +181,7 @@ private:
     /// @brief camera from light view
     //----------------------------------------------------------------------------------------------------------------------
     ngl::Camera *m_lightCamera;
-
+    bool m_doNormals;
 
 };
 

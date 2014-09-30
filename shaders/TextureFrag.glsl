@@ -35,6 +35,7 @@ uniform LightInfo light;
 uniform float transp;
 in  vec4  ShadowCoord;
 
+uniform int useNormal;
 
 
 
@@ -52,13 +53,18 @@ void main()
  vec3 N = normalize(ps_N);
    vec3 T = normalize(ps_T);
    // compute bi-normal
-   //vec3 B = cross(N, T);
+ //vec3 B = cross(N, T);
  vec3 B = (ps_bn);
- vec3 C = normalmap.xyz;
-  // grab the actual normal from the texture (which will be in texture space)
-   //vec3 AN = normalize(2.0 * C - vec3(1.0, 1.0, 1.0));
-  vec3 AN=C;//-normalize( texture(normalMap, vertUV.st).xyz * 2.0 - 1.0);
-
+ vec3 C = texture(normalMap, vertUV).xyz;
+// if(useNormal ==1)
+// {
+//  C=ps_N;
+// }
+ // grab the actual normal from the texture (which will be in texture space)
+ vec3 AN = C;//normalize(2.0 * C - vec3(1.0, 1.0, 1.0));
+  //vec3 AN=C;//-normalize( texture(normalMap, vertUV.st).xyz * 2.0 - 1.0);
+ // rotate normal into viewspace
+ AN = T * AN.x + B * AN.y + N * AN.z;
 
 //	float sum;
 //	sum  = textureProjOffset(shadowMap, ShadowCoord, ivec2(-1, -1)).x;

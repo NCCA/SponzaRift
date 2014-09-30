@@ -40,7 +40,6 @@ out vec3 ps_E; // eye direction (same as light direction in this simple case!)
 out vec3 ps_N; // normal vector
 out vec3 ps_T; // tangent vector
 out vec2 ps_uv; // texture coordinate
-
 uniform mat4 textureMatrix;
 
 
@@ -52,7 +51,7 @@ void main()
 
 
 	 // transform normal into viewspace
-		ps_N = (MV * vec4(inNormal, 0.0)).xyz;
+		ps_N = (MV * vec4(normal, 0.0)).xyz;
 
 		// transform normal into viewspace
 		ps_T = (MV * vec4(inTangent, 0.0)).xyz;
@@ -61,14 +60,13 @@ void main()
 		vec4 V = MV * vec4(inVert,1);
 
 		// compute vector from light to position (done a bit wastefully here!)
-		vec4 L = light.position - MV * normalize(vec4(inVert,1));
+		vec4 L = light.position - V;
 
 		// pass light and eye vector into fragment shader
 		ps_L = L.xyz;
 
 		//vec4 texCoord = vec4(inVert,1);
 
-		//ShadowCoord   = textureMatrix*texCoord;
 
 
 	 // Convert position to clip coordinates and pass along

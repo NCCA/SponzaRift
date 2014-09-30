@@ -40,8 +40,8 @@
 /// using Vec3 for storage of the Colour elements not ngl::colour for size reasons
 typedef struct
 {
-  float Ns;
-  float Ni;
+  float Ns; //spec exponent
+  float Ni; //
   float d;
   float Tr;
   int illum;
@@ -55,11 +55,13 @@ typedef struct
   std::string map_d;
   std::string map_bump;
   std::string bump;
+  std::string map_Ks;
   GLuint map_KaId;
   GLuint map_KdId;
   GLuint map_dId;
   GLuint map_bumpId;
   GLuint bumpId;
+  GLuint map_KsId;
 
 }mtlItem;
 

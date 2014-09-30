@@ -1,7 +1,7 @@
 Profile is 3 2
 Using GLEW 1.11.0ngl:: configured with GL version 4.1
-setting device aspect Debug: [NetClient] Connected to a server running version 1.1.0 (my version=1.1.0)
-2
+Debug: [NetClient] Connected to a server running version 1.1.0 (my version=1.1.0)
+setting device aspect 2
 Unable to create HMD: No HMD Detected
 Attempting to run without HMD
 Type 3
@@ -10,7 +10,7 @@ Manufacturer Oculus VR
 VendorId 0
 ProductId 0
 SerialNumber 
-FirmwareMajor 2416
+FirmwareMajor 80
 FirmwareMinor 1
 CameraFrustumHFovInRadians 0
 CameraFrustumVFovInRadians 0
@@ -57,9 +57,17 @@ TextureVertex attached to program TextureShader
 TextureFragment attached to program TextureShader
 Linking TextureShader
 linking Shader TextureShader
+WARNING: Output of vertex shader 'normal' not read by fragment shader
+WARNING: Output of vertex shader 'position' not read by fragment shader
+
+Uniform "light" not found in Program "TextureShader"
+Uniform "textureMatrix" not found in Program "TextureShader"
+Uniform "shadowMap" not found in Program "TextureShader"
+Uniform "light" not found in Program "TextureShader"
+Uniform "useNormal" not found in Program "TextureShader"
 loading textures this may take some time
-we have this many textures 73
-we have 38 unique textures to load
+we have this many textures 103
+we have 53 unique textures to load
 texture GL set 2
 processing textures/gi_flag.tga
 texture GL set 3
@@ -71,80 +79,5847 @@ processing textures/background.tga
 texture GL set 6
 processing textures/background_bump.png
 texture GL set 7
+processing textures/sponza_details_diff.tga
+texture GL set 8
+processing textures/sponza_details_diff_NRM.png
+texture GL set 9
 processing textures/vase_plant.tga
 error loading image textures/vase_plant_mask.tga
-texture GL set 8
-processing textures/vase_plant_mask.tga
-texture GL set 9
-processing textures/sponza_arch_diff.tga
 texture GL set 10
-processing textures/spnza_bricks_a_diff.tga
+processing textures/vase_plant_mask.tga
 texture GL set 11
-processing textures/spnza_bricks_a_bump.png
+processing textures/sponza_arch_diff.tga
 texture GL set 12
-processing textures/sponza_ceiling_a_diff.tga
+processing textures/sponza_arch_diff_NRM.png
 texture GL set 13
+processing textures/spnza_bricks_a_diff.tga
+texture GL set 14
+processing textures/spnza_bricks_a_bump.png
+texture GL set 15
+processing textures/sponza_ceiling_a_diff.tga
+texture GL set 16
+processing textures/sponza_ceiling_a_diff_NRM.png
+texture GL set 17
 processing textures/chain_texture.tga
 error loading image textures/chain_texture_mask.tga
-texture GL set 14
-processing textures/chain_texture_mask.tga
-texture GL set 15
-processing textures/chain_texture_bump.png
-texture GL set 16
-processing textures/sponza_column_a_diff.tga
-texture GL set 17
-processing textures/sponza_column_a_bump.png
 texture GL set 18
-processing textures/sponza_column_b_diff.tga
+processing textures/chain_texture_mask.tga
 texture GL set 19
-processing textures/sponza_column_b_bump.png
+processing textures/chain_texture_bump.png
 texture GL set 20
-processing textures/sponza_column_c_diff.tga
+processing textures/sponza_column_a_diff.tga
 texture GL set 21
-processing textures/sponza_column_c_bump.png
+processing textures/sponza_column_a_bump.png
 texture GL set 22
-processing textures/sponza_details_diff.tga
+processing textures/sponza_column_b_diff.tga
 texture GL set 23
-processing textures/sponza_fabric_diff.tga
+processing textures/sponza_column_b_bump.png
 texture GL set 24
-processing textures/sponza_curtain_diff.tga
+processing textures/sponza_column_c_diff.tga
 texture GL set 25
-processing textures/sponza_fabric_blue_diff.tga
+processing textures/sponza_column_c_bump.png
 texture GL set 26
-processing textures/sponza_fabric_green_diff.tga
+processing textures/sponza_details_diff.tga
 texture GL set 27
-processing textures/sponza_curtain_green_diff.tga
+processing textures/sponza_details_diff_NRM.png
 texture GL set 28
-processing textures/sponza_curtain_blue_diff.tga
+processing textures/sponza_fabric_diff.tga
 texture GL set 29
-processing textures/sponza_flagpole_diff.tga
+processing textures/sponza_fabric_blue_diff_NRM.png
 texture GL set 30
-processing textures/sponza_floor_a_diff.tga
+processing textures/sponza_curtain_diff.tga
 texture GL set 31
+processing textures/sponza_curtain_blue_diff_NRM.png
+texture GL set 32
+processing textures/sponza_fabric_blue_diff.tga
+texture GL set 33
+processing textures/sponza_fabric_blue_diff_NRM.png
+texture GL set 34
+processing textures/sponza_fabric_green_diff.tga
+texture GL set 35
+processing textures/sponza_fabric_blue_diff_NRM.png
+texture GL set 36
+processing textures/sponza_curtain_green_diff.tga
+texture GL set 37
+processing textures/sponza_curtain_blue_diff_NRM.png
+texture GL set 38
+processing textures/sponza_curtain_blue_diff.tga
+texture GL set 39
+processing textures/sponza_curtain_blue_diff_NRM.png
+texture GL set 40
+processing textures/sponza_flagpole_diff.tga
+texture GL set 41
+processing textures/sponza_flagpole_diff_NRM.png
+texture GL set 42
+processing textures/sponza_floor_a_diff.tga
+texture GL set 43
+processing textures/sponza_floor_a_diff_NRM.png
+texture GL set 44
 processing textures/sponza_thorn_diff.tga
 error loading image textures/sponza_thorn_mask.tga
-texture GL set 32
+texture GL set 45
 processing textures/sponza_thorn_mask.tga
-texture GL set 33
+texture GL set 46
 processing textures/sponza_thorn_bump.png
-texture GL set 34
+texture GL set 47
 processing textures/sponza_roof_diff.tga
-texture GL set 35
+texture GL set 48
+processing textures/sponza_roof_diff_NRM.png
+texture GL set 49
 processing textures/vase_dif.tga
-texture GL set 36
+texture GL set 50
 processing textures/vase_bump.png
-texture GL set 37
+texture GL set 51
 processing textures/vase_hanging.tga
-texture GL set 38
+texture GL set 52
+processing textures/vase_hanging_NRM.png
+texture GL set 53
 processing textures/vase_round.tga
-texture GL set 39
+texture GL set 54
 processing textures/vase_round_bump.png
 done 
+current group 
+parsing material usemtl leaf
+current material leaf
+current group sponza_00
+Stored values fc 10920
+offset 0
+parsing material usemtl VasePlant
+current material VasePlant
+parsing material usemtl vase_round
+current material vase_round
+current group sponza_01
+Stored values fc 8037
+offset 10920
+parsing material usemtl Material__298
+current material Material__298
+current group sponza_03
+Stored values fc 4086
+offset 18957
+parsing material usemtl bricks
+current material bricks
+current group sponza_05
+Stored values fc 24
+offset 23043
+parsing material usemtl bricks
+current material bricks
+current group sponza_06
+Stored values fc 300
+offset 23067
+parsing material usemtl arch
+current material arch
+current group sponza_07
+Stored values fc 840
+offset 23367
+parsing material usemtl ceiling
+current material ceiling
+current group sponza_08
+Stored values fc 6996
+offset 24207
+parsing material usemtl column_a
+current material column_a
+current group sponza_09
+Stored values fc 546
+offset 31203
+parsing material usemtl column_a
+current material column_a
+current group sponza_10
+Stored values fc 546
+offset 31749
+parsing material usemtl column_a
+current material column_a
+current group sponza_11
+Stored values fc 546
+offset 32295
+parsing material usemtl column_a
+current material column_a
+current group sponza_12
+Stored values fc 546
+offset 32841
+parsing material usemtl column_a
+current material column_a
+current group sponza_13
+Stored values fc 546
+offset 33387
+parsing material usemtl column_a
+current material column_a
+current group sponza_14
+Stored values fc 546
+offset 33933
+parsing material usemtl column_a
+current material column_a
+current group sponza_15
+Stored values fc 546
+offset 34479
+parsing material usemtl column_a
+current material column_a
+current group sponza_16
+Stored values fc 546
+offset 35025
+parsing material usemtl arch
+current material arch
+current group sponza_17
+Stored values fc 8688
+offset 35571
+parsing material usemtl floor
+current material floor
+current group sponza_18
+Stored values fc 48
+offset 44259
+parsing material usemtl ceiling
+current material ceiling
+current group sponza_19
+Stored values fc 6996
+offset 44307
+parsing material usemtl arch
+current material arch
+current group sponza_20
+Stored values fc 1644
+offset 51303
+parsing material usemtl arch
+current material arch
+current group sponza_21
+Stored values fc 1644
+offset 52947
+parsing material usemtl column_c
+current material column_c
+current group sponza_22
+Stored values fc 1188
+offset 54591
+parsing material usemtl column_c
+current material column_c
+current group sponza_23
+Stored values fc 786
+offset 55779
+parsing material usemtl column_c
+current material column_c
+current group sponza_24
+Stored values fc 786
+offset 56565
+parsing material usemtl column_c
+current material column_c
+current group sponza_25
+Stored values fc 786
+offset 57351
+parsing material usemtl column_c
+current material column_c
+current group sponza_26
+Stored values fc 786
+offset 58137
+parsing material usemtl column_c
+current material column_c
+current group sponza_27
+Stored values fc 1188
+offset 58923
+parsing material usemtl column_c
+current material column_c
+current group sponza_28
+Stored values fc 1188
+offset 60111
+parsing material usemtl column_c
+current material column_c
+current group sponza_29
+Stored values fc 786
+offset 61299
+parsing material usemtl column_c
+current material column_c
+current group sponza_30
+Stored values fc 786
+offset 62085
+parsing material usemtl column_c
+current material column_c
+current group sponza_31
+Stored values fc 786
+offset 62871
+parsing material usemtl column_c
+current material column_c
+current group sponza_32
+Stored values fc 786
+offset 63657
+parsing material usemtl column_c
+current material column_c
+current group sponza_33
+Stored values fc 1188
+offset 64443
+parsing material usemtl bricks
+current material bricks
+current group sponza_34
+Stored values fc 612
+offset 65631
+parsing material usemtl ceiling
+current material ceiling
+current group sponza_35
+Stored values fc 612
+offset 66243
+parsing material usemtl bricks
+current material bricks
+current group sponza_36
+Stored values fc 444
+offset 66855
+parsing material usemtl arch
+current material arch
+current group sponza_37
+Stored values fc 480
+offset 67299
+parsing material usemtl ceiling
+current material ceiling
+current group sponza_38
+Stored values fc 336
+offset 67779
+parsing material usemtl arch
+current material arch
+current group sponza_39
+Stored values fc 480
+offset 68115
+parsing material usemtl ceiling
+current material ceiling
+current group sponza_40
+Stored values fc 336
+offset 68595
+parsing material usemtl arch
+current material arch
+current group sponza_41
+Stored values fc 480
+offset 68931
+parsing material usemtl ceiling
+current material ceiling
+current group sponza_42
+Stored values fc 336
+offset 69411
+parsing material usemtl arch
+current material arch
+current group sponza_43
+Stored values fc 480
+offset 69747
+parsing material usemtl ceiling
+current material ceiling
+current group sponza_44
+Stored values fc 336
+offset 70227
+parsing material usemtl arch
+current material arch
+current group sponza_45
+Stored values fc 480
+offset 70563
+parsing material usemtl ceiling
+current material ceiling
+current group sponza_46
+Stored values fc 336
+offset 71043
+parsing material usemtl arch
+current material arch
+current group sponza_47
+Stored values fc 480
+offset 71379
+parsing material usemtl ceiling
+current material ceiling
+current group sponza_48
+Stored values fc 336
+offset 71859
+parsing material usemtl arch
+current material arch
+current group sponza_49
+Stored values fc 480
+offset 72195
+parsing material usemtl ceiling
+current material ceiling
+current group sponza_50
+Stored values fc 336
+offset 72675
+parsing material usemtl arch
+current material arch
+current group sponza_51
+Stored values fc 480
+offset 73011
+parsing material usemtl ceiling
+current material ceiling
+current group sponza_52
+Stored values fc 336
+offset 73491
+parsing material usemtl arch
+current material arch
+current group sponza_53
+Stored values fc 480
+offset 73827
+parsing material usemtl ceiling
+current material ceiling
+current group sponza_54
+Stored values fc 336
+offset 74307
+parsing material usemtl arch
+current material arch
+current group sponza_55
+Stored values fc 120
+offset 74643
+parsing material usemtl arch
+current material arch
+current group sponza_56
+Stored values fc 120
+offset 74763
+parsing material usemtl arch
+current material arch
+current group sponza_57
+Stored values fc 120
+offset 74883
+parsing material usemtl arch
+current material arch
+current group sponza_58
+Stored values fc 120
+offset 75003
+parsing material usemtl arch
+current material arch
+current group sponza_59
+Stored values fc 120
+offset 75123
+parsing material usemtl arch
+current material arch
+current group sponza_60
+Stored values fc 120
+offset 75243
+parsing material usemtl arch
+current material arch
+current group sponza_61
+Stored values fc 120
+offset 75363
+parsing material usemtl arch
+current material arch
+current group sponza_62
+Stored values fc 120
+offset 75483
+parsing material usemtl arch
+current material arch
+current group sponza_63
+Stored values fc 120
+offset 75603
+parsing material usemtl arch
+current material arch
+current group sponza_64
+Stored values fc 120
+offset 75723
+parsing material usemtl arch
+current material arch
+current group sponza_65
+Stored values fc 120
+offset 75843
+parsing material usemtl bricks
+current material bricks
+current group sponza_66
+Stored values fc 96
+offset 75963
+parsing material usemtl arch
+current material arch
+current group sponza_67
+Stored values fc 840
+offset 76059
+parsing material usemtl bricks
+current material bricks
+current group sponza_68
+Stored values fc 54
+offset 76899
+parsing material usemtl bricks
+current material bricks
+current group sponza_69
+Stored values fc 108
+offset 76953
+parsing material usemtl details
+current material details
+current group sponza_70
+Stored values fc 480
+offset 77061
+parsing material usemtl details
+current material details
+parsing material usemtl bricks
+current material bricks
+current group sponza_71
+Stored values fc 318
+offset 77541
+parsing material usemtl details
+current material details
+parsing material usemtl bricks
+current material bricks
+current group sponza_72
+Stored values fc 318
+offset 77859
+parsing material usemtl details
+current material details
+current group sponza_73
+Stored values fc 834
+offset 78177
+parsing material usemtl details
+current material details
+current group sponza_74
+Stored values fc 834
+offset 79011
+parsing material usemtl bricks
+current material bricks
+current group sponza_75
+Stored values fc 150
+offset 79845
+parsing material usemtl column_c
+current material column_c
+current group sponza_76
+Stored values fc 222
+offset 79995
+parsing material usemtl column_c
+current material column_c
+current group sponza_77
+Stored values fc 222
+offset 80217
+parsing material usemtl column_c
+current material column_c
+current group sponza_78
+Stored values fc 264
+offset 80439
+parsing material usemtl column_c
+current material column_c
+current group sponza_79
+Stored values fc 264
+offset 80703
+parsing material usemtl column_c
+current material column_c
+current group sponza_80
+Stored values fc 264
+offset 80967
+parsing material usemtl column_c
+current material column_c
+current group sponza_81
+Stored values fc 264
+offset 81231
+parsing material usemtl column_c
+current material column_c
+current group sponza_82
+Stored values fc 264
+offset 81495
+parsing material usemtl column_c
+current material column_c
+current group sponza_83
+Stored values fc 264
+offset 81759
+parsing material usemtl column_c
+current material column_c
+current group sponza_84
+Stored values fc 264
+offset 82023
+parsing material usemtl column_c
+current material column_c
+current group sponza_85
+Stored values fc 264
+offset 82287
+parsing material usemtl column_c
+current material column_c
+current group sponza_86
+Stored values fc 264
+offset 82551
+parsing material usemtl column_c
+current material column_c
+current group sponza_87
+Stored values fc 264
+offset 82815
+parsing material usemtl column_c
+current material column_c
+current group sponza_88
+Stored values fc 264
+offset 83079
+parsing material usemtl column_c
+current material column_c
+current group sponza_89
+Stored values fc 264
+offset 83343
+parsing material usemtl column_c
+current material column_c
+current group sponza_90
+Stored values fc 264
+offset 83607
+parsing material usemtl column_c
+current material column_c
+current group sponza_91
+Stored values fc 264
+offset 83871
+parsing material usemtl column_c
+current material column_c
+current group sponza_92
+Stored values fc 264
+offset 84135
+parsing material usemtl column_c
+current material column_c
+current group sponza_93
+Stored values fc 264
+offset 84399
+parsing material usemtl column_c
+current material column_c
+current group sponza_94
+Stored values fc 222
+offset 84663
+parsing material usemtl column_c
+current material column_c
+current group sponza_95
+Stored values fc 222
+offset 84885
+parsing material usemtl column_c
+current material column_c
+current group sponza_96
+Stored values fc 222
+offset 85107
+parsing material usemtl column_c
+current material column_c
+current group sponza_97
+Stored values fc 222
+offset 85329
+parsing material usemtl column_c
+current material column_c
+current group sponza_98
+Stored values fc 264
+offset 85551
+parsing material usemtl column_c
+current material column_c
+current group sponza_99
+Stored values fc 264
+offset 85815
+parsing material usemtl column_c
+current material column_c
+current group sponza_100
+Stored values fc 264
+offset 86079
+parsing material usemtl column_c
+current material column_c
+current group sponza_101
+Stored values fc 264
+offset 86343
+parsing material usemtl column_c
+current material column_c
+current group sponza_102
+Stored values fc 264
+offset 86607
+parsing material usemtl column_c
+current material column_c
+current group sponza_103
+Stored values fc 264
+offset 86871
+parsing material usemtl column_c
+current material column_c
+current group sponza_104
+Stored values fc 264
+offset 87135
+parsing material usemtl column_c
+current material column_c
+current group sponza_105
+Stored values fc 264
+offset 87399
+parsing material usemtl column_c
+current material column_c
+current group sponza_106
+Stored values fc 264
+offset 87663
+parsing material usemtl column_c
+current material column_c
+current group sponza_107
+Stored values fc 264
+offset 87927
+parsing material usemtl column_c
+current material column_c
+current group sponza_108
+Stored values fc 264
+offset 88191
+parsing material usemtl column_c
+current material column_c
+current group sponza_109
+Stored values fc 264
+offset 88455
+parsing material usemtl column_c
+current material column_c
+current group sponza_110
+Stored values fc 264
+offset 88719
+parsing material usemtl column_c
+current material column_c
+current group sponza_111
+Stored values fc 264
+offset 88983
+parsing material usemtl column_c
+current material column_c
+current group sponza_112
+Stored values fc 264
+offset 89247
+parsing material usemtl column_c
+current material column_c
+current group sponza_113
+Stored values fc 264
+offset 89511
+parsing material usemtl column_c
+current material column_c
+current group sponza_114
+Stored values fc 222
+offset 89775
+parsing material usemtl column_c
+current material column_c
+current group sponza_115
+Stored values fc 222
+offset 89997
+parsing material usemtl bricks
+current material bricks
+current group sponza_116
+Stored values fc 150
+offset 90219
+parsing material usemtl floor
+current material floor
+current group sponza_117
+Stored values fc 15
+offset 90369
+parsing material usemtl column_a
+current material column_a
+current group sponza_118
+Stored values fc 1020
+offset 90384
+parsing material usemtl column_a
+current material column_a
+current group sponza_119
+Stored values fc 1020
+offset 91404
+parsing material usemtl column_a
+current material column_a
+current group sponza_120
+Stored values fc 1020
+offset 92424
+parsing material usemtl column_a
+current material column_a
+current group sponza_121
+Stored values fc 1020
+offset 93444
+parsing material usemtl arch
+current material arch
+current group sponza_122
+Stored values fc 48
+offset 94464
+parsing material usemtl arch
+current material arch
+current group sponza_123
+Stored values fc 5580
+offset 94512
+parsing material usemtl arch
+current material arch
+current group sponza_124
+Stored values fc 5580
+offset 100092
+parsing material usemtl column_b
+current material column_b
+current group sponza_125
+Stored values fc 3660
+offset 105672
+parsing material usemtl column_b
+current material column_b
+current group sponza_126
+Stored values fc 54
+offset 109332
+parsing material usemtl column_b
+current material column_b
+current group sponza_127
+Stored values fc 132
+offset 109386
+parsing material usemtl column_b
+current material column_b
+current group sponza_128
+Stored values fc 54
+offset 109518
+parsing material usemtl column_b
+current material column_b
+current group sponza_129
+Stored values fc 132
+offset 109572
+parsing material usemtl column_b
+current material column_b
+current group sponza_130
+Stored values fc 54
+offset 109704
+parsing material usemtl column_b
+current material column_b
+current group sponza_131
+Stored values fc 132
+offset 109758
+parsing material usemtl column_b
+current material column_b
+current group sponza_132
+Stored values fc 54
+offset 109890
+parsing material usemtl column_b
+current material column_b
+current group sponza_133
+Stored values fc 132
+offset 109944
+parsing material usemtl column_b
+current material column_b
+current group sponza_134
+Stored values fc 900
+offset 110076
+parsing material usemtl column_b
+current material column_b
+current group sponza_135
+Stored values fc 498
+offset 110976
+parsing material usemtl column_b
+current material column_b
+current group sponza_136
+Stored values fc 3660
+offset 111474
+parsing material usemtl column_b
+current material column_b
+current group sponza_137
+Stored values fc 54
+offset 115134
+parsing material usemtl column_b
+current material column_b
+current group sponza_138
+Stored values fc 132
+offset 115188
+parsing material usemtl column_b
+current material column_b
+current group sponza_139
+Stored values fc 54
+offset 115320
+parsing material usemtl column_b
+current material column_b
+current group sponza_140
+Stored values fc 132
+offset 115374
+parsing material usemtl column_b
+current material column_b
+current group sponza_141
+Stored values fc 54
+offset 115506
+parsing material usemtl column_b
+current material column_b
+current group sponza_142
+Stored values fc 132
+offset 115560
+parsing material usemtl column_b
+current material column_b
+current group sponza_143
+Stored values fc 54
+offset 115692
+parsing material usemtl column_b
+current material column_b
+current group sponza_144
+Stored values fc 132
+offset 115746
+parsing material usemtl column_b
+current material column_b
+current group sponza_145
+Stored values fc 900
+offset 115878
+parsing material usemtl column_b
+current material column_b
+current group sponza_146
+Stored values fc 498
+offset 116778
+parsing material usemtl column_b
+current material column_b
+current group sponza_147
+Stored values fc 3660
+offset 117276
+parsing material usemtl column_b
+current material column_b
+current group sponza_148
+Stored values fc 54
+offset 120936
+parsing material usemtl column_b
+current material column_b
+current group sponza_149
+Stored values fc 132
+offset 120990
+parsing material usemtl column_b
+current material column_b
+current group sponza_150
+Stored values fc 54
+offset 121122
+parsing material usemtl column_b
+current material column_b
+current group sponza_151
+Stored values fc 132
+offset 121176
+parsing material usemtl column_b
+current material column_b
+current group sponza_152
+Stored values fc 54
+offset 121308
+parsing material usemtl column_b
+current material column_b
+current group sponza_153
+Stored values fc 132
+offset 121362
+parsing material usemtl column_b
+current material column_b
+current group sponza_154
+Stored values fc 54
+offset 121494
+parsing material usemtl column_b
+current material column_b
+current group sponza_155
+Stored values fc 132
+offset 121548
+parsing material usemtl column_b
+current material column_b
+current group sponza_156
+Stored values fc 900
+offset 121680
+parsing material usemtl column_b
+current material column_b
+current group sponza_157
+Stored values fc 498
+offset 122580
+parsing material usemtl column_b
+current material column_b
+current group sponza_158
+Stored values fc 3660
+offset 123078
+parsing material usemtl column_b
+current material column_b
+current group sponza_159
+Stored values fc 54
+offset 126738
+parsing material usemtl column_b
+current material column_b
+current group sponza_160
+Stored values fc 132
+offset 126792
+parsing material usemtl column_b
+current material column_b
+current group sponza_161
+Stored values fc 54
+offset 126924
+parsing material usemtl column_b
+current material column_b
+current group sponza_162
+Stored values fc 132
+offset 126978
+parsing material usemtl column_b
+current material column_b
+current group sponza_163
+Stored values fc 54
+offset 127110
+parsing material usemtl column_b
+current material column_b
+current group sponza_164
+Stored values fc 132
+offset 127164
+parsing material usemtl column_b
+current material column_b
+current group sponza_165
+Stored values fc 54
+offset 127296
+parsing material usemtl column_b
+current material column_b
+current group sponza_166
+Stored values fc 132
+offset 127350
+parsing material usemtl column_b
+current material column_b
+current group sponza_167
+Stored values fc 900
+offset 127482
+parsing material usemtl column_b
+current material column_b
+current group sponza_168
+Stored values fc 498
+offset 128382
+parsing material usemtl column_b
+current material column_b
+current group sponza_169
+Stored values fc 3660
+offset 128880
+parsing material usemtl column_b
+current material column_b
+current group sponza_170
+Stored values fc 54
+offset 132540
+parsing material usemtl column_b
+current material column_b
+current group sponza_171
+Stored values fc 132
+offset 132594
+parsing material usemtl column_b
+current material column_b
+current group sponza_172
+Stored values fc 54
+offset 132726
+parsing material usemtl column_b
+current material column_b
+current group sponza_173
+Stored values fc 132
+offset 132780
+parsing material usemtl column_b
+current material column_b
+current group sponza_174
+Stored values fc 54
+offset 132912
+parsing material usemtl column_b
+current material column_b
+current group sponza_175
+Stored values fc 132
+offset 132966
+parsing material usemtl column_b
+current material column_b
+current group sponza_176
+Stored values fc 54
+offset 133098
+parsing material usemtl column_b
+current material column_b
+current group sponza_177
+Stored values fc 132
+offset 133152
+parsing material usemtl column_b
+current material column_b
+current group sponza_178
+Stored values fc 900
+offset 133284
+parsing material usemtl column_b
+current material column_b
+current group sponza_179
+Stored values fc 498
+offset 134184
+parsing material usemtl column_b
+current material column_b
+current group sponza_180
+Stored values fc 3660
+offset 134682
+parsing material usemtl column_b
+current material column_b
+current group sponza_181
+Stored values fc 54
+offset 138342
+parsing material usemtl column_b
+current material column_b
+current group sponza_182
+Stored values fc 132
+offset 138396
+parsing material usemtl column_b
+current material column_b
+current group sponza_183
+Stored values fc 54
+offset 138528
+parsing material usemtl column_b
+current material column_b
+current group sponza_184
+Stored values fc 132
+offset 138582
+parsing material usemtl column_b
+current material column_b
+current group sponza_185
+Stored values fc 54
+offset 138714
+parsing material usemtl column_b
+current material column_b
+current group sponza_186
+Stored values fc 132
+offset 138768
+parsing material usemtl column_b
+current material column_b
+current group sponza_187
+Stored values fc 54
+offset 138900
+parsing material usemtl column_b
+current material column_b
+current group sponza_188
+Stored values fc 132
+offset 138954
+parsing material usemtl column_b
+current material column_b
+current group sponza_189
+Stored values fc 900
+offset 139086
+parsing material usemtl column_b
+current material column_b
+current group sponza_190
+Stored values fc 498
+offset 139986
+parsing material usemtl column_b
+current material column_b
+current group sponza_191
+Stored values fc 3660
+offset 140484
+parsing material usemtl column_b
+current material column_b
+current group sponza_192
+Stored values fc 54
+offset 144144
+parsing material usemtl column_b
+current material column_b
+current group sponza_193
+Stored values fc 132
+offset 144198
+parsing material usemtl column_b
+current material column_b
+current group sponza_194
+Stored values fc 54
+offset 144330
+parsing material usemtl column_b
+current material column_b
+current group sponza_195
+Stored values fc 132
+offset 144384
+parsing material usemtl column_b
+current material column_b
+current group sponza_196
+Stored values fc 54
+offset 144516
+parsing material usemtl column_b
+current material column_b
+current group sponza_197
+Stored values fc 132
+offset 144570
+parsing material usemtl column_b
+current material column_b
+current group sponza_198
+Stored values fc 54
+offset 144702
+parsing material usemtl column_b
+current material column_b
+current group sponza_199
+Stored values fc 132
+offset 144756
+parsing material usemtl column_b
+current material column_b
+current group sponza_200
+Stored values fc 900
+offset 144888
+parsing material usemtl column_b
+current material column_b
+current group sponza_201
+Stored values fc 498
+offset 145788
+parsing material usemtl column_b
+current material column_b
+current group sponza_202
+Stored values fc 3660
+offset 146286
+parsing material usemtl column_b
+current material column_b
+current group sponza_203
+Stored values fc 54
+offset 149946
+parsing material usemtl column_b
+current material column_b
+current group sponza_204
+Stored values fc 132
+offset 150000
+parsing material usemtl column_b
+current material column_b
+current group sponza_205
+Stored values fc 54
+offset 150132
+parsing material usemtl column_b
+current material column_b
+current group sponza_206
+Stored values fc 132
+offset 150186
+parsing material usemtl column_b
+current material column_b
+current group sponza_207
+Stored values fc 54
+offset 150318
+parsing material usemtl column_b
+current material column_b
+current group sponza_208
+Stored values fc 132
+offset 150372
+parsing material usemtl column_b
+current material column_b
+current group sponza_209
+Stored values fc 54
+offset 150504
+parsing material usemtl column_b
+current material column_b
+current group sponza_210
+Stored values fc 132
+offset 150558
+parsing material usemtl column_b
+current material column_b
+current group sponza_211
+Stored values fc 900
+offset 150690
+parsing material usemtl column_b
+current material column_b
+current group sponza_212
+Stored values fc 498
+offset 151590
+parsing material usemtl column_b
+current material column_b
+current group sponza_213
+Stored values fc 3660
+offset 152088
+parsing material usemtl column_b
+current material column_b
+current group sponza_214
+Stored values fc 54
+offset 155748
+parsing material usemtl column_b
+current material column_b
+current group sponza_215
+Stored values fc 132
+offset 155802
+parsing material usemtl column_b
+current material column_b
+current group sponza_216
+Stored values fc 54
+offset 155934
+parsing material usemtl column_b
+current material column_b
+current group sponza_217
+Stored values fc 132
+offset 155988
+parsing material usemtl column_b
+current material column_b
+current group sponza_218
+Stored values fc 54
+offset 156120
+parsing material usemtl column_b
+current material column_b
+current group sponza_219
+Stored values fc 132
+offset 156174
+parsing material usemtl column_b
+current material column_b
+current group sponza_220
+Stored values fc 54
+offset 156306
+parsing material usemtl column_b
+current material column_b
+current group sponza_221
+Stored values fc 132
+offset 156360
+parsing material usemtl column_b
+current material column_b
+current group sponza_222
+Stored values fc 900
+offset 156492
+parsing material usemtl column_b
+current material column_b
+current group sponza_223
+Stored values fc 498
+offset 157392
+parsing material usemtl column_b
+current material column_b
+current group sponza_224
+Stored values fc 3660
+offset 157890
+parsing material usemtl column_b
+current material column_b
+current group sponza_225
+Stored values fc 54
+offset 161550
+parsing material usemtl column_b
+current material column_b
+current group sponza_226
+Stored values fc 132
+offset 161604
+parsing material usemtl column_b
+current material column_b
+current group sponza_227
+Stored values fc 54
+offset 161736
+parsing material usemtl column_b
+current material column_b
+current group sponza_228
+Stored values fc 132
+offset 161790
+parsing material usemtl column_b
+current material column_b
+current group sponza_229
+Stored values fc 54
+offset 161922
+parsing material usemtl column_b
+current material column_b
+current group sponza_230
+Stored values fc 132
+offset 161976
+parsing material usemtl column_b
+current material column_b
+current group sponza_231
+Stored values fc 54
+offset 162108
+parsing material usemtl column_b
+current material column_b
+current group sponza_232
+Stored values fc 132
+offset 162162
+parsing material usemtl column_b
+current material column_b
+current group sponza_233
+Stored values fc 900
+offset 162294
+parsing material usemtl column_b
+current material column_b
+current group sponza_234
+Stored values fc 498
+offset 163194
+parsing material usemtl column_b
+current material column_b
+current group sponza_235
+Stored values fc 3660
+offset 163692
+parsing material usemtl column_b
+current material column_b
+current group sponza_236
+Stored values fc 54
+offset 167352
+parsing material usemtl column_b
+current material column_b
+current group sponza_237
+Stored values fc 132
+offset 167406
+parsing material usemtl column_b
+current material column_b
+current group sponza_238
+Stored values fc 54
+offset 167538
+parsing material usemtl column_b
+current material column_b
+current group sponza_239
+Stored values fc 132
+offset 167592
+parsing material usemtl column_b
+current material column_b
+current group sponza_240
+Stored values fc 54
+offset 167724
+parsing material usemtl column_b
+current material column_b
+current group sponza_241
+Stored values fc 132
+offset 167778
+parsing material usemtl column_b
+current material column_b
+current group sponza_242
+Stored values fc 54
+offset 167910
+parsing material usemtl column_b
+current material column_b
+current group sponza_243
+Stored values fc 132
+offset 167964
+parsing material usemtl column_b
+current material column_b
+current group sponza_244
+Stored values fc 900
+offset 168096
+parsing material usemtl column_b
+current material column_b
+current group sponza_245
+Stored values fc 498
+offset 168996
+parsing material usemtl column_b
+current material column_b
+current group sponza_246
+Stored values fc 3660
+offset 169494
+parsing material usemtl column_b
+current material column_b
+current group sponza_247
+Stored values fc 54
+offset 173154
+parsing material usemtl column_b
+current material column_b
+current group sponza_248
+Stored values fc 132
+offset 173208
+parsing material usemtl column_b
+current material column_b
+current group sponza_249
+Stored values fc 54
+offset 173340
+parsing material usemtl column_b
+current material column_b
+current group sponza_250
+Stored values fc 132
+offset 173394
+parsing material usemtl column_b
+current material column_b
+current group sponza_251
+Stored values fc 54
+offset 173526
+parsing material usemtl column_b
+current material column_b
+current group sponza_252
+Stored values fc 132
+offset 173580
+parsing material usemtl column_b
+current material column_b
+current group sponza_253
+Stored values fc 54
+offset 173712
+parsing material usemtl column_b
+current material column_b
+current group sponza_254
+Stored values fc 132
+offset 173766
+parsing material usemtl column_b
+current material column_b
+current group sponza_255
+Stored values fc 900
+offset 173898
+parsing material usemtl column_b
+current material column_b
+current group sponza_256
+Stored values fc 498
+offset 174798
+parsing material usemtl Material__47
+current material Material__47
+current group sponza_257
+Stored values fc 54
+offset 175296
+parsing material usemtl bricks
+current material bricks
+current group sponza_258
+Stored values fc 192
+offset 175350
+parsing material usemtl flagpole
+current material flagpole
+current group sponza_259
+Stored values fc 678
+offset 175542
+parsing material usemtl flagpole
+current material flagpole
+current group sponza_260
+Stored values fc 1368
+offset 176220
+parsing material usemtl flagpole
+current material flagpole
+current group sponza_261
+Stored values fc 1368
+offset 177588
+parsing material usemtl flagpole
+current material flagpole
+current group sponza_262
+Stored values fc 678
+offset 178956
+parsing material usemtl flagpole
+current material flagpole
+current group sponza_263
+Stored values fc 1368
+offset 179634
+parsing material usemtl flagpole
+current material flagpole
+current group sponza_264
+Stored values fc 678
+offset 181002
+parsing material usemtl flagpole
+current material flagpole
+current group sponza_265
+Stored values fc 1368
+offset 181680
+parsing material usemtl flagpole
+current material flagpole
+current group sponza_266
+Stored values fc 678
+offset 183048
+parsing material usemtl flagpole
+current material flagpole
+current group sponza_267
+Stored values fc 678
+offset 183726
+parsing material usemtl flagpole
+current material flagpole
+current group sponza_268
+Stored values fc 1368
+offset 184404
+parsing material usemtl flagpole
+current material flagpole
+current group sponza_269
+Stored values fc 1368
+offset 185772
+parsing material usemtl flagpole
+current material flagpole
+current group sponza_270
+Stored values fc 678
+offset 187140
+parsing material usemtl flagpole
+current material flagpole
+current group sponza_271
+Stored values fc 1368
+offset 187818
+parsing material usemtl flagpole
+current material flagpole
+current group sponza_272
+Stored values fc 678
+offset 189186
+parsing material usemtl flagpole
+current material flagpole
+current group sponza_273
+Stored values fc 1368
+offset 189864
+parsing material usemtl flagpole
+current material flagpole
+current group sponza_274
+Stored values fc 678
+offset 191232
+parsing material usemtl leaf
+current material leaf
+current group sponza_275
+Stored values fc 17790
+offset 191910
+parsing material usemtl leaf
+current material leaf
+current group sponza_276
+Stored values fc 14466
+offset 209700
+parsing material usemtl leaf
+current material leaf
+current group sponza_277
+Stored values fc 6612
+offset 224166
+parsing material usemtl leaf
+current material leaf
+current group sponza_278
+Stored values fc 11406
+offset 230778
+parsing material usemtl leaf
+current material leaf
+current group sponza_279
+Stored values fc 9924
+offset 242184
+parsing material usemtl leaf
+current material leaf
+current group sponza_280
+Stored values fc 13266
+offset 252108
+parsing material usemtl leaf
+current material leaf
+current group sponza_281
+Stored values fc 9924
+offset 265374
+parsing material usemtl fabric_e
+current material fabric_e
+current group sponza_282
+Stored values fc 16512
+offset 275298
+parsing material usemtl fabric_d
+current material fabric_d
+current group sponza_283
+Stored values fc 16512
+offset 291810
+parsing material usemtl fabric_a
+current material fabric_a
+current group sponza_284
+Stored values fc 16512
+offset 308322
+parsing material usemtl fabric_e
+current material fabric_e
+current group sponza_285
+Stored values fc 16512
+offset 324834
+parsing material usemtl fabric_d
+current material fabric_d
+current group sponza_286
+Stored values fc 16512
+offset 341346
+parsing material usemtl fabric_e
+current material fabric_e
+current group sponza_287
+Stored values fc 16512
+offset 357858
+parsing material usemtl fabric_a
+current material fabric_a
+current group sponza_288
+Stored values fc 16512
+offset 374370
+parsing material usemtl fabric_d
+current material fabric_d
+current group sponza_289
+Stored values fc 16512
+offset 390882
+parsing material usemtl flagpole
+current material flagpole
+current group sponza_290
+Stored values fc 1368
+offset 407394
+parsing material usemtl flagpole
+current material flagpole
+current group sponza_291
+Stored values fc 576
+offset 408762
+parsing material usemtl flagpole
+current material flagpole
+current group sponza_292
+Stored values fc 1368
+offset 409338
+parsing material usemtl flagpole
+current material flagpole
+current group sponza_293
+Stored values fc 1368
+offset 410706
+parsing material usemtl flagpole
+current material flagpole
+current group sponza_294
+Stored values fc 576
+offset 412074
+parsing material usemtl flagpole
+current material flagpole
+current group sponza_295
+Stored values fc 1368
+offset 412650
+parsing material usemtl flagpole
+current material flagpole
+current group sponza_296
+Stored values fc 1368
+offset 414018
+parsing material usemtl flagpole
+current material flagpole
+current group sponza_297
+Stored values fc 576
+offset 415386
+parsing material usemtl flagpole
+current material flagpole
+current group sponza_298
+Stored values fc 1368
+offset 415962
+parsing material usemtl flagpole
+current material flagpole
+current group sponza_299
+Stored values fc 1368
+offset 417330
+parsing material usemtl flagpole
+current material flagpole
+current group sponza_300
+Stored values fc 576
+offset 418698
+parsing material usemtl flagpole
+current material flagpole
+current group sponza_301
+Stored values fc 1368
+offset 419274
+parsing material usemtl flagpole
+current material flagpole
+current group sponza_302
+Stored values fc 1368
+offset 420642
+parsing material usemtl flagpole
+current material flagpole
+current group sponza_303
+Stored values fc 576
+offset 422010
+parsing material usemtl flagpole
+current material flagpole
+current group sponza_304
+Stored values fc 1368
+offset 422586
+parsing material usemtl flagpole
+current material flagpole
+current group sponza_305
+Stored values fc 1368
+offset 423954
+parsing material usemtl flagpole
+current material flagpole
+current group sponza_306
+Stored values fc 576
+offset 425322
+parsing material usemtl flagpole
+current material flagpole
+current group sponza_307
+Stored values fc 1368
+offset 425898
+parsing material usemtl flagpole
+current material flagpole
+current group sponza_308
+Stored values fc 1368
+offset 427266
+parsing material usemtl flagpole
+current material flagpole
+current group sponza_309
+Stored values fc 576
+offset 428634
+parsing material usemtl flagpole
+current material flagpole
+current group sponza_310
+Stored values fc 1368
+offset 429210
+parsing material usemtl flagpole
+current material flagpole
+current group sponza_311
+Stored values fc 1368
+offset 430578
+parsing material usemtl flagpole
+current material flagpole
+current group sponza_312
+Stored values fc 576
+offset 431946
+parsing material usemtl flagpole
+current material flagpole
+current group sponza_313
+Stored values fc 1368
+offset 432522
+parsing material usemtl flagpole
+current material flagpole
+current group sponza_314
+Stored values fc 1368
+offset 433890
+parsing material usemtl flagpole
+current material flagpole
+current group sponza_315
+Stored values fc 576
+offset 435258
+parsing material usemtl flagpole
+current material flagpole
+current group sponza_316
+Stored values fc 1368
+offset 435834
+parsing material usemtl flagpole
+current material flagpole
+current group sponza_317
+Stored values fc 1368
+offset 437202
+parsing material usemtl flagpole
+current material flagpole
+current group sponza_318
+Stored values fc 576
+offset 438570
+parsing material usemtl flagpole
+current material flagpole
+current group sponza_319
+Stored values fc 1368
+offset 439146
+parsing material usemtl fabric_g
+current material fabric_g
+current group sponza_320
+Stored values fc 14592
+offset 440514
+parsing material usemtl fabric_c
+current material fabric_c
+current group sponza_321
+Stored values fc 13824
+offset 455106
+parsing material usemtl fabric_f
+current material fabric_f
+current group sponza_322
+Stored values fc 14592
+offset 468930
+parsing material usemtl fabric_c
+current material fabric_c
+current group sponza_323
+Stored values fc 14592
+offset 483522
+parsing material usemtl fabric_f
+current material fabric_f
+current group sponza_324
+Stored values fc 13824
+offset 498114
+parsing material usemtl fabric_c
+current material fabric_c
+current group sponza_325
+Stored values fc 14592
+offset 511938
+parsing material usemtl fabric_g
+current material fabric_g
+current group sponza_326
+Stored values fc 13824
+offset 526530
+parsing material usemtl fabric_f
+current material fabric_f
+current group sponza_327
+Stored values fc 14592
+offset 540354
+parsing material usemtl fabric_c
+current material fabric_c
+current group sponza_328
+Stored values fc 13824
+offset 554946
+parsing material usemtl fabric_g
+current material fabric_g
+current group sponza_329
+Stored values fc 14592
+offset 568770
+parsing material usemtl chain
+current material chain
+current group sponza_330
+Stored values fc 6
+offset 583362
+parsing material usemtl chain
+current material chain
+current group sponza_331
+Stored values fc 6
+offset 583368
+parsing material usemtl chain
+current material chain
+current group sponza_332
+Stored values fc 6
+offset 583374
+parsing material usemtl chain
+current material chain
+current group sponza_333
+Stored values fc 6
+offset 583380
+parsing material usemtl vase_hanging
+current material vase_hanging
+current group sponza_334
+Stored values fc 4923
+offset 583386
+parsing material usemtl vase_hanging
+current material vase_hanging
+current group sponza_335
+Stored values fc 1674
+offset 588309
+parsing material usemtl vase_hanging
+current material vase_hanging
+current group sponza_336
+Stored values fc 3732
+offset 589983
+parsing material usemtl vase_hanging
+current material vase_hanging
+current group sponza_337
+Stored values fc 3732
+offset 593715
+parsing material usemtl vase_hanging
+current material vase_hanging
+current group sponza_338
+Stored values fc 810
+offset 597447
+parsing material usemtl chain
+current material chain
+current group sponza_339
+Stored values fc 6
+offset 598257
+parsing material usemtl chain
+current material chain
+current group sponza_340
+Stored values fc 6
+offset 598263
+parsing material usemtl chain
+current material chain
+current group sponza_341
+Stored values fc 6
+offset 598269
+parsing material usemtl chain
+current material chain
+current group sponza_342
+Stored values fc 6
+offset 598275
+parsing material usemtl vase_hanging
+current material vase_hanging
+current group sponza_343
+Stored values fc 4923
+offset 598281
+parsing material usemtl vase_hanging
+current material vase_hanging
+current group sponza_344
+Stored values fc 1674
+offset 603204
+parsing material usemtl vase_hanging
+current material vase_hanging
+current group sponza_345
+Stored values fc 3732
+offset 604878
+parsing material usemtl vase_hanging
+current material vase_hanging
+current group sponza_346
+Stored values fc 3732
+offset 608610
+parsing material usemtl vase_hanging
+current material vase_hanging
+current group sponza_347
+Stored values fc 810
+offset 612342
+parsing material usemtl chain
+current material chain
+current group sponza_348
+Stored values fc 6
+offset 613152
+parsing material usemtl chain
+current material chain
+current group sponza_349
+Stored values fc 6
+offset 613158
+parsing material usemtl chain
+current material chain
+current group sponza_350
+Stored values fc 6
+offset 613164
+parsing material usemtl chain
+current material chain
+current group sponza_351
+Stored values fc 6
+offset 613170
+parsing material usemtl vase_hanging
+current material vase_hanging
+current group sponza_352
+Stored values fc 4923
+offset 613176
+parsing material usemtl vase_hanging
+current material vase_hanging
+current group sponza_353
+Stored values fc 1674
+offset 618099
+parsing material usemtl vase_hanging
+current material vase_hanging
+current group sponza_354
+Stored values fc 3732
+offset 619773
+parsing material usemtl vase_hanging
+current material vase_hanging
+current group sponza_355
+Stored values fc 3732
+offset 623505
+parsing material usemtl vase_hanging
+current material vase_hanging
+current group sponza_356
+Stored values fc 810
+offset 627237
+parsing material usemtl chain
+current material chain
+current group sponza_357
+Stored values fc 6
+offset 628047
+parsing material usemtl chain
+current material chain
+current group sponza_358
+Stored values fc 6
+offset 628053
+parsing material usemtl chain
+current material chain
+current group sponza_359
+Stored values fc 6
+offset 628059
+parsing material usemtl chain
+current material chain
+current group sponza_360
+Stored values fc 6
+offset 628065
+parsing material usemtl vase_hanging
+current material vase_hanging
+current group sponza_361
+Stored values fc 4923
+offset 628071
+parsing material usemtl vase_hanging
+current material vase_hanging
+current group sponza_362
+Stored values fc 1674
+offset 632994
+parsing material usemtl vase_hanging
+current material vase_hanging
+current group sponza_363
+Stored values fc 3732
+offset 634668
+parsing material usemtl vase_hanging
+current material vase_hanging
+current group sponza_364
+Stored values fc 3732
+offset 638400
+parsing material usemtl vase_hanging
+current material vase_hanging
+current group sponza_365
+Stored values fc 810
+offset 642132
+parsing material usemtl VasePlant
+current material VasePlant
+parsing material usemtl vase_round
+current material vase_round
+current group sponza_366
+Stored values fc 8037
+offset 642942
+parsing material usemtl VasePlant
+current material VasePlant
+parsing material usemtl vase_round
+current material vase_round
+current group sponza_367
+Stored values fc 8037
+offset 650979
+parsing material usemtl VasePlant
+current material VasePlant
+parsing material usemtl vase_round
+current material vase_round
+current group sponza_368
+Stored values fc 8037
+offset 659016
+parsing material usemtl VasePlant
+current material VasePlant
+parsing material usemtl vase_round
+current material vase_round
+current group sponza_369
+Stored values fc 7833
+offset 667053
+parsing material usemtl VasePlant
+current material VasePlant
+parsing material usemtl vase_round
+current material vase_round
+current group sponza_370
+Stored values fc 7833
+offset 674886
+parsing material usemtl VasePlant
+current material VasePlant
+parsing material usemtl vase_round
+current material vase_round
+current group sponza_371
+Stored values fc 7833
+offset 682719
+parsing material usemtl VasePlant
+current material VasePlant
+parsing material usemtl vase_round
+current material vase_round
+current group sponza_372
+Stored values fc 7833
+offset 690552
+parsing material usemtl vase
+current material vase
+current group sponza_373
+Stored values fc 6888
+offset 698385
+parsing material usemtl vase
+current material vase
+current group sponza_374
+Stored values fc 6888
+offset 705273
+parsing material usemtl vase
+current material vase
+current group sponza_375
+Stored values fc 6888
+offset 712161
+parsing material usemtl vase
+current material vase
+current group sponza_376
+Stored values fc 6888
+offset 719049
+parsing material usemtl Material__25
+current material Material__25
+parsing material usemtl Material__298
+current material Material__298
+current group sponza_377
+Stored values fc 8649
+offset 725937
+parsing material usemtl Material__25
+current material Material__25
+parsing material usemtl Material__298
+current material Material__298
+current group sponza_378
+Stored values fc 8649
+offset 734586
+parsing material usemtl bricks
+current material bricks
+current group sponza_379
+Stored values fc 84
+offset 743235
+parsing material usemtl roof
+current material roof
+current group sponza_380
+Stored values fc 1488
+offset 743319
+parsing material usemtl roof
+current material roof
+current group sponza_381
+Stored values fc 41964
+offset 744807
+parsing material usemtl bricks
+current material bricks
+Doing Tri Data
+------------------------------------
+Name sponza_377
+Material Material__298
+Num verts 8649
+Start Index 725937
+------------------------------------
+------------------------------------
+Name sponza_03
+Material Material__298
+Num verts 4086
+Start Index 18957
+------------------------------------
+------------------------------------
+Name sponza_378
+Material Material__298
+Num verts 8649
+Start Index 734586
+------------------------------------
+------------------------------------
+Name sponza_257
+Material Material__47
+Num verts 54
+Start Index 175296
+------------------------------------
+------------------------------------
+Name sponza_63
+Material arch
+Num verts 120
+Start Index 75603
+------------------------------------
+------------------------------------
+Name sponza_62
+Material arch
+Num verts 120
+Start Index 75483
+------------------------------------
+------------------------------------
+Name sponza_61
+Material arch
+Num verts 120
+Start Index 75363
+------------------------------------
+------------------------------------
+Name sponza_60
+Material arch
+Num verts 120
+Start Index 75243
+------------------------------------
+------------------------------------
+Name sponza_59
+Material arch
+Num verts 120
+Start Index 75123
+------------------------------------
+------------------------------------
+Name sponza_58
+Material arch
+Num verts 120
+Start Index 75003
+------------------------------------
+------------------------------------
+Name sponza_57
+Material arch
+Num verts 120
+Start Index 74883
+------------------------------------
+------------------------------------
+Name sponza_56
+Material arch
+Num verts 120
+Start Index 74763
+------------------------------------
+------------------------------------
+Name sponza_55
+Material arch
+Num verts 120
+Start Index 74643
+------------------------------------
+------------------------------------
+Name sponza_53
+Material arch
+Num verts 480
+Start Index 73827
+------------------------------------
+------------------------------------
+Name sponza_51
+Material arch
+Num verts 480
+Start Index 73011
+------------------------------------
+------------------------------------
+Name sponza_49
+Material arch
+Num verts 480
+Start Index 72195
+------------------------------------
+------------------------------------
+Name sponza_47
+Material arch
+Num verts 480
+Start Index 71379
+------------------------------------
+------------------------------------
+Name sponza_37
+Material arch
+Num verts 480
+Start Index 67299
+------------------------------------
+------------------------------------
+Name sponza_45
+Material arch
+Num verts 480
+Start Index 70563
+------------------------------------
+------------------------------------
+Name sponza_39
+Material arch
+Num verts 480
+Start Index 68115
+------------------------------------
+------------------------------------
+Name sponza_43
+Material arch
+Num verts 480
+Start Index 69747
+------------------------------------
+------------------------------------
+Name sponza_41
+Material arch
+Num verts 480
+Start Index 68931
+------------------------------------
+------------------------------------
+Name sponza_124
+Material arch
+Num verts 5580
+Start Index 100092
+------------------------------------
+------------------------------------
+Name sponza_123
+Material arch
+Num verts 5580
+Start Index 94512
+------------------------------------
+------------------------------------
+Name sponza_122
+Material arch
+Num verts 48
+Start Index 94464
+------------------------------------
+------------------------------------
+Name sponza_07
+Material arch
+Num verts 840
+Start Index 23367
+------------------------------------
+------------------------------------
+Name sponza_67
+Material arch
+Num verts 840
+Start Index 76059
+------------------------------------
+------------------------------------
+Name sponza_17
+Material arch
+Num verts 8688
+Start Index 35571
+------------------------------------
+------------------------------------
+Name sponza_65
+Material arch
+Num verts 120
+Start Index 75843
+------------------------------------
+------------------------------------
+Name sponza_20
+Material arch
+Num verts 1644
+Start Index 51303
+------------------------------------
+------------------------------------
+Name sponza_21
+Material arch
+Num verts 1644
+Start Index 52947
+------------------------------------
+------------------------------------
+Name sponza_64
+Material arch
+Num verts 120
+Start Index 75723
+------------------------------------
+------------------------------------
+Name sponza_66
+Material bricks
+Num verts 96
+Start Index 75963
+------------------------------------
+------------------------------------
+Name sponza_68
+Material bricks
+Num verts 54
+Start Index 76899
+------------------------------------
+------------------------------------
+Name sponza_69
+Material bricks
+Num verts 108
+Start Index 76953
+------------------------------------
+------------------------------------
+Name sponza_71
+Material bricks
+Num verts 318
+Start Index 77541
+------------------------------------
+------------------------------------
+Name sponza_72
+Material bricks
+Num verts 318
+Start Index 77859
+------------------------------------
+------------------------------------
+Name sponza_75
+Material bricks
+Num verts 150
+Start Index 79845
+------------------------------------
+------------------------------------
+Name sponza_258
+Material bricks
+Num verts 192
+Start Index 175350
+------------------------------------
+------------------------------------
+Name sponza_116
+Material bricks
+Num verts 150
+Start Index 90219
+------------------------------------
+------------------------------------
+Name sponza_382
+Material bricks
+Num verts 30
+Start Index 786771
+------------------------------------
+------------------------------------
+Name sponza_379
+Material bricks
+Num verts 84
+Start Index 743235
+------------------------------------
+------------------------------------
+Name sponza_05
+Material bricks
+Num verts 24
+Start Index 23043
+------------------------------------
+------------------------------------
+Name sponza_36
+Material bricks
+Num verts 444
+Start Index 66855
+------------------------------------
+------------------------------------
+Name sponza_06
+Material bricks
+Num verts 300
+Start Index 23067
+------------------------------------
+------------------------------------
+Name sponza_34
+Material bricks
+Num verts 612
+Start Index 65631
+------------------------------------
+------------------------------------
+Name sponza_19
+Material ceiling
+Num verts 6996
+Start Index 44307
+------------------------------------
+------------------------------------
+Name sponza_08
+Material ceiling
+Num verts 6996
+Start Index 24207
+------------------------------------
+------------------------------------
+Name sponza_54
+Material ceiling
+Num verts 336
+Start Index 74307
+------------------------------------
+------------------------------------
+Name sponza_52
+Material ceiling
+Num verts 336
+Start Index 73491
+------------------------------------
+------------------------------------
+Name sponza_50
+Material ceiling
+Num verts 336
+Start Index 72675
+------------------------------------
+------------------------------------
+Name sponza_35
+Material ceiling
+Num verts 612
+Start Index 66243
+------------------------------------
+------------------------------------
+Name sponza_48
+Material ceiling
+Num verts 336
+Start Index 71859
+------------------------------------
+------------------------------------
+Name sponza_46
+Material ceiling
+Num verts 336
+Start Index 71043
+------------------------------------
+------------------------------------
+Name sponza_38
+Material ceiling
+Num verts 336
+Start Index 67779
+------------------------------------
+------------------------------------
+Name sponza_44
+Material ceiling
+Num verts 336
+Start Index 70227
+------------------------------------
+------------------------------------
+Name sponza_40
+Material ceiling
+Num verts 336
+Start Index 68595
+------------------------------------
+------------------------------------
+Name sponza_42
+Material ceiling
+Num verts 336
+Start Index 69411
+------------------------------------
+------------------------------------
+Name sponza_330
+Material chain
+Num verts 6
+Start Index 583362
+------------------------------------
+------------------------------------
+Name sponza_331
+Material chain
+Num verts 6
+Start Index 583368
+------------------------------------
+------------------------------------
+Name sponza_332
+Material chain
+Num verts 6
+Start Index 583374
+------------------------------------
+------------------------------------
+Name sponza_333
+Material chain
+Num verts 6
+Start Index 583380
+------------------------------------
+------------------------------------
+Name sponza_339
+Material chain
+Num verts 6
+Start Index 598257
+------------------------------------
+------------------------------------
+Name sponza_340
+Material chain
+Num verts 6
+Start Index 598263
+------------------------------------
+------------------------------------
+Name sponza_341
+Material chain
+Num verts 6
+Start Index 598269
+------------------------------------
+------------------------------------
+Name sponza_342
+Material chain
+Num verts 6
+Start Index 598275
+------------------------------------
+------------------------------------
+Name sponza_348
+Material chain
+Num verts 6
+Start Index 613152
+------------------------------------
+------------------------------------
+Name sponza_349
+Material chain
+Num verts 6
+Start Index 613158
+------------------------------------
+------------------------------------
+Name sponza_350
+Material chain
+Num verts 6
+Start Index 613164
+------------------------------------
+------------------------------------
+Name sponza_351
+Material chain
+Num verts 6
+Start Index 613170
+------------------------------------
+------------------------------------
+Name sponza_357
+Material chain
+Num verts 6
+Start Index 628047
+------------------------------------
+------------------------------------
+Name sponza_358
+Material chain
+Num verts 6
+Start Index 628053
+------------------------------------
+------------------------------------
+Name sponza_360
+Material chain
+Num verts 6
+Start Index 628065
+------------------------------------
+------------------------------------
+Name sponza_359
+Material chain
+Num verts 6
+Start Index 628059
+------------------------------------
+------------------------------------
+Name sponza_118
+Material column_a
+Num verts 1020
+Start Index 90384
+------------------------------------
+------------------------------------
+Name sponza_119
+Material column_a
+Num verts 1020
+Start Index 91404
+------------------------------------
+------------------------------------
+Name sponza_120
+Material column_a
+Num verts 1020
+Start Index 92424
+------------------------------------
+------------------------------------
+Name sponza_121
+Material column_a
+Num verts 1020
+Start Index 93444
+------------------------------------
+------------------------------------
+Name sponza_16
+Material column_a
+Num verts 546
+Start Index 35025
+------------------------------------
+------------------------------------
+Name sponza_15
+Material column_a
+Num verts 546
+Start Index 34479
+------------------------------------
+------------------------------------
+Name sponza_14
+Material column_a
+Num verts 546
+Start Index 33933
+------------------------------------
+------------------------------------
+Name sponza_13
+Material column_a
+Num verts 546
+Start Index 33387
+------------------------------------
+------------------------------------
+Name sponza_09
+Material column_a
+Num verts 546
+Start Index 31203
+------------------------------------
+------------------------------------
+Name sponza_12
+Material column_a
+Num verts 546
+Start Index 32841
+------------------------------------
+------------------------------------
+Name sponza_10
+Material column_a
+Num verts 546
+Start Index 31749
+------------------------------------
+------------------------------------
+Name sponza_11
+Material column_a
+Num verts 546
+Start Index 32295
+------------------------------------
+------------------------------------
+Name sponza_198
+Material column_b
+Num verts 54
+Start Index 144702
+------------------------------------
+------------------------------------
+Name sponza_199
+Material column_b
+Num verts 132
+Start Index 144756
+------------------------------------
+------------------------------------
+Name sponza_200
+Material column_b
+Num verts 900
+Start Index 144888
+------------------------------------
+------------------------------------
+Name sponza_201
+Material column_b
+Num verts 498
+Start Index 145788
+------------------------------------
+------------------------------------
+Name sponza_202
+Material column_b
+Num verts 3660
+Start Index 146286
+------------------------------------
+------------------------------------
+Name sponza_203
+Material column_b
+Num verts 54
+Start Index 149946
+------------------------------------
+------------------------------------
+Name sponza_204
+Material column_b
+Num verts 132
+Start Index 150000
+------------------------------------
+------------------------------------
+Name sponza_205
+Material column_b
+Num verts 54
+Start Index 150132
+------------------------------------
+------------------------------------
+Name sponza_206
+Material column_b
+Num verts 132
+Start Index 150186
+------------------------------------
+------------------------------------
+Name sponza_207
+Material column_b
+Num verts 54
+Start Index 150318
+------------------------------------
+------------------------------------
+Name sponza_208
+Material column_b
+Num verts 132
+Start Index 150372
+------------------------------------
+------------------------------------
+Name sponza_209
+Material column_b
+Num verts 54
+Start Index 150504
+------------------------------------
+------------------------------------
+Name sponza_214
+Material column_b
+Num verts 54
+Start Index 155748
+------------------------------------
+------------------------------------
+Name sponza_213
+Material column_b
+Num verts 3660
+Start Index 152088
+------------------------------------
+------------------------------------
+Name sponza_212
+Material column_b
+Num verts 498
+Start Index 151590
+------------------------------------
+------------------------------------
+Name sponza_210
+Material column_b
+Num verts 132
+Start Index 150558
+------------------------------------
+------------------------------------
+Name sponza_211
+Material column_b
+Num verts 900
+Start Index 150690
+------------------------------------
+------------------------------------
+Name sponza_173
+Material column_b
+Num verts 132
+Start Index 132780
+------------------------------------
+------------------------------------
+Name sponza_174
+Material column_b
+Num verts 54
+Start Index 132912
+------------------------------------
+------------------------------------
+Name sponza_175
+Material column_b
+Num verts 132
+Start Index 132966
+------------------------------------
+------------------------------------
+Name sponza_176
+Material column_b
+Num verts 54
+Start Index 133098
+------------------------------------
+------------------------------------
+Name sponza_177
+Material column_b
+Num verts 132
+Start Index 133152
+------------------------------------
+------------------------------------
+Name sponza_178
+Material column_b
+Num verts 900
+Start Index 133284
+------------------------------------
+------------------------------------
+Name sponza_179
+Material column_b
+Num verts 498
+Start Index 134184
+------------------------------------
+------------------------------------
+Name sponza_180
+Material column_b
+Num verts 3660
+Start Index 134682
+------------------------------------
+------------------------------------
+Name sponza_181
+Material column_b
+Num verts 54
+Start Index 138342
+------------------------------------
+------------------------------------
+Name sponza_182
+Material column_b
+Num verts 132
+Start Index 138396
+------------------------------------
+------------------------------------
+Name sponza_183
+Material column_b
+Num verts 54
+Start Index 138528
+------------------------------------
+------------------------------------
+Name sponza_184
+Material column_b
+Num verts 132
+Start Index 138582
+------------------------------------
+------------------------------------
+Name sponza_185
+Material column_b
+Num verts 54
+Start Index 138714
+------------------------------------
+------------------------------------
+Name sponza_186
+Material column_b
+Num verts 132
+Start Index 138768
+------------------------------------
+------------------------------------
+Name sponza_187
+Material column_b
+Num verts 54
+Start Index 138900
+------------------------------------
+------------------------------------
+Name sponza_188
+Material column_b
+Num verts 132
+Start Index 138954
+------------------------------------
+------------------------------------
+Name sponza_189
+Material column_b
+Num verts 900
+Start Index 139086
+------------------------------------
+------------------------------------
+Name sponza_190
+Material column_b
+Num verts 498
+Start Index 139986
+------------------------------------
+------------------------------------
+Name sponza_191
+Material column_b
+Num verts 3660
+Start Index 140484
+------------------------------------
+------------------------------------
+Name sponza_192
+Material column_b
+Num verts 54
+Start Index 144144
+------------------------------------
+------------------------------------
+Name sponza_193
+Material column_b
+Num verts 132
+Start Index 144198
+------------------------------------
+------------------------------------
+Name sponza_194
+Material column_b
+Num verts 54
+Start Index 144330
+------------------------------------
+------------------------------------
+Name sponza_195
+Material column_b
+Num verts 132
+Start Index 144384
+------------------------------------
+------------------------------------
+Name sponza_196
+Material column_b
+Num verts 54
+Start Index 144516
+------------------------------------
+------------------------------------
+Name sponza_197
+Material column_b
+Num verts 132
+Start Index 144570
+------------------------------------
+------------------------------------
+Name sponza_236
+Material column_b
+Num verts 54
+Start Index 167352
+------------------------------------
+------------------------------------
+Name sponza_237
+Material column_b
+Num verts 132
+Start Index 167406
+------------------------------------
+------------------------------------
+Name sponza_238
+Material column_b
+Num verts 54
+Start Index 167538
+------------------------------------
+------------------------------------
+Name sponza_239
+Material column_b
+Num verts 132
+Start Index 167592
+------------------------------------
+------------------------------------
+Name sponza_240
+Material column_b
+Num verts 54
+Start Index 167724
+------------------------------------
+------------------------------------
+Name sponza_241
+Material column_b
+Num verts 132
+Start Index 167778
+------------------------------------
+------------------------------------
+Name sponza_242
+Material column_b
+Num verts 54
+Start Index 167910
+------------------------------------
+------------------------------------
+Name sponza_243
+Material column_b
+Num verts 132
+Start Index 167964
+------------------------------------
+------------------------------------
+Name sponza_244
+Material column_b
+Num verts 900
+Start Index 168096
+------------------------------------
+------------------------------------
+Name sponza_245
+Material column_b
+Num verts 498
+Start Index 168996
+------------------------------------
+------------------------------------
+Name sponza_246
+Material column_b
+Num verts 3660
+Start Index 169494
+------------------------------------
+------------------------------------
+Name sponza_247
+Material column_b
+Num verts 54
+Start Index 173154
+------------------------------------
+------------------------------------
+Name sponza_248
+Material column_b
+Num verts 132
+Start Index 173208
+------------------------------------
+------------------------------------
+Name sponza_249
+Material column_b
+Num verts 54
+Start Index 173340
+------------------------------------
+------------------------------------
+Name sponza_250
+Material column_b
+Num verts 132
+Start Index 173394
+------------------------------------
+------------------------------------
+Name sponza_251
+Material column_b
+Num verts 54
+Start Index 173526
+------------------------------------
+------------------------------------
+Name sponza_252
+Material column_b
+Num verts 132
+Start Index 173580
+------------------------------------
+------------------------------------
+Name sponza_253
+Material column_b
+Num verts 54
+Start Index 173712
+------------------------------------
+------------------------------------
+Name sponza_254
+Material column_b
+Num verts 132
+Start Index 173766
+------------------------------------
+------------------------------------
+Name sponza_255
+Material column_b
+Num verts 900
+Start Index 173898
+------------------------------------
+------------------------------------
+Name sponza_256
+Material column_b
+Num verts 498
+Start Index 174798
+------------------------------------
+------------------------------------
+Name sponza_215
+Material column_b
+Num verts 132
+Start Index 155802
+------------------------------------
+------------------------------------
+Name sponza_216
+Material column_b
+Num verts 54
+Start Index 155934
+------------------------------------
+------------------------------------
+Name sponza_217
+Material column_b
+Num verts 132
+Start Index 155988
+------------------------------------
+------------------------------------
+Name sponza_218
+Material column_b
+Num verts 54
+Start Index 156120
+------------------------------------
+------------------------------------
+Name sponza_219
+Material column_b
+Num verts 132
+Start Index 156174
+------------------------------------
+------------------------------------
+Name sponza_220
+Material column_b
+Num verts 54
+Start Index 156306
+------------------------------------
+------------------------------------
+Name sponza_221
+Material column_b
+Num verts 132
+Start Index 156360
+------------------------------------
+------------------------------------
+Name sponza_222
+Material column_b
+Num verts 900
+Start Index 156492
+------------------------------------
+------------------------------------
+Name sponza_223
+Material column_b
+Num verts 498
+Start Index 157392
+------------------------------------
+------------------------------------
+Name sponza_224
+Material column_b
+Num verts 3660
+Start Index 157890
+------------------------------------
+------------------------------------
+Name sponza_225
+Material column_b
+Num verts 54
+Start Index 161550
+------------------------------------
+------------------------------------
+Name sponza_226
+Material column_b
+Num verts 132
+Start Index 161604
+------------------------------------
+------------------------------------
+Name sponza_227
+Material column_b
+Num verts 54
+Start Index 161736
+------------------------------------
+------------------------------------
+Name sponza_228
+Material column_b
+Num verts 132
+Start Index 161790
+------------------------------------
+------------------------------------
+Name sponza_229
+Material column_b
+Num verts 54
+Start Index 161922
+------------------------------------
+------------------------------------
+Name sponza_230
+Material column_b
+Num verts 132
+Start Index 161976
+------------------------------------
+------------------------------------
+Name sponza_231
+Material column_b
+Num verts 54
+Start Index 162108
+------------------------------------
+------------------------------------
+Name sponza_232
+Material column_b
+Num verts 132
+Start Index 162162
+------------------------------------
+------------------------------------
+Name sponza_233
+Material column_b
+Num verts 900
+Start Index 162294
+------------------------------------
+------------------------------------
+Name sponza_234
+Material column_b
+Num verts 498
+Start Index 163194
+------------------------------------
+------------------------------------
+Name sponza_235
+Material column_b
+Num verts 3660
+Start Index 163692
+------------------------------------
+------------------------------------
+Name sponza_148
+Material column_b
+Num verts 54
+Start Index 120936
+------------------------------------
+------------------------------------
+Name sponza_147
+Material column_b
+Num verts 3660
+Start Index 117276
+------------------------------------
+------------------------------------
+Name sponza_146
+Material column_b
+Num verts 498
+Start Index 116778
+------------------------------------
+------------------------------------
+Name sponza_145
+Material column_b
+Num verts 900
+Start Index 115878
+------------------------------------
+------------------------------------
+Name sponza_144
+Material column_b
+Num verts 132
+Start Index 115746
+------------------------------------
+------------------------------------
+Name sponza_143
+Material column_b
+Num verts 54
+Start Index 115692
+------------------------------------
+------------------------------------
+Name sponza_142
+Material column_b
+Num verts 132
+Start Index 115560
+------------------------------------
+------------------------------------
+Name sponza_141
+Material column_b
+Num verts 54
+Start Index 115506
+------------------------------------
+------------------------------------
+Name sponza_140
+Material column_b
+Num verts 132
+Start Index 115374
+------------------------------------
+------------------------------------
+Name sponza_139
+Material column_b
+Num verts 54
+Start Index 115320
+------------------------------------
+------------------------------------
+Name sponza_138
+Material column_b
+Num verts 132
+Start Index 115188
+------------------------------------
+------------------------------------
+Name sponza_137
+Material column_b
+Num verts 54
+Start Index 115134
+------------------------------------
+------------------------------------
+Name sponza_136
+Material column_b
+Num verts 3660
+Start Index 111474
+------------------------------------
+------------------------------------
+Name sponza_135
+Material column_b
+Num verts 498
+Start Index 110976
+------------------------------------
+------------------------------------
+Name sponza_134
+Material column_b
+Num verts 900
+Start Index 110076
+------------------------------------
+------------------------------------
+Name sponza_133
+Material column_b
+Num verts 132
+Start Index 109944
+------------------------------------
+------------------------------------
+Name sponza_132
+Material column_b
+Num verts 54
+Start Index 109890
+------------------------------------
+------------------------------------
+Name sponza_131
+Material column_b
+Num verts 132
+Start Index 109758
+------------------------------------
+------------------------------------
+Name sponza_130
+Material column_b
+Num verts 54
+Start Index 109704
+------------------------------------
+------------------------------------
+Name sponza_129
+Material column_b
+Num verts 132
+Start Index 109572
+------------------------------------
+------------------------------------
+Name sponza_128
+Material column_b
+Num verts 54
+Start Index 109518
+------------------------------------
+------------------------------------
+Name sponza_127
+Material column_b
+Num verts 132
+Start Index 109386
+------------------------------------
+------------------------------------
+Name sponza_126
+Material column_b
+Num verts 54
+Start Index 109332
+------------------------------------
+------------------------------------
+Name sponza_125
+Material column_b
+Num verts 3660
+Start Index 105672
+------------------------------------
+------------------------------------
+Name sponza_172
+Material column_b
+Num verts 54
+Start Index 132726
+------------------------------------
+------------------------------------
+Name sponza_171
+Material column_b
+Num verts 132
+Start Index 132594
+------------------------------------
+------------------------------------
+Name sponza_170
+Material column_b
+Num verts 54
+Start Index 132540
+------------------------------------
+------------------------------------
+Name sponza_169
+Material column_b
+Num verts 3660
+Start Index 128880
+------------------------------------
+------------------------------------
+Name sponza_168
+Material column_b
+Num verts 498
+Start Index 128382
+------------------------------------
+------------------------------------
+Name sponza_167
+Material column_b
+Num verts 900
+Start Index 127482
+------------------------------------
+------------------------------------
+Name sponza_166
+Material column_b
+Num verts 132
+Start Index 127350
+------------------------------------
+------------------------------------
+Name sponza_165
+Material column_b
+Num verts 54
+Start Index 127296
+------------------------------------
+------------------------------------
+Name sponza_164
+Material column_b
+Num verts 132
+Start Index 127164
+------------------------------------
+------------------------------------
+Name sponza_163
+Material column_b
+Num verts 54
+Start Index 127110
+------------------------------------
+------------------------------------
+Name sponza_162
+Material column_b
+Num verts 132
+Start Index 126978
+------------------------------------
+------------------------------------
+Name sponza_161
+Material column_b
+Num verts 54
+Start Index 126924
+------------------------------------
+------------------------------------
+Name sponza_149
+Material column_b
+Num verts 132
+Start Index 120990
+------------------------------------
+------------------------------------
+Name sponza_150
+Material column_b
+Num verts 54
+Start Index 121122
+------------------------------------
+------------------------------------
+Name sponza_151
+Material column_b
+Num verts 132
+Start Index 121176
+------------------------------------
+------------------------------------
+Name sponza_152
+Material column_b
+Num verts 54
+Start Index 121308
+------------------------------------
+------------------------------------
+Name sponza_153
+Material column_b
+Num verts 132
+Start Index 121362
+------------------------------------
+------------------------------------
+Name sponza_154
+Material column_b
+Num verts 54
+Start Index 121494
+------------------------------------
+------------------------------------
+Name sponza_155
+Material column_b
+Num verts 132
+Start Index 121548
+------------------------------------
+------------------------------------
+Name sponza_156
+Material column_b
+Num verts 900
+Start Index 121680
+------------------------------------
+------------------------------------
+Name sponza_157
+Material column_b
+Num verts 498
+Start Index 122580
+------------------------------------
+------------------------------------
+Name sponza_158
+Material column_b
+Num verts 3660
+Start Index 123078
+------------------------------------
+------------------------------------
+Name sponza_159
+Material column_b
+Num verts 54
+Start Index 126738
+------------------------------------
+------------------------------------
+Name sponza_160
+Material column_b
+Num verts 132
+Start Index 126792
+------------------------------------
+------------------------------------
+Name sponza_22
+Material column_c
+Num verts 1188
+Start Index 54591
+------------------------------------
+------------------------------------
+Name sponza_78
+Material column_c
+Num verts 264
+Start Index 80439
+------------------------------------
+------------------------------------
+Name sponza_79
+Material column_c
+Num verts 264
+Start Index 80703
+------------------------------------
+------------------------------------
+Name sponza_80
+Material column_c
+Num verts 264
+Start Index 80967
+------------------------------------
+------------------------------------
+Name sponza_81
+Material column_c
+Num verts 264
+Start Index 81231
+------------------------------------
+------------------------------------
+Name sponza_82
+Material column_c
+Num verts 264
+Start Index 81495
+------------------------------------
+------------------------------------
+Name sponza_83
+Material column_c
+Num verts 264
+Start Index 81759
+------------------------------------
+------------------------------------
+Name sponza_84
+Material column_c
+Num verts 264
+Start Index 82023
+------------------------------------
+------------------------------------
+Name sponza_85
+Material column_c
+Num verts 264
+Start Index 82287
+------------------------------------
+------------------------------------
+Name sponza_86
+Material column_c
+Num verts 264
+Start Index 82551
+------------------------------------
+------------------------------------
+Name sponza_87
+Material column_c
+Num verts 264
+Start Index 82815
+------------------------------------
+------------------------------------
+Name sponza_88
+Material column_c
+Num verts 264
+Start Index 83079
+------------------------------------
+------------------------------------
+Name sponza_89
+Material column_c
+Num verts 264
+Start Index 83343
+------------------------------------
+------------------------------------
+Name sponza_23
+Material column_c
+Num verts 786
+Start Index 55779
+------------------------------------
+------------------------------------
+Name sponza_24
+Material column_c
+Num verts 786
+Start Index 56565
+------------------------------------
+------------------------------------
+Name sponza_25
+Material column_c
+Num verts 786
+Start Index 57351
+------------------------------------
+------------------------------------
+Name sponza_26
+Material column_c
+Num verts 786
+Start Index 58137
+------------------------------------
+------------------------------------
+Name sponza_77
+Material column_c
+Num verts 222
+Start Index 80217
+------------------------------------
+------------------------------------
+Name sponza_76
+Material column_c
+Num verts 222
+Start Index 79995
+------------------------------------
+------------------------------------
+Name sponza_27
+Material column_c
+Num verts 1188
+Start Index 58923
+------------------------------------
+------------------------------------
+Name sponza_28
+Material column_c
+Num verts 1188
+Start Index 60111
+------------------------------------
+------------------------------------
+Name sponza_29
+Material column_c
+Num verts 786
+Start Index 61299
+------------------------------------
+------------------------------------
+Name sponza_30
+Material column_c
+Num verts 786
+Start Index 62085
+------------------------------------
+------------------------------------
+Name sponza_31
+Material column_c
+Num verts 786
+Start Index 62871
+------------------------------------
+------------------------------------
+Name sponza_33
+Material column_c
+Num verts 1188
+Start Index 64443
+------------------------------------
+------------------------------------
+Name sponza_32
+Material column_c
+Num verts 786
+Start Index 63657
+------------------------------------
+------------------------------------
+Name sponza_103
+Material column_c
+Num verts 264
+Start Index 86871
+------------------------------------
+------------------------------------
+Name sponza_104
+Material column_c
+Num verts 264
+Start Index 87135
+------------------------------------
+------------------------------------
+Name sponza_105
+Material column_c
+Num verts 264
+Start Index 87399
+------------------------------------
+------------------------------------
+Name sponza_106
+Material column_c
+Num verts 264
+Start Index 87663
+------------------------------------
+------------------------------------
+Name sponza_107
+Material column_c
+Num verts 264
+Start Index 87927
+------------------------------------
+------------------------------------
+Name sponza_108
+Material column_c
+Num verts 264
+Start Index 88191
+------------------------------------
+------------------------------------
+Name sponza_109
+Material column_c
+Num verts 264
+Start Index 88455
+------------------------------------
+------------------------------------
+Name sponza_110
+Material column_c
+Num verts 264
+Start Index 88719
+------------------------------------
+------------------------------------
+Name sponza_111
+Material column_c
+Num verts 264
+Start Index 88983
+------------------------------------
+------------------------------------
+Name sponza_112
+Material column_c
+Num verts 264
+Start Index 89247
+------------------------------------
+------------------------------------
+Name sponza_113
+Material column_c
+Num verts 264
+Start Index 89511
+------------------------------------
+------------------------------------
+Name sponza_114
+Material column_c
+Num verts 222
+Start Index 89775
+------------------------------------
+------------------------------------
+Name sponza_115
+Material column_c
+Num verts 222
+Start Index 89997
+------------------------------------
+------------------------------------
+Name sponza_90
+Material column_c
+Num verts 264
+Start Index 83607
+------------------------------------
+------------------------------------
+Name sponza_91
+Material column_c
+Num verts 264
+Start Index 83871
+------------------------------------
+------------------------------------
+Name sponza_92
+Material column_c
+Num verts 264
+Start Index 84135
+------------------------------------
+------------------------------------
+Name sponza_93
+Material column_c
+Num verts 264
+Start Index 84399
+------------------------------------
+------------------------------------
+Name sponza_94
+Material column_c
+Num verts 222
+Start Index 84663
+------------------------------------
+------------------------------------
+Name sponza_95
+Material column_c
+Num verts 222
+Start Index 84885
+------------------------------------
+------------------------------------
+Name sponza_96
+Material column_c
+Num verts 222
+Start Index 85107
+------------------------------------
+------------------------------------
+Name sponza_97
+Material column_c
+Num verts 222
+Start Index 85329
+------------------------------------
+------------------------------------
+Name sponza_98
+Material column_c
+Num verts 264
+Start Index 85551
+------------------------------------
+------------------------------------
+Name sponza_99
+Material column_c
+Num verts 264
+Start Index 85815
+------------------------------------
+------------------------------------
+Name sponza_100
+Material column_c
+Num verts 264
+Start Index 86079
+------------------------------------
+------------------------------------
+Name sponza_101
+Material column_c
+Num verts 264
+Start Index 86343
+------------------------------------
+------------------------------------
+Name sponza_102
+Material column_c
+Num verts 264
+Start Index 86607
+------------------------------------
+------------------------------------
+Name sponza_73
+Material details
+Num verts 834
+Start Index 78177
+------------------------------------
+------------------------------------
+Name sponza_74
+Material details
+Num verts 834
+Start Index 79011
+------------------------------------
+------------------------------------
+Name sponza_70
+Material details
+Num verts 480
+Start Index 77061
+------------------------------------
+------------------------------------
+Name sponza_288
+Material fabric_a
+Num verts 16512
+Start Index 374370
+------------------------------------
+------------------------------------
+Name sponza_284
+Material fabric_a
+Num verts 16512
+Start Index 308322
+------------------------------------
+------------------------------------
+Name sponza_321
+Material fabric_c
+Num verts 13824
+Start Index 455106
+------------------------------------
+------------------------------------
+Name sponza_323
+Material fabric_c
+Num verts 14592
+Start Index 483522
+------------------------------------
+------------------------------------
+Name sponza_325
+Material fabric_c
+Num verts 14592
+Start Index 511938
+------------------------------------
+------------------------------------
+Name sponza_328
+Material fabric_c
+Num verts 13824
+Start Index 554946
+------------------------------------
+------------------------------------
+Name sponza_283
+Material fabric_d
+Num verts 16512
+Start Index 291810
+------------------------------------
+------------------------------------
+Name sponza_286
+Material fabric_d
+Num verts 16512
+Start Index 341346
+------------------------------------
+------------------------------------
+Name sponza_289
+Material fabric_d
+Num verts 16512
+Start Index 390882
+------------------------------------
+------------------------------------
+Name sponza_282
+Material fabric_e
+Num verts 16512
+Start Index 275298
+------------------------------------
+------------------------------------
+Name sponza_285
+Material fabric_e
+Num verts 16512
+Start Index 324834
+------------------------------------
+------------------------------------
+Name sponza_287
+Material fabric_e
+Num verts 16512
+Start Index 357858
+------------------------------------
+------------------------------------
+Name sponza_324
+Material fabric_f
+Num verts 13824
+Start Index 498114
+------------------------------------
+------------------------------------
+Name sponza_327
+Material fabric_f
+Num verts 14592
+Start Index 540354
+------------------------------------
+------------------------------------
+Name sponza_322
+Material fabric_f
+Num verts 14592
+Start Index 468930
+------------------------------------
+------------------------------------
+Name sponza_320
+Material fabric_g
+Num verts 14592
+Start Index 440514
+------------------------------------
+------------------------------------
+Name sponza_329
+Material fabric_g
+Num verts 14592
+Start Index 568770
+------------------------------------
+------------------------------------
+Name sponza_326
+Material fabric_g
+Num verts 13824
+Start Index 526530
+------------------------------------
+------------------------------------
+Name sponza_319
+Material flagpole
+Num verts 1368
+Start Index 439146
+------------------------------------
+------------------------------------
+Name sponza_318
+Material flagpole
+Num verts 576
+Start Index 438570
+------------------------------------
+------------------------------------
+Name sponza_317
+Material flagpole
+Num verts 1368
+Start Index 437202
+------------------------------------
+------------------------------------
+Name sponza_316
+Material flagpole
+Num verts 1368
+Start Index 435834
+------------------------------------
+------------------------------------
+Name sponza_315
+Material flagpole
+Num verts 576
+Start Index 435258
+------------------------------------
+------------------------------------
+Name sponza_314
+Material flagpole
+Num verts 1368
+Start Index 433890
+------------------------------------
+------------------------------------
+Name sponza_313
+Material flagpole
+Num verts 1368
+Start Index 432522
+------------------------------------
+------------------------------------
+Name sponza_312
+Material flagpole
+Num verts 576
+Start Index 431946
+------------------------------------
+------------------------------------
+Name sponza_311
+Material flagpole
+Num verts 1368
+Start Index 430578
+------------------------------------
+------------------------------------
+Name sponza_310
+Material flagpole
+Num verts 1368
+Start Index 429210
+------------------------------------
+------------------------------------
+Name sponza_309
+Material flagpole
+Num verts 576
+Start Index 428634
+------------------------------------
+------------------------------------
+Name sponza_308
+Material flagpole
+Num verts 1368
+Start Index 427266
+------------------------------------
+------------------------------------
+Name sponza_307
+Material flagpole
+Num verts 1368
+Start Index 425898
+------------------------------------
+------------------------------------
+Name sponza_260
+Material flagpole
+Num verts 1368
+Start Index 176220
+------------------------------------
+------------------------------------
+Name sponza_261
+Material flagpole
+Num verts 1368
+Start Index 177588
+------------------------------------
+------------------------------------
+Name sponza_262
+Material flagpole
+Num verts 678
+Start Index 178956
+------------------------------------
+------------------------------------
+Name sponza_263
+Material flagpole
+Num verts 1368
+Start Index 179634
+------------------------------------
+------------------------------------
+Name sponza_264
+Material flagpole
+Num verts 678
+Start Index 181002
+------------------------------------
+------------------------------------
+Name sponza_265
+Material flagpole
+Num verts 1368
+Start Index 181680
+------------------------------------
+------------------------------------
+Name sponza_266
+Material flagpole
+Num verts 678
+Start Index 183048
+------------------------------------
+------------------------------------
+Name sponza_267
+Material flagpole
+Num verts 678
+Start Index 183726
+------------------------------------
+------------------------------------
+Name sponza_268
+Material flagpole
+Num verts 1368
+Start Index 184404
+------------------------------------
+------------------------------------
+Name sponza_269
+Material flagpole
+Num verts 1368
+Start Index 185772
+------------------------------------
+------------------------------------
+Name sponza_270
+Material flagpole
+Num verts 678
+Start Index 187140
+------------------------------------
+------------------------------------
+Name sponza_271
+Material flagpole
+Num verts 1368
+Start Index 187818
+------------------------------------
+------------------------------------
+Name sponza_272
+Material flagpole
+Num verts 678
+Start Index 189186
+------------------------------------
+------------------------------------
+Name sponza_273
+Material flagpole
+Num verts 1368
+Start Index 189864
+------------------------------------
+------------------------------------
+Name sponza_274
+Material flagpole
+Num verts 678
+Start Index 191232
+------------------------------------
+------------------------------------
+Name sponza_259
+Material flagpole
+Num verts 678
+Start Index 175542
+------------------------------------
+------------------------------------
+Name sponza_306
+Material flagpole
+Num verts 576
+Start Index 425322
+------------------------------------
+------------------------------------
+Name sponza_305
+Material flagpole
+Num verts 1368
+Start Index 423954
+------------------------------------
+------------------------------------
+Name sponza_304
+Material flagpole
+Num verts 1368
+Start Index 422586
+------------------------------------
+------------------------------------
+Name sponza_303
+Material flagpole
+Num verts 576
+Start Index 422010
+------------------------------------
+------------------------------------
+Name sponza_302
+Material flagpole
+Num verts 1368
+Start Index 420642
+------------------------------------
+------------------------------------
+Name sponza_301
+Material flagpole
+Num verts 1368
+Start Index 419274
+------------------------------------
+------------------------------------
+Name sponza_300
+Material flagpole
+Num verts 576
+Start Index 418698
+------------------------------------
+------------------------------------
+Name sponza_299
+Material flagpole
+Num verts 1368
+Start Index 417330
+------------------------------------
+------------------------------------
+Name sponza_298
+Material flagpole
+Num verts 1368
+Start Index 415962
+------------------------------------
+------------------------------------
+Name sponza_297
+Material flagpole
+Num verts 576
+Start Index 415386
+------------------------------------
+------------------------------------
+Name sponza_296
+Material flagpole
+Num verts 1368
+Start Index 414018
+------------------------------------
+------------------------------------
+Name sponza_295
+Material flagpole
+Num verts 1368
+Start Index 412650
+------------------------------------
+------------------------------------
+Name sponza_294
+Material flagpole
+Num verts 576
+Start Index 412074
+------------------------------------
+------------------------------------
+Name sponza_293
+Material flagpole
+Num verts 1368
+Start Index 410706
+------------------------------------
+------------------------------------
+Name sponza_292
+Material flagpole
+Num verts 1368
+Start Index 409338
+------------------------------------
+------------------------------------
+Name sponza_291
+Material flagpole
+Num verts 576
+Start Index 408762
+------------------------------------
+------------------------------------
+Name sponza_290
+Material flagpole
+Num verts 1368
+Start Index 407394
+------------------------------------
+------------------------------------
+Name sponza_117
+Material floor
+Num verts 15
+Start Index 90369
+------------------------------------
+------------------------------------
+Name sponza_18
+Material floor
+Num verts 48
+Start Index 44259
+------------------------------------
+------------------------------------
+Name sponza_00
+Material leaf
+Num verts 10920
+Start Index 0
+------------------------------------
+------------------------------------
+Name sponza_279
+Material leaf
+Num verts 9924
+Start Index 242184
+------------------------------------
+------------------------------------
+Name sponza_280
+Material leaf
+Num verts 13266
+Start Index 252108
+------------------------------------
+------------------------------------
+Name sponza_281
+Material leaf
+Num verts 9924
+Start Index 265374
+------------------------------------
+------------------------------------
+Name sponza_278
+Material leaf
+Num verts 11406
+Start Index 230778
+------------------------------------
+------------------------------------
+Name sponza_277
+Material leaf
+Num verts 6612
+Start Index 224166
+------------------------------------
+------------------------------------
+Name sponza_276
+Material leaf
+Num verts 14466
+Start Index 209700
+------------------------------------
+------------------------------------
+Name sponza_275
+Material leaf
+Num verts 17790
+Start Index 191910
+------------------------------------
+------------------------------------
+Name sponza_380
+Material roof
+Num verts 1488
+Start Index 743319
+------------------------------------
+------------------------------------
+Name sponza_381
+Material roof
+Num verts 41964
+Start Index 744807
+------------------------------------
+------------------------------------
+Name sponza_376
+Material vase
+Num verts 6888
+Start Index 719049
+------------------------------------
+------------------------------------
+Name sponza_375
+Material vase
+Num verts 6888
+Start Index 712161
+------------------------------------
+------------------------------------
+Name sponza_374
+Material vase
+Num verts 6888
+Start Index 705273
+------------------------------------
+------------------------------------
+Name sponza_373
+Material vase
+Num verts 6888
+Start Index 698385
+------------------------------------
+------------------------------------
+Name sponza_365
+Material vase_hanging
+Num verts 810
+Start Index 642132
+------------------------------------
+------------------------------------
+Name sponza_364
+Material vase_hanging
+Num verts 3732
+Start Index 638400
+------------------------------------
+------------------------------------
+Name sponza_363
+Material vase_hanging
+Num verts 3732
+Start Index 634668
+------------------------------------
+------------------------------------
+Name sponza_362
+Material vase_hanging
+Num verts 1674
+Start Index 632994
+------------------------------------
+------------------------------------
+Name sponza_361
+Material vase_hanging
+Num verts 4923
+Start Index 628071
+------------------------------------
+------------------------------------
+Name sponza_338
+Material vase_hanging
+Num verts 810
+Start Index 597447
+------------------------------------
+------------------------------------
+Name sponza_343
+Material vase_hanging
+Num verts 4923
+Start Index 598281
+------------------------------------
+------------------------------------
+Name sponza_344
+Material vase_hanging
+Num verts 1674
+Start Index 603204
+------------------------------------
+------------------------------------
+Name sponza_345
+Material vase_hanging
+Num verts 3732
+Start Index 604878
+------------------------------------
+------------------------------------
+Name sponza_346
+Material vase_hanging
+Num verts 3732
+Start Index 608610
+------------------------------------
+------------------------------------
+Name sponza_347
+Material vase_hanging
+Num verts 810
+Start Index 612342
+------------------------------------
+------------------------------------
+Name sponza_337
+Material vase_hanging
+Num verts 3732
+Start Index 593715
+------------------------------------
+------------------------------------
+Name sponza_336
+Material vase_hanging
+Num verts 3732
+Start Index 589983
+------------------------------------
+------------------------------------
+Name sponza_335
+Material vase_hanging
+Num verts 1674
+Start Index 588309
+------------------------------------
+------------------------------------
+Name sponza_334
+Material vase_hanging
+Num verts 4923
+Start Index 583386
+------------------------------------
+------------------------------------
+Name sponza_352
+Material vase_hanging
+Num verts 4923
+Start Index 613176
+------------------------------------
+------------------------------------
+Name sponza_353
+Material vase_hanging
+Num verts 1674
+Start Index 618099
+------------------------------------
+------------------------------------
+Name sponza_354
+Material vase_hanging
+Num verts 3732
+Start Index 619773
+------------------------------------
+------------------------------------
+Name sponza_355
+Material vase_hanging
+Num verts 3732
+Start Index 623505
+------------------------------------
+------------------------------------
+Name sponza_356
+Material vase_hanging
+Num verts 810
+Start Index 627237
+------------------------------------
+------------------------------------
+Name sponza_369
+Material vase_round
+Num verts 7833
+Start Index 667053
+------------------------------------
+------------------------------------
+Name sponza_370
+Material vase_round
+Num verts 7833
+Start Index 674886
+------------------------------------
+------------------------------------
+Name sponza_371
+Material vase_round
+Num verts 7833
+Start Index 682719
+------------------------------------
+------------------------------------
+Name sponza_372
+Material vase_round
+Num verts 7833
+Start Index 690552
+------------------------------------
+------------------------------------
+Name sponza_368
+Material vase_round
+Num verts 8037
+Start Index 659016
+------------------------------------
+------------------------------------
+Name sponza_367
+Material vase_round
+Num verts 8037
+Start Index 650979
+------------------------------------
+------------------------------------
+Name sponza_366
+Material vase_round
+Num verts 8037
+Start Index 642942
+------------------------------------
+------------------------------------
+Name sponza_01
+Material vase_round
+Num verts 8037
+Start Index 10920
+------------------------------------
+created 11 unique billboards
+Assertion failed :len!=0.0f
+Failure occured on line 110 of source file :
+ "src/Vec4.cpp"
+Assertion failed :len!=0.0f
+Failure occured on line 110 of source file :
+ "src/Vec4.cpp"
+Material__298 Material
+Material__47 Material
+arch Material
+bricks Material
+ceiling Material
+chain Material
+column_a Material
+column_b Material
+column_c Material
+details Material
+fabric_a Material
+fabric_c Material
+fabric_d Material
+fabric_e Material
+fabric_f Material
+fabric_g Material
+flagpole Material
+floor Material
+leaf Material
+roof Material
+vase Material
+vase_hanging Material
+vase_round Material
+Material__298 Material
+Material__47 Material
+arch Material
+bricks Material
+ceiling Material
+chain Material
+column_a Material
+column_b Material
+column_c Material
+details Material
+fabric_a Material
+fabric_c Material
+fabric_d Material
+fabric_e Material
+fabric_f Material
+fabric_g Material
+flagpole Material
+floor Material
+leaf Material
+roof Material
+vase Material
+vase_hanging Material
+vase_round Material
 Debug: [HSWDisplay] Display()
 Debug: [HSWDisplay GL] DisplayInternal()
 Debug: GL_VERSION: 4.1 NVIDIA-8.26.28 310.40.55b01
-Debug: [HSWDisplay] Dismiss(): Not permitted yet. Queued for timeout in 0.1 seconds.
-Debug: [HSWDisplay GL] DismissInternal()
+Material__298 Material
+Material__47 Material
+arch Material
+bricks Material
+ceiling Material
+chain Material
+column_a Material
+column_b Material
+column_c Material
+details Material
+fabric_a Material
+fabric_c Material
+fabric_d Material
+fabric_e Material
+fabric_f Material
+fabric_g Material
+flagpole Material
+floor Material
+leaf Material
+roof Material
+vase Material
+vase_hanging Material
+vase_round Material
+Material__298 Material
+Material__47 Material
+arch Material
+bricks Material
+ceiling Material
+chain Material
+column_a Material
+column_b Material
+column_c Material
+details Material
+fabric_a Material
+fabric_c Material
+fabric_d Material
+fabric_e Material
+fabric_f Material
+fabric_g Material
+flagpole Material
+floor Material
+leaf Material
+roof Material
+vase Material
+vase_hanging Material
+vase_round Material
+Material__298 Material
+Material__47 Material
+arch Material
+bricks Material
+ceiling Material
+chain Material
+column_a Material
+column_b Material
+column_c Material
+details Material
+fabric_a Material
+fabric_c Material
+fabric_d Material
+fabric_e Material
+fabric_f Material
+fabric_g Material
+flagpole Material
+floor Material
+leaf Material
+roof Material
+vase Material
+vase_hanging Material
+vase_round Material
+Material__298 Material
+Material__47 Material
+arch Material
+bricks Material
+ceiling Material
+chain Material
+column_a Material
+column_b Material
+column_c Material
+details Material
+fabric_a Material
+fabric_c Material
+fabric_d Material
+fabric_e Material
+fabric_f Material
+fabric_g Material
+flagpole Material
+floor Material
+leaf Material
+roof Material
+vase Material
+vase_hanging Material
+vase_round Material
+Material__298 Material
+Material__47 Material
+arch Material
+bricks Material
+ceiling Material
+chain Material
+column_a Material
+column_b Material
+column_c Material
+details Material
+fabric_a Material
+fabric_c Material
+fabric_d Material
+fabric_e Material
+fabric_f Material
+fabric_g Material
+flagpole Material
+floor Material
+leaf Material
+roof Material
+vase Material
+vase_hanging Material
+vase_round Material
+Material__298 Material
+Material__47 Material
+arch Material
+bricks Material
+ceiling Material
+chain Material
+column_a Material
+column_b Material
+column_c Material
+details Material
+fabric_a Material
+fabric_c Material
+fabric_d Material
+fabric_e Material
+fabric_f Material
+fabric_g Material
+flagpole Material
+floor Material
+leaf Material
+roof Material
+vase Material
+vase_hanging Material
+vase_round Material
+Material__298 Material
+Material__47 Material
+arch Material
+bricks Material
+ceiling Material
+chain Material
+column_a Material
+column_b Material
+column_c Material
+details Material
+fabric_a Material
+fabric_c Material
+fabric_d Material
+fabric_e Material
+fabric_f Material
+fabric_g Material
+flagpole Material
+floor Material
+leaf Material
+roof Material
+vase Material
+vase_hanging Material
+vase_round Material
+Material__298 Material
+Material__47 Material
+arch Material
+bricks Material
+ceiling Material
+chain Material
+column_a Material
+column_b Material
+column_c Material
+details Material
+fabric_a Material
+fabric_c Material
+fabric_d Material
+fabric_e Material
+fabric_f Material
+fabric_g Material
+flagpole Material
+floor Material
+leaf Material
+roof Material
+vase Material
+vase_hanging Material
+vase_round Material
+Material__298 Material
+Material__47 Material
+arch Material
+bricks Material
+ceiling Material
+chain Material
+column_a Material
+column_b Material
+column_c Material
+details Material
+fabric_a Material
+fabric_c Material
+fabric_d Material
+fabric_e Material
+fabric_f Material
+fabric_g Material
+flagpole Material
+floor Material
+leaf Material
+roof Material
+vase Material
+vase_hanging Material
+vase_round Material
+Material__298 Material
+Material__47 Material
+arch Material
+bricks Material
+ceiling Material
+chain Material
+column_a Material
+column_b Material
+column_c Material
+details Material
+fabric_a Material
+fabric_c Material
+fabric_d Material
+fabric_e Material
+fabric_f Material
+fabric_g Material
+flagpole Material
+floor Material
+leaf Material
+roof Material
+vase Material
+vase_hanging Material
+vase_round Material
+Material__298 Material
+Material__47 Material
+arch Material
+bricks Material
+ceiling Material
+chain Material
+column_a Material
+column_b Material
+column_c Material
+details Material
+fabric_a Material
+fabric_c Material
+fabric_d Material
+fabric_e Material
+fabric_f Material
+fabric_g Material
+flagpole Material
+floor Material
+leaf Material
+roof Material
+vase Material
+vase_hanging Material
+vase_round Material
+Material__298 Material
+Material__47 Material
+arch Material
+bricks Material
+ceiling Material
+chain Material
+column_a Material
+column_b Material
+column_c Material
+details Material
+fabric_a Material
+fabric_c Material
+fabric_d Material
+fabric_e Material
+fabric_f Material
+fabric_g Material
+flagpole Material
+floor Material
+leaf Material
+roof Material
+vase Material
+vase_hanging Material
+vase_round Material
+Material__298 Material
+Material__47 Material
+arch Material
+bricks Material
+ceiling Material
+chain Material
+column_a Material
+column_b Material
+column_c Material
+details Material
+fabric_a Material
+fabric_c Material
+fabric_d Material
+fabric_e Material
+fabric_f Material
+fabric_g Material
+flagpole Material
+floor Material
+leaf Material
+roof Material
+vase Material
+vase_hanging Material
+vase_round Material
+Material__298 Material
+Material__47 Material
+arch Material
+bricks Material
+ceiling Material
+chain Material
+column_a Material
+column_b Material
+column_c Material
+details Material
+fabric_a Material
+fabric_c Material
+fabric_d Material
+fabric_e Material
+fabric_f Material
+fabric_g Material
+flagpole Material
+floor Material
+leaf Material
+roof Material
+vase Material
+vase_hanging Material
+vase_round Material
+Material__298 Material
+Material__47 Material
+arch Material
+bricks Material
+ceiling Material
+chain Material
+column_a Material
+column_b Material
+column_c Material
+details Material
+fabric_a Material
+fabric_c Material
+fabric_d Material
+fabric_e Material
+fabric_f Material
+fabric_g Material
+flagpole Material
+floor Material
+leaf Material
+roof Material
+vase Material
+vase_hanging Material
+vase_round Material
+Material__298 Material
+Material__47 Material
+arch Material
+bricks Material
+ceiling Material
+chain Material
+column_a Material
+column_b Material
+column_c Material
+details Material
+fabric_a Material
+fabric_c Material
+fabric_d Material
+fabric_e Material
+fabric_f Material
+fabric_g Material
+flagpole Material
+floor Material
+leaf Material
+roof Material
+vase Material
+vase_hanging Material
+vase_round Material
+Material__298 Material
+Material__47 Material
+arch Material
+bricks Material
+ceiling Material
+chain Material
+column_a Material
+column_b Material
+column_c Material
+details Material
+fabric_a Material
+fabric_c Material
+fabric_d Material
+fabric_e Material
+fabric_f Material
+fabric_g Material
+flagpole Material
+floor Material
+leaf Material
+roof Material
+vase Material
+vase_hanging Material
+vase_round Material
+Material__298 Material
+Material__47 Material
+arch Material
+bricks Material
+ceiling Material
+chain Material
+column_a Material
+column_b Material
+column_c Material
+details Material
+fabric_a Material
+fabric_c Material
+fabric_d Material
+fabric_e Material
+fabric_f Material
+fabric_g Material
+flagpole Material
+floor Material
+leaf Material
+roof Material
+vase Material
+vase_hanging Material
+vase_round Material
+Material__298 Material
+Material__47 Material
+arch Material
+bricks Material
+ceiling Material
+chain Material
+column_a Material
+column_b Material
+column_c Material
+details Material
+fabric_a Material
+fabric_c Material
+fabric_d Material
+fabric_e Material
+fabric_f Material
+fabric_g Material
+flagpole Material
+floor Material
+leaf Material
+roof Material
+vase Material
+vase_hanging Material
+vase_round Material
+Material__298 Material
+Material__47 Material
+arch Material
+bricks Material
+ceiling Material
+chain Material
+column_a Material
+column_b Material
+column_c Material
+details Material
+fabric_a Material
+fabric_c Material
+fabric_d Material
+fabric_e Material
+fabric_f Material
+fabric_g Material
+flagpole Material
+floor Material
+leaf Material
+roof Material
+vase Material
+vase_hanging Material
+vase_round Material
+Material__298 Material
+Material__47 Material
+arch Material
+bricks Material
+ceiling Material
+chain Material
+column_a Material
+column_b Material
+column_c Material
+details Material
+fabric_a Material
+fabric_c Material
+fabric_d Material
+fabric_e Material
+fabric_f Material
+fabric_g Material
+flagpole Material
+floor Material
+leaf Material
+roof Material
+vase Material
+vase_hanging Material
+vase_round Material
+Material__298 Material
+Material__47 Material
+arch Material
+bricks Material
+ceiling Material
+chain Material
+column_a Material
+column_b Material
+column_c Material
+details Material
+fabric_a Material
+fabric_c Material
+fabric_d Material
+fabric_e Material
+fabric_f Material
+fabric_g Material
+flagpole Material
+floor Material
+leaf Material
+roof Material
+vase Material
+vase_hanging Material
+vase_round Material
+Material__298 Material
+Material__47 Material
+arch Material
+bricks Material
+ceiling Material
+chain Material
+column_a Material
+column_b Material
+column_c Material
+details Material
+fabric_a Material
+fabric_c Material
+fabric_d Material
+fabric_e Material
+fabric_f Material
+fabric_g Material
+flagpole Material
+floor Material
+leaf Material
+roof Material
+vase Material
+vase_hanging Material
+vase_round Material
+Material__298 Material
+Material__47 Material
+arch Material
+bricks Material
+ceiling Material
+chain Material
+column_a Material
+column_b Material
+column_c Material
+details Material
+fabric_a Material
+fabric_c Material
+fabric_d Material
+fabric_e Material
+fabric_f Material
+fabric_g Material
+flagpole Material
+floor Material
+leaf Material
+roof Material
+vase Material
+vase_hanging Material
+vase_round Material
+Material__298 Material
+Material__47 Material
+arch Material
+bricks Material
+ceiling Material
+chain Material
+column_a Material
+column_b Material
+column_c Material
+details Material
+fabric_a Material
+fabric_c Material
+fabric_d Material
+fabric_e Material
+fabric_f Material
+fabric_g Material
+flagpole Material
+floor Material
+leaf Material
+roof Material
+vase Material
+vase_hanging Material
+vase_round Material
+Material__298 Material
+Material__47 Material
+arch Material
+bricks Material
+ceiling Material
+chain Material
+column_a Material
+column_b Material
+column_c Material
+details Material
+fabric_a Material
+fabric_c Material
+fabric_d Material
+fabric_e Material
+fabric_f Material
+fabric_g Material
+flagpole Material
+floor Material
+leaf Material
+roof Material
+vase Material
+vase_hanging Material
+vase_round Material
+Material__298 Material
+Material__47 Material
+arch Material
+bricks Material
+ceiling Material
+chain Material
+column_a Material
+column_b Material
+column_c Material
+details Material
+fabric_a Material
+fabric_c Material
+fabric_d Material
+fabric_e Material
+fabric_f Material
+fabric_g Material
+flagpole Material
+floor Material
+leaf Material
+roof Material
+vase Material
+vase_hanging Material
+vase_round Material
+Material__298 Material
+Material__47 Material
+arch Material
+bricks Material
+ceiling Material
+chain Material
+column_a Material
+column_b Material
+column_c Material
+details Material
+fabric_a Material
+fabric_c Material
+fabric_d Material
+fabric_e Material
+fabric_f Material
+fabric_g Material
+flagpole Material
+floor Material
+leaf Material
+roof Material
+vase Material
+vase_hanging Material
+vase_round Material
+Material__298 Material
+Material__47 Material
+arch Material
+bricks Material
+ceiling Material
+chain Material
+column_a Material
+column_b Material
+column_c Material
+details Material
+fabric_a Material
+fabric_c Material
+fabric_d Material
+fabric_e Material
+fabric_f Material
+fabric_g Material
+flagpole Material
+floor Material
+leaf Material
+roof Material
+vase Material
+vase_hanging Material
+vase_round Material
+Material__298 Material
+Material__47 Material
+arch Material
+bricks Material
+ceiling Material
+chain Material
+column_a Material
+column_b Material
+column_c Material
+details Material
+fabric_a Material
+fabric_c Material
+fabric_d Material
+fabric_e Material
+fabric_f Material
+fabric_g Material
+flagpole Material
+floor Material
+leaf Material
+roof Material
+vase Material
+vase_hanging Material
+vase_round Material
+Material__298 Material
+Material__47 Material
+arch Material
+bricks Material
+ceiling Material
+chain Material
+column_a Material
+column_b Material
+column_c Material
+details Material
+fabric_a Material
+fabric_c Material
+fabric_d Material
+fabric_e Material
+fabric_f Material
+fabric_g Material
+flagpole Material
+floor Material
+leaf Material
+roof Material
+vase Material
+vase_hanging Material
+vase_round Material
+Material__298 Material
+Material__47 Material
+arch Material
+bricks Material
+ceiling Material
+chain Material
+column_a Material
+column_b Material
+column_c Material
+details Material
+fabric_a Material
+fabric_c Material
+fabric_d Material
+fabric_e Material
+fabric_f Material
+fabric_g Material
+flagpole Material
+floor Material
+leaf Material
+roof Material
+vase Material
+vase_hanging Material
+vase_round Material
+Material__298 Material
+Material__47 Material
+arch Material
+bricks Material
+ceiling Material
+chain Material
+column_a Material
+column_b Material
+column_c Material
+details Material
+fabric_a Material
+fabric_c Material
+fabric_d Material
+fabric_e Material
+fabric_f Material
+fabric_g Material
+flagpole Material
+floor Material
+leaf Material
+roof Material
+vase Material
+vase_hanging Material
+vase_round Material
+Material__298 Material
+Material__47 Material
+arch Material
+bricks Material
+ceiling Material
+chain Material
+column_a Material
+column_b Material
+column_c Material
+details Material
+fabric_a Material
+fabric_c Material
+fabric_d Material
+fabric_e Material
+fabric_f Material
+fabric_g Material
+flagpole Material
+floor Material
+leaf Material
+roof Material
+vase Material
+vase_hanging Material
+vase_round Material
+Material__298 Material
+Material__47 Material
+arch Material
+bricks Material
+ceiling Material
+chain Material
+column_a Material
+column_b Material
+column_c Material
+details Material
+fabric_a Material
+fabric_c Material
+fabric_d Material
+fabric_e Material
+fabric_f Material
+fabric_g Material
+flagpole Material
+floor Material
+leaf Material
+roof Material
+vase Material
+vase_hanging Material
+vase_round Material
+Material__298 Material
+Material__47 Material
+arch Material
+bricks Material
+ceiling Material
+chain Material
+column_a Material
+column_b Material
+column_c Material
+details Material
+fabric_a Material
+fabric_c Material
+fabric_d Material
+fabric_e Material
+fabric_f Material
+fabric_g Material
+flagpole Material
+floor Material
+leaf Material
+roof Material
+vase Material
+vase_hanging Material
+vase_round Material
+Material__298 Material
+Material__47 Material
+arch Material
+bricks Material
+ceiling Material
+chain Material
+column_a Material
+column_b Material
+column_c Material
+details Material
+fabric_a Material
+fabric_c Material
+fabric_d Material
+fabric_e Material
+fabric_f Material
+fabric_g Material
+flagpole Material
+floor Material
+leaf Material
+roof Material
+vase Material
+vase_hanging Material
+vase_round Material
+Material__298 Material
+Material__47 Material
+arch Material
+bricks Material
+ceiling Material
+chain Material
+column_a Material
+column_b Material
+column_c Material
+details Material
+fabric_a Material
+fabric_c Material
+fabric_d Material
+fabric_e Material
+fabric_f Material
+fabric_g Material
+flagpole Material
+floor Material
+leaf Material
+roof Material
+vase Material
+vase_hanging Material
+vase_round Material
+Material__298 Material
+Material__47 Material
+arch Material
+bricks Material
+ceiling Material
+chain Material
+column_a Material
+column_b Material
+column_c Material
+details Material
+fabric_a Material
+fabric_c Material
+fabric_d Material
+fabric_e Material
+fabric_f Material
+fabric_g Material
+flagpole Material
+floor Material
+leaf Material
+roof Material
+vase Material
+vase_hanging Material
+vase_round Material
+Material__298 Material
+Material__47 Material
+arch Material
+bricks Material
+ceiling Material
+chain Material
+column_a Material
+column_b Material
+column_c Material
+details Material
+fabric_a Material
+fabric_c Material
+fabric_d Material
+fabric_e Material
+fabric_f Material
+fabric_g Material
+flagpole Material
+floor Material
+leaf Material
+roof Material
+vase Material
+vase_hanging Material
+vase_round Material
+Material__298 Material
+Material__47 Material
+arch Material
+bricks Material
+ceiling Material
+chain Material
+column_a Material
+column_b Material
+column_c Material
+details Material
+fabric_a Material
+fabric_c Material
+fabric_d Material
+fabric_e Material
+fabric_f Material
+fabric_g Material
+flagpole Material
+floor Material
+leaf Material
+roof Material
+vase Material
+vase_hanging Material
+vase_round Material
+Material__298 Material
+Material__47 Material
+arch Material
+bricks Material
+ceiling Material
+chain Material
+column_a Material
+column_b Material
+column_c Material
+details Material
+fabric_a Material
+fabric_c Material
+fabric_d Material
+fabric_e Material
+fabric_f Material
+fabric_g Material
+flagpole Material
+floor Material
+leaf Material
+roof Material
+vase Material
+vase_hanging Material
+vase_round Material
+Material__298 Material
+Material__47 Material
+arch Material
+bricks Material
+ceiling Material
+chain Material
+column_a Material
+column_b Material
+column_c Material
+details Material
+fabric_a Material
+fabric_c Material
+fabric_d Material
+fabric_e Material
+fabric_f Material
+fabric_g Material
+flagpole Material
+floor Material
+leaf Material
+roof Material
+vase Material
+vase_hanging Material
+vase_round Material
+Material__298 Material
+Material__47 Material
+arch Material
+bricks Material
+ceiling Material
+chain Material
+column_a Material
+column_b Material
+column_c Material
+details Material
+fabric_a Material
+fabric_c Material
+fabric_d Material
+fabric_e Material
+fabric_f Material
+fabric_g Material
+flagpole Material
+floor Material
+leaf Material
+roof Material
+vase Material
+vase_hanging Material
+vase_round Material
+Material__298 Material
+Material__47 Material
+arch Material
+bricks Material
+ceiling Material
+chain Material
+column_a Material
+column_b Material
+column_c Material
+details Material
+fabric_a Material
+fabric_c Material
+fabric_d Material
+fabric_e Material
+fabric_f Material
+fabric_g Material
+flagpole Material
+floor Material
+leaf Material
+roof Material
+vase Material
+vase_hanging Material
+vase_round Material
+Material__298 Material
+Material__47 Material
+arch Material
+bricks Material
+ceiling Material
+chain Material
+column_a Material
+column_b Material
+column_c Material
+details Material
+fabric_a Material
+fabric_c Material
+fabric_d Material
+fabric_e Material
+fabric_f Material
+fabric_g Material
+flagpole Material
+floor Material
+leaf Material
+roof Material
+vase Material
+vase_hanging Material
+vase_round Material
+Material__298 Material
+Material__47 Material
+arch Material
+bricks Material
+ceiling Material
+chain Material
+column_a Material
+column_b Material
+column_c Material
+details Material
+fabric_a Material
+fabric_c Material
+fabric_d Material
+fabric_e Material
+fabric_f Material
+fabric_g Material
+flagpole Material
+floor Material
+leaf Material
+roof Material
+vase Material
+vase_hanging Material
+vase_round Material
+Material__298 Material
+Material__47 Material
+arch Material
+bricks Material
+ceiling Material
+chain Material
+column_a Material
+column_b Material
+column_c Material
+details Material
+fabric_a Material
+fabric_c Material
+fabric_d Material
+fabric_e Material
+fabric_f Material
+fabric_g Material
+flagpole Material
+floor Material
+leaf Material
+roof Material
+vase Material
+vase_hanging Material
+vase_round Material
+Material__298 Material
+Material__47 Material
+arch Material
+bricks Material
+ceiling Material
+chain Material
+column_a Material
+column_b Material
+column_c Material
+details Material
+fabric_a Material
+fabric_c Material
+fabric_d Material
+fabric_e Material
+fabric_f Material
+fabric_g Material
+flagpole Material
+floor Material
+leaf Material
+roof Material
+vase Material
+vase_hanging Material
+vase_round Material
+Material__298 Material
+Material__47 Material
+arch Material
+bricks Material
+ceiling Material
+chain Material
+column_a Material
+column_b Material
+column_c Material
+details Material
+fabric_a Material
+fabric_c Material
+fabric_d Material
+fabric_e Material
+fabric_f Material
+fabric_g Material
+flagpole Material
+floor Material
+leaf Material
+roof Material
+vase Material
+vase_hanging Material
+vase_round Material
+Material__298 Material
+Material__47 Material
+arch Material
+bricks Material
+ceiling Material
+chain Material
+column_a Material
+column_b Material
+column_c Material
+details Material
+fabric_a Material
+fabric_c Material
+fabric_d Material
+fabric_e Material
+fabric_f Material
+fabric_g Material
+flagpole Material
+floor Material
+leaf Material
+roof Material
+vase Material
+vase_hanging Material
+vase_round Material
+Material__298 Material
+Material__47 Material
+arch Material
+bricks Material
+ceiling Material
+chain Material
+column_a Material
+column_b Material
+column_c Material
+details Material
+fabric_a Material
+fabric_c Material
+fabric_d Material
+fabric_e Material
+fabric_f Material
+fabric_g Material
+flagpole Material
+floor Material
+leaf Material
+roof Material
+vase Material
+vase_hanging Material
+vase_round Material
+Material__298 Material
+Material__47 Material
+arch Material
+bricks Material
+ceiling Material
+chain Material
+column_a Material
+column_b Material
+column_c Material
+details Material
+fabric_a Material
+fabric_c Material
+fabric_d Material
+fabric_e Material
+fabric_f Material
+fabric_g Material
+flagpole Material
+floor Material
+leaf Material
+roof Material
+vase Material
+vase_hanging Material
+vase_round Material
+Material__298 Material
+Material__47 Material
+arch Material
+bricks Material
+ceiling Material
+chain Material
+column_a Material
+column_b Material
+column_c Material
+details Material
+fabric_a Material
+fabric_c Material
+fabric_d Material
+fabric_e Material
+fabric_f Material
+fabric_g Material
+flagpole Material
+floor Material
+leaf Material
+roof Material
+vase Material
+vase_hanging Material
+vase_round Material
+Material__298 Material
+Material__47 Material
+arch Material
+bricks Material
+ceiling Material
+chain Material
+column_a Material
+column_b Material
+column_c Material
+details Material
+fabric_a Material
+fabric_c Material
+fabric_d Material
+fabric_e Material
+fabric_f Material
+fabric_g Material
+flagpole Material
+floor Material
+leaf Material
+roof Material
+vase Material
+vase_hanging Material
+vase_round Material
+Material__298 Material
+Material__47 Material
+arch Material
+bricks Material
+ceiling Material
+chain Material
+column_a Material
+column_b Material
+column_c Material
+details Material
+fabric_a Material
+fabric_c Material
+fabric_d Material
+fabric_e Material
+fabric_f Material
+fabric_g Material
+flagpole Material
+floor Material
+leaf Material
+roof Material
+vase Material
+vase_hanging Material
+vase_round Material
+Material__298 Material
+Material__47 Material
+arch Material
+bricks Material
+ceiling Material
+chain Material
+column_a Material
+column_b Material
+column_c Material
+details Material
+fabric_a Material
+fabric_c Material
+fabric_d Material
+fabric_e Material
+fabric_f Material
+fabric_g Material
+flagpole Material
+floor Material
+leaf Material
+roof Material
+vase Material
+vase_hanging Material
+vase_round Material
+Material__298 Material
+Material__47 Material
+arch Material
+bricks Material
+ceiling Material
+chain Material
+column_a Material
+column_b Material
+column_c Material
+details Material
+fabric_a Material
+fabric_c Material
+fabric_d Material
+fabric_e Material
+fabric_f Material
+fabric_g Material
+flagpole Material
+floor Material
+leaf Material
+roof Material
+vase Material
+vase_hanging Material
+vase_round Material
+Material__298 Material
+Material__47 Material
+arch Material
+bricks Material
+ceiling Material
+chain Material
+column_a Material
+column_b Material
+column_c Material
+details Material
+fabric_a Material
+fabric_c Material
+fabric_d Material
+fabric_e Material
+fabric_f Material
+fabric_g Material
+flagpole Material
+floor Material
+leaf Material
+roof Material
+vase Material
+vase_hanging Material
+vase_round Material
+Material__298 Material
+Material__47 Material
+arch Material
+bricks Material
+ceiling Material
+chain Material
+column_a Material
+column_b Material
+column_c Material
+details Material
+fabric_a Material
+fabric_c Material
+fabric_d Material
+fabric_e Material
+fabric_f Material
+fabric_g Material
+flagpole Material
+floor Material
+leaf Material
+roof Material
+vase Material
+vase_hanging Material
+vase_round Material
+Material__298 Material
+Material__47 Material
+arch Material
+bricks Material
+ceiling Material
+chain Material
+column_a Material
+column_b Material
+column_c Material
+details Material
+fabric_a Material
+fabric_c Material
+fabric_d Material
+fabric_e Material
+fabric_f Material
+fabric_g Material
+flagpole Material
+floor Material
+leaf Material
+roof Material
+vase Material
+vase_hanging Material
+vase_round Material
+Material__298 Material
+Material__47 Material
+arch Material
+bricks Material
+ceiling Material
+chain Material
+column_a Material
+column_b Material
+column_c Material
+details Material
+fabric_a Material
+fabric_c Material
+fabric_d Material
+fabric_e Material
+fabric_f Material
+fabric_g Material
+flagpole Material
+floor Material
+leaf Material
+roof Material
+vase Material
+vase_hanging Material
+vase_round Material
+Material__298 Material
+Material__47 Material
+arch Material
+bricks Material
+ceiling Material
+chain Material
+column_a Material
+column_b Material
+column_c Material
+details Material
+fabric_a Material
+fabric_c Material
+fabric_d Material
+fabric_e Material
+fabric_f Material
+fabric_g Material
+flagpole Material
+floor Material
+leaf Material
+roof Material
+vase Material
+vase_hanging Material
+vase_round Material
+Material__298 Material
+Material__47 Material
+arch Material
+bricks Material
+ceiling Material
+chain Material
+column_a Material
+column_b Material
+column_c Material
+details Material
+fabric_a Material
+fabric_c Material
+fabric_d Material
+fabric_e Material
+fabric_f Material
+fabric_g Material
+flagpole Material
+floor Material
+leaf Material
+roof Material
+vase Material
+vase_hanging Material
+vase_round Material
 Shutting down NGL, removing VAO's and Shaders
 clearing VAOs
 Closing down shader manager

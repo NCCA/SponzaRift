@@ -161,6 +161,10 @@ bool Mtl::load(const std::string &_fname)
       {
         parseString(firstWord,m_current->bump);
       }
+      else if(*firstWord == "map_Ks")
+      {
+        parseString(firstWord,m_current->map_Ks);
+      }
 
 
    } // end zero line
@@ -287,12 +291,15 @@ void Mtl::debugPrint() const
     std::cout<<"map_Kd "<<i->second->map_Kd<<"\n";
     std::cout<<"map_d "<<i->second->map_d<<"\n";
     std::cout<<"map_bump "<<i->second->map_bump<<"\n";
+    std::cout<<"map_Ks "<<i->second->map_Ks<<"\n";
+
     std::cout<<"bump "<<i->second->bump<<"\n";
     std::cout<<"map_Ka Texture ID"<<i->second->map_KaId<<"\n";
     std::cout<<"map_Kd Texture ID "<<i->second->map_KdId<<"\n";
     std::cout<<"map_d Texture ID "<<i->second->map_dId<<"\n";
     std::cout<<"map_bump Texture ID "<<i->second->map_bumpId<<"\n";
     std::cout<<"bump Texture ID "<<i->second->bumpId<<"\n";
+    std::cout<<"bump Texture ID "<<i->second->map_KsId<<"\n";
     std::cerr<<"-------------------------------------------------\n";
 
   }
@@ -383,6 +390,13 @@ bool Mtl::saveBinary(const std::string &_fname) const
     fileOut.write(reinterpret_cast<char *>(&size),sizeof(size));
     // now the string
     fileOut.write(reinterpret_cast<const char *>(start->second->bump.c_str()),size);
+
+    // first write the length of the string
+    size=start->second->map_Ks.length();
+    fileOut.write(reinterpret_cast<char *>(&size),sizeof(size));
+    // now the string
+    fileOut.write(reinterpret_cast<const char *>(start->second->map_Ks.c_str()),size);
+
   }
 
 
@@ -472,6 +486,14 @@ bool Mtl::loadBinary(const std::string &_fname)
    s.resize(size);
    fileIn.read(reinterpret_cast<char *>(&s[0]),size);
    item->bump=s;
+
+   fileIn.read(reinterpret_cast<char *>(&size),sizeof(size));
+   // now the string we first need to allocate space then copy in
+   s.resize(size);
+   fileIn.read(reinterpret_cast<char *>(&s[0]),size);
+   item->map_Ks=s;
+
+
 
    m_materials[materialName]=item;
   }

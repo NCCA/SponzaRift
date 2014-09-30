@@ -32,6 +32,7 @@ NGLScene::NGLScene(QWindow *_parent) : OpenGLWindow(_parent)
   m_whichMap=0;
   m_single=false;
   m_lightPosition.set(0.0f,40.0f,0.0f,1.0);
+  m_doNormals=true;
 
 }
 
@@ -106,7 +107,6 @@ void NGLScene::initialize()
   shader->setShaderParam1i("ambientMap",0);
   shader->setShaderParam1i("diffuseMap",1);
   shader->setShaderParam1i("normalMap",2);
-  //shader->setShaderParam1i("shadowMap",3);
 
   shader->setShaderParam4f("light.position",0.0f,40.0f,0.0f,0.0f);
   shader->setShaderParam3f("light.La",0.2,0.2,0.2);
@@ -269,45 +269,53 @@ void NGLScene::drawScene(int _eye)
       glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_NEAREST_MIPMAP_LINEAR);
       glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_WRAP_S,GL_REPEAT);
       glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_WRAP_S,GL_REPEAT);
-
+      glGenerateMipmap(GL_TEXTURE_2D);
       glActiveTexture(GL_TEXTURE1);
       glBindTexture (GL_TEXTURE_2D,currMaterial->map_KdId);
       glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_NEAREST_MIPMAP_LINEAR);
       glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_NEAREST_MIPMAP_LINEAR);
       glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_WRAP_S,GL_REPEAT);
       glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_WRAP_S,GL_REPEAT);
-
+      glGenerateMipmap(GL_TEXTURE_2D);
       if(currMaterial->bumpId !=0)
       {
+        shader->setRegisteredUniform("useNormal",0);
+
         glActiveTexture(GL_TEXTURE2);
         glBindTexture (GL_TEXTURE_2D,currMaterial->bumpId);
         glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_NEAREST_MIPMAP_LINEAR);
         glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_NEAREST_MIPMAP_LINEAR);
         glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_WRAP_S,GL_REPEAT);
         glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_WRAP_S,GL_REPEAT);
-
+        glGenerateMipmap(GL_TEXTURE_2D);
       }
       else
       {
-        glActiveTexture(GL_TEXTURE2);
-        glBindTexture (GL_TEXTURE_2D,currMaterial->map_KdId);
-        glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_NEAREST_MIPMAP_LINEAR);
-        glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_NEAREST_MIPMAP_LINEAR);
-        glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_WRAP_S,GL_REPEAT);
-        glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_WRAP_S,GL_REPEAT);
+        shader->setRegisteredUniform("useNormal",1);
+       // std::cout<<m_model->getMaterial(i)<<" has not normal map\n";
+//        glActiveTexture(GL_TEXTURE2);
+//        glBindTexture (GL_TEXTURE_2D,currMaterial->map_KdId);
+//        glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_NEAREST_MIPMAP_LINEAR);
+//        glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_NEAREST_MIPMAP_LINEAR);
+//        glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_WRAP_S,GL_REPEAT);
+//        glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_WRAP_S,GL_REPEAT);
 
       }
+//      if(m_doNormals == true)
+//        shader->setRegisteredUniform("useNormal",1);
+//      else
+//        shader->setRegisteredUniform("useNormal",0);
 
-      // shadow texture
-      // bind the shadow texture
-      glActiveTexture(GL_TEXTURE3);
-      glBindTexture(GL_TEXTURE_2D,m_textureID);
-      glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_COMPARE_MODE, GL_COMPARE_R_TO_TEXTURE );
-      glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_COMPARE_FUNC, GL_LEQUAL);
+//      // shadow texture
+//      // bind the shadow texture
+//      glActiveTexture(GL_TEXTURE3);
+//      glBindTexture(GL_TEXTURE_2D,m_textureID);
+//      glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_COMPARE_MODE, GL_COMPARE_R_TO_TEXTURE );
+//      glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_COMPARE_FUNC, GL_LEQUAL);
 
-      glTexParameteri( GL_TEXTURE_2D, GL_DEPTH_TEXTURE_MODE, GL_LUMINANCE );
-      // we need to generate the mip maps each time we bind
-      glGenerateMipmap(GL_TEXTURE_2D);
+//      glTexParameteri( GL_TEXTURE_2D, GL_DEPTH_TEXTURE_MODE, GL_LUMINANCE );
+//      // we need to generate the mip maps each time we bind
+//      glGenerateMipmap(GL_TEXTURE_2D);
 
 
 
@@ -317,6 +325,7 @@ void NGLScene::drawScene(int _eye)
       shader->setRegisteredUniform("ka",currMaterial->Ka);
       shader->setRegisteredUniform("kd",currMaterial->Kd);
       shader->setRegisteredUniform("transp",currMaterial->d);
+
     }
     m_model->draw(i);
 
@@ -444,6 +453,7 @@ void NGLScene::keyPressEvent(QKeyEvent *_event)
   case Qt::Key_Right : m_lightPosition.m_x += 5.0f; break;
   case Qt::Key_I : m_lightPosition.m_z -= 5.0f; break;
   case Qt::Key_O : m_lightPosition.m_z += 5.0f; break;
+  case Qt::Key_3 : m_doNormals^=true; break;
 
 
   case Qt::Key_Space : m_ovr->disableWarningMessage(); break;
