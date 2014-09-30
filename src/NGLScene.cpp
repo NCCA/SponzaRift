@@ -144,6 +144,8 @@ void NGLScene::initialize()
  // m_ovr->disableWarningMessage();
   // now create our FBO and texture
  // createFramebufferObject();
+  m_lightCamera = new ngl::Camera(m_lightPosition.toVec3(),ngl::Vec3(0,0,0),ngl::Vec3(0,0,0));
+  m_lightCamera->setShape(45,1.0,0.5,500);
 
 }
 
@@ -173,18 +175,15 @@ void NGLScene::loadMatricesToShader()
 //  bias.scale(0.5,0.5,0.5);
 //  bias.translate(0.5,0.5,0.5);
 
-//  ngl::Mat4 model=m_transform.getMatrix();//*m_mouseGlobalTX;
+//  ngl::Mat4 model=m_transform.getMatrix()*m_mouseGlobalTX;
 //  // calculate MVP then multiply by the bias
-//  ngl::Camera lightCamera(m_lightPosition.toVec3(),ngl::Vec3(0,0,0),ngl::Vec3(0,1,0));
 //  // here we set the light POV camera shape, the aspect is 1 as our
 //  // texture is square.
 //  // use the same clip plane as before but set the FOV a bit larger
 //  // to get slightly better shadows and the clip planes will help
 //  // to get rid of some of the artefacts
-//  lightCamera.setShape(45,1.0,0.5,400);
-//  std::cout<<model<<"\n";
-//  ngl::Mat4 textureMatrix= model;// * lightCamera.getVPMatrix() * bias;
-//  shader->setRegisteredUniformFromMat4("textureMatrix",textureMatrix);
+//  ngl::Mat4 textureMatrix= model* m_lightCamera->getVPMatrix() * bias;
+//  //shader->setRegisteredUniformFromMat4("textureMatrix",textureMatrix);
 //  std::cout<<textureMatrix<<"\n";
  }
 

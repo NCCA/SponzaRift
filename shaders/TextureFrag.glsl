@@ -54,7 +54,7 @@ void main()
    // compute bi-normal
    //vec3 B = cross(N, T);
  vec3 B = (ps_bn);
-   vec3 C = normalmap.xyz;
+ vec3 C = normalmap.xyz;
   // grab the actual normal from the texture (which will be in texture space)
    //vec3 AN = normalize(2.0 * C - vec3(1.0, 1.0, 1.0));
   vec3 AN=C;//-normalize( texture(normalMap, vertUV.st).xyz * 2.0 - 1.0);
