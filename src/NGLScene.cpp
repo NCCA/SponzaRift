@@ -126,9 +126,9 @@ void NGLScene::initialize()
   }
 
 
-  m_model = new GroupedObj("models/sponza.obj");
-  m_model->saveBinary("models/SponzaMesh.bin");
-  //loaded=m_model->loadBinary("models/SponzaMesh.bin");
+  m_model = new GroupedObj();//"models/sponza.obj");
+  //m_model->saveBinary("models/SponzaMesh.bin");
+  loaded=m_model->loadBinary("models/SponzaMesh.bin");
   if(loaded == false)
   {
     std::cerr<<"error loading obj file ";
