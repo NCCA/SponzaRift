@@ -27,6 +27,7 @@ DESTDIR=./
 OTHER_FILES+= shaders/*.glsl \
 							README.md \
 							models/sponza.mtl \
+							models/sponzaPack.mtl \
 							models/sponza.obj
 # were are going to default to a console app
 CONFIG += console
