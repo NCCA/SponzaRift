@@ -72,12 +72,14 @@ class Mtl
     //----------------------------------------------------------------------------------------------------------------------
     /// @brief ctor to load a mtl file
     //----------------------------------------------------------------------------------------------------------------------
-    Mtl(){;}
+    Mtl() : m_loadTextures(false){;}
     //----------------------------------------------------------------------------------------------------------------------
     /// @brief ctor to load a mtl file
     /// @param[in] _fname the name of the mtl file to load
     /// @param[in] _loadTextures flag to indicate if we load the openGL
     /// textures and store the id's this is default to on
+    /// if you want to load a packed texture turn this off and use the seprate method
+    /// loadPackTexture
     //----------------------------------------------------------------------------------------------------------------------
     Mtl(const std::string &_fname, bool _loadTextures=true);
     //----------------------------------------------------------------------------------------------------------------------
@@ -101,6 +103,12 @@ class Mtl
     /// only load them once, we then associate the id's in the mtlItem structure
     //----------------------------------------------------------------------------------------------------------------------
     void loadTextures();
+    //----------------------------------------------------------------------------------------------------------------------
+    /// @brief method to load textures from a packed texture file as it is quite possible that different materials
+    /// actually have the same textures we need to do some processing for this and
+    /// only load them once, we then associate the id's in the mtlItem structure
+    //----------------------------------------------------------------------------------------------------------------------
+    void loadPackTexture(const std::string &_name);
     //----------------------------------------------------------------------------------------------------------------------
     /// @brief clear and tidy up everything (call this from the dtor as well as we need to
     /// clear quite a lot of GL texture stuff as well)
@@ -137,9 +145,10 @@ class Mtl
     //----------------------------------------------------------------------------------------------------------------------
     /// @brief  load file in binary format
     /// @param[in] _fname the name of the file to load
+    /// @param[in] _loadTextures set flag to laod textures
     /// @returns true or false depending upon success
     //----------------------------------------------------------------------------------------------------------------------
-    bool loadBinary(const std::string &_fname);
+    bool loadBinary(const std::string &_fname, bool _loadTextures);
 
   private :
     //----------------------------------------------------------------------------------------------------------------------

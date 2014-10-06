@@ -115,10 +115,11 @@ void NGLScene::initialize()
 
   glEnable(GL_DEPTH_TEST);
 
-  m_mtl = new Mtl;
-  bool loaded=m_mtl->loadBinary("models/sponzaMtl.bin");
-  //bool loaded=m_mtl->load("models/sponza.mtl");
-  //m_mtl->saveBinary("models/sponzaMtl.bin");
+  m_mtl = new Mtl;//("models/sponzaPack.mtl",false);
+  bool loaded=m_mtl->loadBinary("models/sponzaMtlPack.bin",false);
+  //bool loaded=m_mtl->load("models/sponza.mtl",false);
+  //m_mtl->saveBinary("models/sponzaMtlPackr.bin");
+  m_mtl->loadPackTexture("textures/Sponza.pack");
   if(loaded == false)
   {
     std::cerr<<"error loading mtl file ";
@@ -265,29 +266,29 @@ void NGLScene::drawScene(int _eye)
 
       glActiveTexture(GL_TEXTURE0);
       glBindTexture (GL_TEXTURE_2D,currMaterial->map_KaId);
-      glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_NEAREST_MIPMAP_LINEAR);
-      glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_NEAREST_MIPMAP_LINEAR);
-      glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_WRAP_S,GL_REPEAT);
-      glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_WRAP_S,GL_REPEAT);
-      glGenerateMipmap(GL_TEXTURE_2D);
+//      glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_NEAREST_MIPMAP_LINEAR);
+//      glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_NEAREST_MIPMAP_LINEAR);
+//      glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_WRAP_S,GL_REPEAT);
+//      glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_WRAP_S,GL_REPEAT);
+//      glGenerateMipmap(GL_TEXTURE_2D);
       glActiveTexture(GL_TEXTURE1);
       glBindTexture (GL_TEXTURE_2D,currMaterial->map_KdId);
-      glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_NEAREST_MIPMAP_LINEAR);
-      glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_NEAREST_MIPMAP_LINEAR);
-      glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_WRAP_S,GL_REPEAT);
-      glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_WRAP_S,GL_REPEAT);
-      glGenerateMipmap(GL_TEXTURE_2D);
+//      glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_NEAREST_MIPMAP_LINEAR);
+//      glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_NEAREST_MIPMAP_LINEAR);
+//      glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_WRAP_S,GL_REPEAT);
+//      glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_WRAP_S,GL_REPEAT);
+      //glGenerateMipmap(GL_TEXTURE_2D);
       if(currMaterial->bumpId !=0)
       {
         shader->setRegisteredUniform("useNormal",0);
 
         glActiveTexture(GL_TEXTURE2);
         glBindTexture (GL_TEXTURE_2D,currMaterial->bumpId);
-        glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_NEAREST_MIPMAP_LINEAR);
-        glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_NEAREST_MIPMAP_LINEAR);
-        glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_WRAP_S,GL_REPEAT);
-        glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_WRAP_S,GL_REPEAT);
-        glGenerateMipmap(GL_TEXTURE_2D);
+//        glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_NEAREST_MIPMAP_LINEAR);
+//        glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_NEAREST_MIPMAP_LINEAR);
+//        glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_WRAP_S,GL_REPEAT);
+//        glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_WRAP_S,GL_REPEAT);
+        //glGenerateMipmap(GL_TEXTURE_2D);
       }
       else
       {

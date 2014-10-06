@@ -72,5 +72,5 @@ void main()
 	 // Convert position to clip coordinates and pass along
 	gl_Position = MVP*vec4(inVert,1.0);
 // pass the UV values to the frag shader
-vertUV=inUV.st;
+vertUV=vec2(inUV.s, 1.0 - inUV.t);
 }

@@ -41,9 +41,9 @@ uniform int useNormal;
 
 void main()
 {
- vec4 ambient = texture(ambientMap,vertUV);
- vec4 diffuse = texture(diffuseMap,vertUV);
- vec4 normalmap = texture(normalMap,vertUV);
+ vec4 ambient = texture(ambientMap,vertUV).bgra;
+ vec4 diffuse = texture(diffuseMap,vertUV).bgra;
+ vec4 normalmap = texture(normalMap,vertUV).bgra;
  if (diffuse.a == 0)
    discard;
 
@@ -55,7 +55,7 @@ void main()
    // compute bi-normal
  //vec3 B = cross(N, T);
  vec3 B = (ps_bn);
- vec3 C = texture(normalMap, vertUV).xyz;
+ vec3 C = texture(normalMap, vertUV).bgr;
 // if(useNormal ==1)
 // {
 //  C=ps_N;

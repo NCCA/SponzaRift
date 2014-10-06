@@ -6,6 +6,7 @@
 #include <ngl/NGLStream.h>
 #include <ngl/Texture.h>
 #include <ngl/ShaderLib.h>
+#include "TexturePack.h"
 #include <list>
 
 // create a typecast to tokenizer as it's quicker to wrie than the whole
@@ -249,6 +250,61 @@ void Mtl::loadTextures()
 
 }
 
+void Mtl::loadPackTexture(const std::string &_name)
+{
+  m_textureID.clear();
+  TexturePack *pack=TexturePack::instance();
+  pack->load(_name);
+  std::cout<<"loading textures this may take some time\n";
+  // first loop and store all the texture names in the container
+  std::list <std::string> names;
+  std::map<std::string, mtlItem *>::const_iterator end=m_materials.end();
+  std::map<std::string, mtlItem *>::const_iterator i = m_materials.begin();
+  for( ; i != end; ++i )
+  {
+    if(i->second->map_Ka.size() !=0)
+      names.push_back(i->second->map_Ka);
+    if(i->second->map_Kd.size() !=0)
+      names.push_back(i->second->map_Kd);
+    if(i->second->map_d.size() !=0)
+      names.push_back(i->second->map_d);
+    if(i->second->map_bump.size() !=0)
+      names.push_back(i->second->map_bump);
+    if(i->second->map_bump.size() !=0)
+      names.push_back(i->second->bump);
+  }
+
+  std::cout<<"we have this many textures "<<names.size()<<"\n";
+  // now remove duplicates
+  names.unique();
+  std::cout<<"we have "<<names.size()<<" unique textures to load\n";
+  // now we load the textures and get the GL id
+  // now we associate the ID with the mtlItem
+
+  BOOST_FOREACH(std::string name , names)
+  {
+    GLuint textureID=pack->getTexture(name);
+    m_textureID.push_back(textureID);
+    std::cout<<"processing "<<name<<"\n";
+    i=m_materials.begin();
+    for( ; i != end; ++i )
+    {
+      if(i->second->map_Ka == name)
+        i->second->map_KaId=textureID;
+      if(i->second->map_Kd == name)
+        i->second->map_KdId=textureID;
+      if(i->second->map_d == name)
+        i->second->map_dId=textureID;
+      if(i->second->map_bump == name)
+        i->second->map_bumpId=textureID;
+      if(i->second->bump == name)
+        i->second->bumpId=textureID;
+    }
+  }
+
+  std::cout <<"done \n";
+
+}
 
 void Mtl::clear()
 {
@@ -263,6 +319,7 @@ void Mtl::clear()
   BOOST_FOREACH(GLuint i, m_textureID)
     glDeleteTextures(1,&i);
   }
+  m_loadTextures=false;
 }
 
 
@@ -404,7 +461,7 @@ bool Mtl::saveBinary(const std::string &_fname) const
   return true;
 }
 
-bool Mtl::loadBinary(const std::string &_fname)
+bool Mtl::loadBinary(const std::string &_fname, bool _loadTextures)
 {
   std::ifstream fileIn;
   fileIn.open(_fname.c_str(),std::ios::in | std::ios::binary);
@@ -416,8 +473,6 @@ bool Mtl::loadBinary(const std::string &_fname)
   // clear out what we already have.
   clear();
   unsigned int mapsize;
-
-
   char header[12];
   fileIn.read(header,11*sizeof(char));
   header[11]=0; // for strcmp we need \n
@@ -443,62 +498,62 @@ bool Mtl::loadBinary(const std::string &_fname)
     fileIn.read(reinterpret_cast<char *>(&size),sizeof(size));
     // now the string we first need to allocate space then copy in
     materialName.resize(size);
-   fileIn.read(reinterpret_cast<char *>(&materialName[0]),size);
+    fileIn.read(reinterpret_cast<char *>(&materialName[0]),size);
     // now we do the different data elements of the mtlItem.
-   fileIn.read(reinterpret_cast<char *>(&item->Ns),sizeof(float));
-   fileIn.read(reinterpret_cast<char *>(&item->Ni),sizeof(float));
-   fileIn.read(reinterpret_cast<char *>(&item->d),sizeof(float));
-   fileIn.read(reinterpret_cast<char *>(&item->Tr),sizeof(float));
-   fileIn.read(reinterpret_cast<char *>(&item->illum),sizeof(int));
+    fileIn.read(reinterpret_cast<char *>(&item->Ns),sizeof(float));
+    fileIn.read(reinterpret_cast<char *>(&item->Ni),sizeof(float));
+    fileIn.read(reinterpret_cast<char *>(&item->d),sizeof(float));
+    fileIn.read(reinterpret_cast<char *>(&item->Tr),sizeof(float));
+    fileIn.read(reinterpret_cast<char *>(&item->illum),sizeof(int));
 
-   fileIn.read(reinterpret_cast<char *>(&item->Tf),sizeof(ngl::Vec3));
-   fileIn.read(reinterpret_cast<char *>(&item->Ka),sizeof(ngl::Vec3));
-   fileIn.read(reinterpret_cast<char *>(&item->Kd),sizeof(ngl::Vec3));
-   fileIn.read(reinterpret_cast<char *>(&item->Ks),sizeof(ngl::Vec3));
-   fileIn.read(reinterpret_cast<char *>(&item->Ke),sizeof(ngl::Vec3));
-  // more strings
-   fileIn.read(reinterpret_cast<char *>(&size),sizeof(size));
-   // now the string we first need to allocate space then copy in
-   s.resize(size);
-   fileIn.read(reinterpret_cast<char *>(&s[0]),size);
-   item->map_Ka=s;
+    fileIn.read(reinterpret_cast<char *>(&item->Tf),sizeof(ngl::Vec3));
+    fileIn.read(reinterpret_cast<char *>(&item->Ka),sizeof(ngl::Vec3));
+    fileIn.read(reinterpret_cast<char *>(&item->Kd),sizeof(ngl::Vec3));
+    fileIn.read(reinterpret_cast<char *>(&item->Ks),sizeof(ngl::Vec3));
+    fileIn.read(reinterpret_cast<char *>(&item->Ke),sizeof(ngl::Vec3));
+    // more strings
+    fileIn.read(reinterpret_cast<char *>(&size),sizeof(size));
+    // now the string we first need to allocate space then copy in
+    s.resize(size);
+    fileIn.read(reinterpret_cast<char *>(&s[0]),size);
+    item->map_Ka=s;
 
-   fileIn.read(reinterpret_cast<char *>(&size),sizeof(size));
-   // now the string we first need to allocate space then copy in
-   s.resize(size);
-   fileIn.read(reinterpret_cast<char *>(&s[0]),size);
-   item->map_Kd=s;
+    fileIn.read(reinterpret_cast<char *>(&size),sizeof(size));
+    // now the string we first need to allocate space then copy in
+    s.resize(size);
+    fileIn.read(reinterpret_cast<char *>(&s[0]),size);
+    item->map_Kd=s;
 
-   fileIn.read(reinterpret_cast<char *>(&size),sizeof(size));
-   // now the string we first need to allocate space then copy in
-   s.resize(size);
-   fileIn.read(reinterpret_cast<char *>(&s[0]),size);
-   item->map_d=s;
+    fileIn.read(reinterpret_cast<char *>(&size),sizeof(size));
+    // now the string we first need to allocate space then copy in
+    s.resize(size);
+    fileIn.read(reinterpret_cast<char *>(&s[0]),size);
+    item->map_d=s;
 
-   fileIn.read(reinterpret_cast<char *>(&size),sizeof(size));
-   // now the string we first need to allocate space then copy in
-   s.resize(size);
-   fileIn.read(reinterpret_cast<char *>(&s[0]),size);
-   item->map_bump=s;
+    fileIn.read(reinterpret_cast<char *>(&size),sizeof(size));
+    // now the string we first need to allocate space then copy in
+    s.resize(size);
+    fileIn.read(reinterpret_cast<char *>(&s[0]),size);
+    item->map_bump=s;
 
-   fileIn.read(reinterpret_cast<char *>(&size),sizeof(size));
-   // now the string we first need to allocate space then copy in
-   s.resize(size);
-   fileIn.read(reinterpret_cast<char *>(&s[0]),size);
-   item->bump=s;
+    fileIn.read(reinterpret_cast<char *>(&size),sizeof(size));
+    // now the string we first need to allocate space then copy in
+    s.resize(size);
+    fileIn.read(reinterpret_cast<char *>(&s[0]),size);
+    item->bump=s;
 
-   fileIn.read(reinterpret_cast<char *>(&size),sizeof(size));
-   // now the string we first need to allocate space then copy in
-   s.resize(size);
-   fileIn.read(reinterpret_cast<char *>(&s[0]),size);
-   item->map_Ks=s;
-
-
-
-   m_materials[materialName]=item;
+    fileIn.read(reinterpret_cast<char *>(&size),sizeof(size));
+    // now the string we first need to allocate space then copy in
+    s.resize(size);
+    fileIn.read(reinterpret_cast<char *>(&s[0]),size);
+    item->map_Ks=s;
+    m_materials[materialName]=item;
   }
-  m_loadTextures=true;
-  loadTextures();
+  m_loadTextures=_loadTextures;
+  if(m_loadTextures == true)
+  {
+    loadTextures();
+  }
   return true;
 }
 
