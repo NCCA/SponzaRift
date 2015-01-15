@@ -308,7 +308,9 @@ void OculusInterface::setLeftEye()
 {
 	ovrEyeType eye = m_hmd->EyeRenderOrder[0];
 	glViewport(0, 0, (m_fbWidth / 2), m_fbHeight);
-	m_pose[0] = ovrHmd_GetEyePose(m_hmd, eye);
+	ovrTrackingState ts = ovrHmd_GetTrackingState(m_hmd, ovr_GetTimeInSeconds());
+	OVR::Posef pose = ts.HeadPose;
+//	m_pose[0] = ovrHmd_GetEyePose(m_hmd, eye);
 
 }
 
@@ -316,7 +318,7 @@ void OculusInterface::setFull()
 {
 	ovrEyeType eye = m_hmd->EyeRenderOrder[0];
 	glViewport(0, 0, m_fbWidth , m_fbHeight);
-	m_pose[0] = ovrHmd_GetEyePose(m_hmd, eye);
+	//m_pose[0] = ovrHmd_GetEyePose(m_hmd, eye);
 
 }
 
@@ -324,7 +326,7 @@ void OculusInterface::setRightEye()
 {
 	ovrEyeType eye = m_hmd->EyeRenderOrder[1];
 	glViewport( (m_fbWidth / 2),0, (m_fbWidth / 2), m_fbHeight);
-	m_pose[1] = ovrHmd_GetEyePose(m_hmd, eye);
+	//m_pose[1] = ovrHmd_GetEyePose(m_hmd, eye);
 
 }
 
